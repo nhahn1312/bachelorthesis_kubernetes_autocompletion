@@ -12,52 +12,57 @@
 \setuptoc{toc}{totoc}
 
 \newcommand{\thesistitle}{Untersuchung der allgemeinen Anwendbarkeit von Fluxkondensatoren}
-\newcommand{\thesistype}{M A S T E R A R B E I T}
+\newcommand{\thesistype}{B A C H E L O R A R B E I T}
 \newcommand{\thesistypedesc}{im Fachbereich Elektrotechnik/Informatik \\
     der Universität Kassel}
-\newcommand{\thesisauthorname}{Max Mustermann}
-\newcommand{\thesisauthorhomestreet}{Beispielstr. 42}
-\newcommand{\thesisauthorhometown}{34121 Kassel}
-\newcommand{\thesisauthormatrikelnumber}{35123456}
-\newcommand{\thesisauthoremail}{max.mustermann@uni-kassel.de}
+\newcommand{\thesisauthorname}{Niklas Hahn}
+\newcommand{\thesisauthorhomestreet}{Mittelstraße 21}
+\newcommand{\thesisauthorhometown}{34277 Fuldabrück}
+\newcommand{\thesisauthormatrikelnumber}{35522661}
+\newcommand{\thesisauthoremail}{niklas.hahn@student.uni-kassel.de}
 \newcommand{\thesisdepartment}{Fachgebiet Software Engineering}
-\newcommand{\thesisfirstreviewer}{Prof.\ Dr.\ Albert Zündorf}
-\newcommand{\thesissecondreviewer}{Prof.\ Dr.\ Emmett Brown}
-\newcommand{\thesissupervisor}{Christian Coupé,\ M.Sc.}
+\newcommand{\thesisfirstreviewer}{Dr.\ Jens Kosiol}
+\newcommand{\thesissecondreviewer}{Prof.\ Dr.\ Gerd Stumme}
+\newcommand{\thesissupervisor}{Sebastian Copei\ M.Sc.}
 \newcommand{\thesisdate}{\today}
 
 \input{header}
 
 \begin{document}
 
-    \pagenumbering{roman}
+\pagenumbering{roman}
 
-    \include{titlepage}
-    \include{declaration}
-    \include{abstract}
+\include{titlepage}
+\include{declaration}
+\include{abstract}
 
-    \tableofcontents
+\tableofcontents
 
-    \include{acronyms}
+\include{acronyms}
 
-    \pagebreak
-    \pagenumbering{arabic}
+\pagebreak
+\pagenumbering{arabic}
 
-    % Hier weitere Kapitel einfügen
-    \include{chapter/1-introduction}
+% Hier weitere Kapitel einfügen
+\include{chapter/1-introduction}
+\include{chapter/2-technical-basics}
+\include{chapter/3-implementation}
+\include{chapter/4-comparision}
+\include{chapter/5-evaluation}
+\include{chapter/6-conclusion}
 
-    % Die nächsten zwei Zeilen sind optional, sie sorgen dafür dass alles nach dem Inhalt wieder mit römischen Zahlen nummeriert wird.
-    \pagenumbering{roman}
-    \addtocounter{page}{4} % Dies ist die Anzahl der Seiten vor der Einleitung, muss möglicherweise angepasst werden, wenn das Inhaltsverzeichnis mehrere Seiten umfasst.
+% Die nächsten zwei Zeilen sind optional, sie sorgen dafür dass alles nach dem Inhalt wieder mit römischen Zahlen nummeriert wird.
+\pagenumbering{roman}
+\addtocounter{page}{4} % Dies ist die Anzahl der Seiten vor der Einleitung, muss möglicherweise angepasst werden, wenn das Inhaltsverzeichnis mehrere Seiten umfasst.
 
-    \bibliographystyle{alphadin}
-    \bibliography{main}
+\bibliographystyle{unsrt}
+\bibliography{main}
 
-    \listoffigures
-    \listoftables
-    \renewcommand{\listoflistingscaption}{Listing-Verzeichnis}
-    \listoflistings
+\listoffigures
+\listoftables
+\renewcommand{\listoflistingscaption}{Listing-Verzeichnis}
+\listoflistings
 
-    \appendix
-    \include{appendix}
+\appendix
+\include{appendix}
 \end{document}
