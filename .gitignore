@@ -1,6 +1,7 @@
 /.idea/
 /out/
 /auxil/
+src/svg-inkscape/
 
 _minted-*/
 

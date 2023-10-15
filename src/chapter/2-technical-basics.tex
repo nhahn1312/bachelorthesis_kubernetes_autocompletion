@@ -1,6 +1,76 @@
 \chapter{Technische Grundlagen}\label{ch:technical-basics}
 
-\section{\acs{lsp}-Protokoll}
+\section{\acs{lsp}}
+
+Das \ac{lsp} wurde 2015 von Microsoft für den Editor Visual Studio Code entwickelt.
+Bei einem Editor handelt es sich in diesem Kontext um ein Computerprogramm zur Erstellung und Bearbeitung von Textdateien~\cite{editor-definition}.
+Das Ziel war es, eine Schnittstelle bereitzustellen, die unter anderem die Autovervollständigung, die Code Navigation und das Syntaxhighlighting
+für jeden Editor vereinheitlicht~\cite{lsp-witekio}.
+Die Fähigkeit eines Editors Autovervollständigung, Code Navigation und Syntaxhighlighting zu ermöglichen wird im Folgenden als Sprachunterstützung bezeichnet.
+Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor seperat durchgeführt werden muss.
+Abbildung \ref{fig:without-lsp} veranschaulicht dieses Problem.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+    \centering
+    \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
+    \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
+    \label{fig:without-lsp}
+\end{figure}
+
+Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
+Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet \ac{zB} Änderungen an Dateien zum Server.
+Der \ac{lsp}-Server enthält auf der anderen Seite die Logiken zur Sprachunterstützung~\cite{lsp-witekio}.
+Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt wird.
+Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+    \centering
+    \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
+    \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
+    \label{fig:with-lsp}
+\end{figure}
+
+Das Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
+Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
+die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enhält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
+das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}.
+
+Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten:
+\begin{description}
+    \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
+          Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
+          Der Server muss eine Antwort an den Client zurücksenden~\cite{lsp-microsoft}.
+    \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
+          Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers~\cite{lsp-microsoft}.
+    \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
+          Der Empfänger muss auf diese Art von Nachricht nicht antworten.
+          Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter. Der Server muss keine \textit{Response Message} zurücksenden~\cite{lsp-microsoft}.
+\end{description}
+
+Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
+Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
+\begin{description}
+    \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
+    \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
+    \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
+\end{description}
+
+Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
+Der Client sendet eine Nachricht zur Intialisierung mit seinen \textit{Capabilities} an den Server.
+Dieser antwortet wiederum mit einer Nachricht, die dessen \textit{Capabilities} enthält.
+Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Server um zu signalisieren, dass die Intialisierung abgeschlossen ist.
+Anschließend kann Nachrichtenaustausch zwischen Client und Server beginnen\cite{lsp-microsoft,lsp-medium}.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+    \centering
+    \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
+    \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
+    \label{fig:lsp-sequence-diagram}
+\end{figure}
+
+Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
+Dabei erfolgt die Intialisierung der Kommunikation. Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
+Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enhalten könnte.
 
 \section{Kubernetes}
 
