@@ -8,7 +8,7 @@ Das Ziel war es, eine Schnittstelle bereitzustellen, die unter anderem die Autov
 für jeden Editor vereinheitlicht~\cite{lsp-witekio}.
 Die Fähigkeit eines Editors Autovervollständigung, Code Navigation und Syntaxhighlighting zu ermöglichen wird im Folgenden als Sprachunterstützung bezeichnet.
 Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor seperat durchgeführt werden muss.
-Abbildung \ref{fig:without-lsp} veranschaulicht dieses Problem.
+Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
     \centering
@@ -30,21 +30,21 @@ Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implem
     \label{fig:with-lsp}
 \end{figure}
 
-Das Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
+Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
 Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
 die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enhält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
-das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}.
+das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. TODO:Erklärung RPC
 
-Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten:
+Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
 \begin{description}
     \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
           Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
-          Der Server muss eine Antwort an den Client zurücksenden~\cite{lsp-microsoft}.
+          Der Server muss eine Antwort an den Client zurücksenden.
     \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
-          Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers~\cite{lsp-microsoft}.
+          Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
     \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
           Der Empfänger muss auf diese Art von Nachricht nicht antworten.
-          Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter. Der Server muss keine \textit{Response Message} zurücksenden~\cite{lsp-microsoft}.
+          Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
 \end{description}
 
 Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
@@ -59,7 +59,7 @@ Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jewe
 Der Client sendet eine Nachricht zur Intialisierung mit seinen \textit{Capabilities} an den Server.
 Dieser antwortet wiederum mit einer Nachricht, die dessen \textit{Capabilities} enthält.
 Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Server um zu signalisieren, dass die Intialisierung abgeschlossen ist.
-Anschließend kann Nachrichtenaustausch zwischen Client und Server beginnen\cite{lsp-microsoft,lsp-medium}.
+Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
     \centering
@@ -69,9 +69,65 @@ Anschließend kann Nachrichtenaustausch zwischen Client und Server beginnen\cite
 \end{figure}
 
 Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
-Dabei erfolgt die Intialisierung der Kommunikation. Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
+Dabei erfolgt die Intialisierung der Verbindung mit Mitteilung der \textit{Capabilities}.
+Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
 Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enhalten könnte.
 
+\section{Virtualisierung}
+
+Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im folgenden \textit{Host} genannt, erstellen.
+Dazu wird Software genutzt, die die physische Hardware emuliert~\cite{virtualization-techtarget}. Diese Software wird auch \textit{Hypervisor} genannt.
+Der \textit{Hypervisor} abstrahiert die Hardware Ressourcen des \textit{Host} und stellt diese als einen gemeinsamen Pool zur Verfügung.
+Die physische Hardware des \textit{Hosts} kann somit in mehrere isolierte Umgebungen, auch virtuelle Maschinen genannt, aufgeteilt werden.
+Mithilfe des \textit{Hypervisors} können mehrere unterschiedliche Betriebssysteme parallel ausgeführt werden~\cite{virtualization-red-hat, hypervisor-red-hat}.
+Das heißt, dass jede virtuelle Maschine eine eigenes Betriebssystem benötigt, um Anwendungen auszuführen.
+
+Sollen zwei verschiedene Anwendungen isoliert voneinander ausgeführt werden, werden dafür zwei virtuelle Maschinen mit jeweils einem eigenen Betriebssystem benötigt.
+Jede virtuelle Maschine führt dabei ihren eigenen Satz von Systemprozessen aus, was neben der Ausführung der Anwendung zusätzliche Ressourcen erfordert~\cite{kubernetes-in-action-introduction}.
+Um dieses Problem wurde die Containervirtualisierung eingeführt.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includesvg{images/full-virtualization.svg}
+        \caption{Vollvirtualisierung}
+        \label{fig:full-virtualization}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includesvg{images/container-virtualization.svg}
+        \caption{Containervirtualisierung}
+        \label{fig:container-virtualization}
+    \end{subfigure}
+    \caption{Vergleich Voll- und Containervirtualisierung}
+    \label{fig:virtualization-comparison}
+\end{figure}
+
+Abbildung~\ref{fig:virtualization-comparison} zeigt einen Vergleich zwischen der soeben eingeführten Virtualisierung mittels \textit{Hypervisor} und
+der Containervirtualisierung.
+Abbildung~\ref{fig:full-virtualization} zeigt die Komponenten einer Vollvirtualisierung, bei der der \textit{Hypervisor}
+eine auf dem \textit{Host}-Betriebssystem installierte Software ist.
+\\
+Die Komponenten einer Containervirtualisierung auf Abbildung~\ref{fig:container-virtualization} dargestellt.
+Im Gegensatz zur Vollvirtualisierung können Anwendungen über sogennante \textit{Container} voneinander getrennt werden.
+Ein \textit{Container} ist ein einziger, isolierter Prozess, der im Betriebssystem des Hosts läuft und nur die Ressourcen nutzt, die von der Anwendung benötigt werden.
+Es ensteht so kein Mehraufwand für Systemprozesse, wie bei der Vollvirtualisierung~\cite{kubernetes-in-action-introduction}.
+Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt.
+
 \section{Kubernetes}
+
+\subsection{Allgemein}
+
+Kubernetes API
+
+\subsection{Objekte in Kubernetes}
+
+\subsection{Wichtige Objekttypen}
+
+Pod
+Deployment
+Namespace
+Secret
 
 \section{\acs{json}-Schema}
