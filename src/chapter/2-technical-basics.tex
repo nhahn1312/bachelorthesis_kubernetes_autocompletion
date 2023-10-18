@@ -11,10 +11,10 @@ Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunter
 Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
-    \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
-    \label{fig:without-lsp}
+  \centering
+  \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
+  \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
+  \label{fig:without-lsp}
 \end{figure}
 
 Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
@@ -24,10 +24,10 @@ Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunters
 Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
-    \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
-    \label{fig:with-lsp}
+  \centering
+  \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
+  \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
+  \label{fig:with-lsp}
 \end{figure}
 
 Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
@@ -37,22 +37,22 @@ das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. T
 
 Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
 \begin{description}
-    \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
-          Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
-          Der Server muss eine Antwort an den Client zurücksenden.
-    \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
-          Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
-    \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
-          Der Empfänger muss auf diese Art von Nachricht nicht antworten.
-          Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
+  \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
+        Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
+        Der Server muss eine Antwort an den Client zurücksenden.
+  \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
+        Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
+  \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
+        Der Empfänger muss auf diese Art von Nachricht nicht antworten.
+        Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
 \end{description}
 
 Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
 Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
 \begin{description}
-    \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
-    \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
-    \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
+  \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
+  \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
+  \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
 \end{description}
 
 Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
@@ -62,10 +62,10 @@ Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Serv
 Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
-    \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
-    \label{fig:lsp-sequence-diagram}
+  \centering
+  \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
+  \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
+  \label{fig:lsp-sequence-diagram}
 \end{figure}
 
 Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
@@ -77,31 +77,31 @@ Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem 
 
 Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im folgenden \textit{Host} genannt, erstellen.
 Dazu wird Software genutzt, die die physische Hardware emuliert~\cite{virtualization-techtarget}. Diese Software wird auch \textit{Hypervisor} genannt.
-Der \textit{Hypervisor} abstrahiert die Hardware Ressourcen des \textit{Host} und stellt diese als einen gemeinsamen Pool zur Verfügung.
+Der \textit{Hypervisor} abstrahiert die Hardware Ressourcen des \textit{Hosts} und stellt diese als einen gemeinsamen Pool zur Verfügung.
 Die physische Hardware des \textit{Hosts} kann somit in mehrere isolierte Umgebungen, auch virtuelle Maschinen genannt, aufgeteilt werden.
 Mithilfe des \textit{Hypervisors} können mehrere unterschiedliche Betriebssysteme parallel ausgeführt werden~\cite{virtualization-red-hat, hypervisor-red-hat}.
-Das heißt, dass jede virtuelle Maschine eine eigenes Betriebssystem benötigt, um Anwendungen auszuführen.
+Das heißt, dass jede virtuelle Maschine ein eigenes Betriebssystem benötigt, um eine Anwendung auszuführen.
 
 Sollen zwei verschiedene Anwendungen isoliert voneinander ausgeführt werden, werden dafür zwei virtuelle Maschinen mit jeweils einem eigenen Betriebssystem benötigt.
 Jede virtuelle Maschine führt dabei ihren eigenen Satz von Systemprozessen aus, was neben der Ausführung der Anwendung zusätzliche Ressourcen erfordert~\cite{kubernetes-in-action-introduction}.
-Um dieses Problem wurde die Containervirtualisierung eingeführt.
+Um dieses Problem zu lösen wurde die Containervirtualisierung eingeführt.
 
 \begin{figure}
+  \centering
+  \begin{subfigure}{.5\textwidth}
     \centering
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includesvg{images/full-virtualization.svg}
-        \caption{Vollvirtualisierung}
-        \label{fig:full-virtualization}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-        \centering
-        \includesvg{images/container-virtualization.svg}
-        \caption{Containervirtualisierung}
-        \label{fig:container-virtualization}
-    \end{subfigure}
-    \caption{Vergleich Voll- und Containervirtualisierung}
-    \label{fig:virtualization-comparison}
+    \includesvg{images/full-virtualization.svg}
+    \caption{Vollvirtualisierung}
+    \label{fig:full-virtualization}
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \includesvg{images/container-virtualization.svg}
+    \caption{Containervirtualisierung}
+    \label{fig:container-virtualization}
+  \end{subfigure}
+  \caption{Vergleich Voll- und Containervirtualisierung}
+  \label{fig:virtualization-comparison}
 \end{figure}
 
 Abbildung~\ref{fig:virtualization-comparison} zeigt einen Vergleich zwischen der soeben eingeführten Virtualisierung mittels \textit{Hypervisor} und
@@ -109,19 +109,103 @@ der Containervirtualisierung.
 Abbildung~\ref{fig:full-virtualization} zeigt die Komponenten einer Vollvirtualisierung, bei der der \textit{Hypervisor}
 eine auf dem \textit{Host}-Betriebssystem installierte Software ist.
 \\
-Die Komponenten einer Containervirtualisierung auf Abbildung~\ref{fig:container-virtualization} dargestellt.
+Die Komponenten einer Containervirtualisierung sind auf Abbildung~\ref{fig:container-virtualization} dargestellt.
 Im Gegensatz zur Vollvirtualisierung können Anwendungen über sogennante \textit{Container} voneinander getrennt werden.
 Ein \textit{Container} ist ein einziger, isolierter Prozess, der im Betriebssystem des Hosts läuft und nur die Ressourcen nutzt, die von der Anwendung benötigt werden.
 Es ensteht so kein Mehraufwand für Systemprozesse, wie bei der Vollvirtualisierung~\cite{kubernetes-in-action-introduction}.
-Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt.
+Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt~\cite{kubernetes-overview}.
+\\
+Eine \textit{Container Runtime} ist eine Softwarekomponente, die die Ausführung von \textit{Containern} auf einem Host-Betriebssystem ermöglicht.
+Die Aufgaben einer \textit{Container Runtime} sind dabei das Erstellen, Starten, Stoppen und Löschen von \textit{Containern},
+das Überwachen der Systemressourcen des Hosts, das Isolieren von Systemressourcen für einen \textit{Container}
+und das Laden von \textit{Container Images} aus einem \textit{Respository}~\cite{container-runtime-aquasec}.
+\\
+Ein \textit{Container Image} enthält Software und alle Ressourcen, die die Software zur Ausführung benötigt.
+Neben dem Programmcode und den Bibliotheken, die die Anwendung zur Laufzeit nutzt, können dies auch weitere Programme sein, auf die zugegriffen werden muss.
+\textit{Container Images} werden über ein zentrales \textit{Respository} verwaltet und können darüber bei Bedarf heruntergeladen werden~\cite{container-image-dev-insider}.
 
 \section{Kubernetes}
 
-\subsection{Allgemein}
+Kubernetes (K8s) wurde ursprünglich von Google entwickelt und 2014 als Open Source Software veröffentlicht.
+Kubernetes ist eine Software zur Bereitstellung, Verwaltung und Skalierung von Anwendungen in Containern. Der Name kommt aus dem Griechischen und bedeutet Steuermann.
+Die Abkürzung K8s setzt sich aus dem ersten und letzten Buchstaben von Kubernetes, sowie der Anzahl der Buchstaben diese voneinander trennen, zusammen~\cite{kubernetes-google-cloud}.
 
-Kubernetes API
+\subsection{Architektur}
+
+Kubernetes abstrahiert die zur Verfügung stehende Hardware und fasst mehrere physische oder virtuelle Maschinen,
+die als \textit{Nodes} bezeichnet werden, zu einem Cluster zusammen.
+Die zugrundeliegende Infrastruktur wird dabei ausgeblendet und Kubernetes betrachtet die \textit{Nodes} als eine einzige, große Ressource.
+\\
+Jedes Cluster besteht aus verschiedenen Typen von \textit{Nodes}.
+Für ein funktionierendes Kubernetes Cluster wird mindestens ein \textit{Master Node (Control Plane)} und ein \textit{Worker Node} benötigt~\cite{kubernetes-in-action-introduction}.
+Auf Abbildung~\ref{fig:kubernetes-architecture} ist der minimale Aufbau eines Kubernetes-Clusters schematisch dargestellt. Es folgt eine
+Beschreibung der Aufgaben des \textit{Master} und \textit{Worker Nodes}, sowie eine Beschreibung der einzelnen Komponenten.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+  \centering
+  \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
+  \caption{Komponenten einer Kubernetes-Clusters}
+  \label{fig:kubernetes-architecture}
+\end{figure}
+
+Das \textit{Master Node} ist für die Administration des Clusters zuständig. Es koordiniert und überwacht die \textit{Worker Nodes} des Clusters.
+Seine Aufgaben sind unter anderem die Planung und Skalierung von Anwendungen und die Aufrechterhaltung des Zustands des Clusters~\cite{kubernetes-cluster-vmware}.
+Das \textit{Master Node} besteht aus den vier folgenden Komponenten:
+\begin{description}
+  \item[API-Server]
+        Der \textit{API-Server} koordiniert alle Prozesse zwischen dem \textit{Master Node} und den Komponenten der \textit{Worker Nodes}.
+        Er stellt außerdem die \textit{Kubernetes-API}, welche als Zugang zum Cluster von außen dient, bereit und authentifiziert und authorisiert die Zugriffe.
+        Kommandozeilen-Tools wie kubectl oder Drittanbieter-Software können so auf das Cluster zugreifen~\cite{kubernetes-devopscube}.
+  \item[Scheduler]
+        Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
+        Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
+  \item[Controller-Manager]
+        Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt \ac{zB} den Ausfall von \textit{Nodes}
+        im Cluster~\cite{kubernetes-in-action-introduction}.
+  \item[etcd]
+        Die \textit{etcd} ist eine konsistenter Key-Value Datenbank, die in verteilten Systmen eingesetzt werden kann~\cite{etcd-ibm}.
+        Bei Kubernetes speichert \textit{etcd} die gesamte Clusterkonfiguration~\cite{kubernetes-in-action-introduction}.
+\end{description}
+
+Ein \textit{Worker Node} ist für die Ausführung von den Anwendungen in \textit{Containern} zuständig.
+Es führt Aufgaben aus, die diesem von dem \textit{Master Node} zugewiesen werden~\cite{kubernetes-cluster-vmware}.
+Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
+\begin{description}
+  \item[Kubelet]
+        Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
+        Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
+        Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht \ac{zB} die laufenden Container
+        und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
+  \item[kube-proxy]
+        Der \textit{kube-proxy} ist für die Netzwerkkonnektivtät des \textit{Worker Nodes} verantwortlich.
+        Er ist für die Umsetzung von Netzwerkregeln und die Lastenverteilung zuständig~\cite{kubernetes-in-action-introduction,kubernetes-cluster-vmware}.
+\end{description}
 
 \subsection{Objekte in Kubernetes}
+
+Kubernetes Objekte sind persistente Entitäten eines Kubernetes Systems. Sie repräsentieren den aktuellen Zustand des Clusters.
+Die Kubernetes Objekte können beschreiben, welche Anwendungen auf dem Cluster in \textit{Containern} laufen,
+welche Ressourcen den Anwendungungen zur Verfügung stehen und
+wie sich die Anwendungen verhalten, \ac{zB} unter welchen Umständen eine Anwendung neu gestartet werden soll~\cite{kubernetes-objects}.
+\\
+Eines der Kernkonzepte von Kubernetes ist der sogennante \textit{Desired State}~\cite{kubernetes-objects-kodekloud}.
+Der Nutzer definiert mit Hilfe Kubernetes Objekte den angestrebten Zustand (\textit{Desired State}) des Clusters und Kubernetes
+sorgt für die Herstellung und Aufrechterhaltung dieses Zustandes.
+\\
+Die Definition eines Kubernetes Objektes erfolgt in Form einer \textit{Manifest}-Datei im \ac{yaml}-Format.
+In jeder \textit{Manifest}-Datei müssen folgende Attribute definiert sein~\cite{kubernetes-objects}:
+
+\begin{itemize}
+  \setlength\itemsep{-0.5cm}
+  \item
+        \textbf{apiVersion} Gibt an welche Version der \textit{Kubernetes API} genutzt wird, um das Objekt zu erstellen.
+  \item
+        \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
+  \item
+        \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, \ac{zB} ein Name und eine ID.
+  \item
+        \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
+\end{itemize}
 
 \subsection{Wichtige Objekttypen}
 
