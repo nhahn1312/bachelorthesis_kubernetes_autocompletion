@@ -11,10 +11,10 @@ Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunter
 Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-  \centering
-  \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
-  \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
-  \label{fig:without-lsp}
+      \centering
+      \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
+      \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
+      \label{fig:without-lsp}
 \end{figure}
 
 Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
@@ -24,10 +24,10 @@ Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunters
 Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-  \centering
-  \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
-  \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
-  \label{fig:with-lsp}
+      \centering
+      \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
+      \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
+      \label{fig:with-lsp}
 \end{figure}
 
 Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
@@ -37,22 +37,22 @@ das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. T
 
 Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
 \begin{description}
-  \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
-        Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
-        Der Server muss eine Antwort an den Client zurücksenden.
-  \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
-        Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
-  \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
-        Der Empfänger muss auf diese Art von Nachricht nicht antworten.
-        Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
+      \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
+            Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
+            Der Server muss eine Antwort an den Client zurücksenden.
+      \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
+            Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
+      \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
+            Der Empfänger muss auf diese Art von Nachricht nicht antworten.
+            Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
 \end{description}
 
 Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
 Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
 \begin{description}
-  \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
-  \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
-  \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
+      \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
+      \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
+      \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
 \end{description}
 
 Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
@@ -62,10 +62,10 @@ Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Serv
 Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-  \centering
-  \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
-  \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
-  \label{fig:lsp-sequence-diagram}
+      \centering
+      \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
+      \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
+      \label{fig:lsp-sequence-diagram}
 \end{figure}
 
 Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
@@ -87,21 +87,21 @@ Jede virtuelle Maschine führt dabei ihren eigenen Satz von Systemprozessen aus,
 Um dieses Problem zu lösen wurde die Containervirtualisierung eingeführt.
 
 \begin{figure}
-  \centering
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \includesvg{images/full-virtualization.svg}
-    \caption{Vollvirtualisierung}
-    \label{fig:full-virtualization}
-  \end{subfigure}%
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \includesvg{images/container-virtualization.svg}
-    \caption{Containervirtualisierung}
-    \label{fig:container-virtualization}
-  \end{subfigure}
-  \caption{Vergleich Voll- und Containervirtualisierung}
-  \label{fig:virtualization-comparison}
+      \centering
+      \begin{subfigure}{.5\textwidth}
+            \centering
+            \includesvg{images/full-virtualization.svg}
+            \caption{Vollvirtualisierung}
+            \label{fig:full-virtualization}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth}
+            \centering
+            \includesvg{images/container-virtualization.svg}
+            \caption{Containervirtualisierung}
+            \label{fig:container-virtualization}
+      \end{subfigure}
+      \caption{Vergleich Voll- und Containervirtualisierung}
+      \label{fig:virtualization-comparison}
 \end{figure}
 
 Abbildung~\ref{fig:virtualization-comparison} zeigt einen Vergleich zwischen der soeben eingeführten Virtualisierung mittels \textit{Hypervisor} und
@@ -128,7 +128,7 @@ Neben dem Programmcode und den Bibliotheken, die die Anwendung zur Laufzeit nutz
 
 Kubernetes (K8s) wurde ursprünglich von Google entwickelt und 2014 als Open Source Software veröffentlicht.
 Kubernetes ist eine Software zur Bereitstellung, Verwaltung und Skalierung von Anwendungen in Containern. Der Name kommt aus dem Griechischen und bedeutet Steuermann.
-Die Abkürzung K8s setzt sich aus dem ersten und letzten Buchstaben von Kubernetes, sowie der Anzahl der Buchstaben diese voneinander trennen, zusammen~\cite{kubernetes-google-cloud}.
+Die Abkürzung K8s setzt sich aus dem ersten und letzten Buchstaben von Kubernetes, sowie der Anzahl der Buchstaben die diese voneinander trennen, zusammen~\cite{kubernetes-google-cloud}.
 
 \subsection{Architektur}
 
@@ -142,43 +142,43 @@ Auf Abbildung~\ref{fig:kubernetes-architecture} ist der minimale Aufbau eines Ku
 Beschreibung der Aufgaben des \textit{Master} und \textit{Worker Nodes}, sowie eine Beschreibung der einzelnen Komponenten.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-  \centering
-  \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
-  \caption{Komponenten einer Kubernetes-Clusters}
-  \label{fig:kubernetes-architecture}
+      \centering
+      \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
+      \caption{Komponenten einer Kubernetes-Clusters}
+      \label{fig:kubernetes-architecture}
 \end{figure}
 
 Das \textit{Master Node} ist für die Administration des Clusters zuständig. Es koordiniert und überwacht die \textit{Worker Nodes} des Clusters.
 Seine Aufgaben sind unter anderem die Planung und Skalierung von Anwendungen und die Aufrechterhaltung des Zustands des Clusters~\cite{kubernetes-cluster-vmware}.
 Das \textit{Master Node} besteht aus den vier folgenden Komponenten:
 \begin{description}
-  \item[API-Server]
-        Der \textit{API-Server} koordiniert alle Prozesse zwischen dem \textit{Master Node} und den Komponenten der \textit{Worker Nodes}.
-        Er stellt außerdem die \textit{Kubernetes-API}, welche als Zugang zum Cluster von außen dient, bereit und authentifiziert und authorisiert die Zugriffe.
-        Kommandozeilen-Tools wie kubectl oder Drittanbieter-Software können so auf das Cluster zugreifen~\cite{kubernetes-devopscube}.
-  \item[Scheduler]
-        Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
-        Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
-  \item[Controller-Manager]
-        Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt \ac{zB} den Ausfall von \textit{Nodes}
-        im Cluster~\cite{kubernetes-in-action-introduction}.
-  \item[etcd]
-        Die \textit{etcd} ist eine konsistenter Key-Value Datenbank, die in verteilten Systmen eingesetzt werden kann~\cite{etcd-ibm}.
-        Bei Kubernetes speichert \textit{etcd} die gesamte Clusterkonfiguration~\cite{kubernetes-in-action-introduction}.
+      \item[API-Server]
+            Der \textit{API-Server} koordiniert alle Prozesse zwischen dem \textit{Master Node} und den Komponenten der \textit{Worker Nodes}.
+            Er stellt außerdem die \textit{Kubernetes-API}, welche als Zugang zum Cluster von außen dient, bereit und authentifiziert und authorisiert die Zugriffe.
+            Kommandozeilen-Tools wie kubectl oder Drittanbieter-Software können so auf das Cluster zugreifen~\cite{kubernetes-devopscube}.
+      \item[Scheduler]
+            Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
+            Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
+      \item[Controller-Manager]
+            Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt \ac{zB} den Ausfall von \textit{Nodes}
+            im Cluster~\cite{kubernetes-in-action-introduction}.
+      \item[etcd]
+            Die \textit{etcd} ist eine konsistenter Key-Value Datenbank, die in verteilten Systmen eingesetzt werden kann~\cite{etcd-ibm}.
+            Bei Kubernetes speichert \textit{etcd} die gesamte Clusterkonfiguration~\cite{kubernetes-in-action-introduction}.
 \end{description}
 
 Ein \textit{Worker Node} ist für die Ausführung von den Anwendungen in \textit{Containern} zuständig.
 Es führt Aufgaben aus, die diesem von dem \textit{Master Node} zugewiesen werden~\cite{kubernetes-cluster-vmware}.
 Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
 \begin{description}
-  \item[Kubelet]
-        Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
-        Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
-        Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht \ac{zB} die laufenden Container
-        und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
-  \item[kube-proxy]
-        Der \textit{kube-proxy} ist für die Netzwerkkonnektivtät des \textit{Worker Nodes} verantwortlich.
-        Er ist für die Umsetzung von Netzwerkregeln und die Lastenverteilung zuständig~\cite{kubernetes-in-action-introduction,kubernetes-cluster-vmware}.
+      \item[Kubelet]
+            Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
+            Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
+            Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht \ac{zB} die laufenden Container
+            und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
+      \item[kube-proxy]
+            Der \textit{kube-proxy} ist für die Netzwerkkonnektivtät des \textit{Worker Nodes} verantwortlich.
+            Er ist für die Umsetzung von Netzwerkregeln und die Lastenverteilung zuständig~\cite{kubernetes-in-action-introduction,kubernetes-cluster-vmware}.
 \end{description}
 
 \subsection{Objekte in Kubernetes}
@@ -196,22 +196,46 @@ Die Definition eines Kubernetes Objektes erfolgt in Form einer \textit{Manifest}
 In jeder \textit{Manifest}-Datei müssen folgende Attribute definiert sein~\cite{kubernetes-objects}:
 
 \begin{itemize}
-  \setlength\itemsep{-0.5cm}
-  \item
-        \textbf{apiVersion} Gibt an welche Version der \textit{Kubernetes API} genutzt wird, um das Objekt zu erstellen.
-  \item
-        \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
-  \item
-        \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, \ac{zB} ein Name und eine ID.
-  \item
-        \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
+      \setlength\itemsep{-0.5cm}
+      \item
+            \textbf{apiVersion} Gibt an welche Version der \textit{Kubernetes API} genutzt wird, um das Objekt zu erstellen.
+      \item
+            \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
+      \item
+            \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, \ac{zB} ein Name und eine ID\@.
+      \item
+            \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
 \end{itemize}
 
-\subsection{Wichtige Objekttypen}
+Kapitel~\ref{ch:implementation} und Kapitel~\ref{ch:comparison} nutzen spezifische Kubernetes Objekte und Konzepte die im Folgenden
+zum besseren Verständnis beschrieben werden:
 
-Pod
-Deployment
-Namespace
-Secret
+\begin{description}
+      \item[Pod]
+            Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf dem selben \textit{Worker Node} befinden.
+            Es wird sichergestellt, dass sich alle \textit{Container}, die in einem Pod zusammengefasst,
+            immer auf dem selben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
+      \item[Replica Set]
+            Ein \textit{Replica Set} führt eine spezifizierte Anzahl von \textit{Pods} aus und sorgt dafür, dass diese Anzahl konstant bleibt.
+            Sollte ein \textit{Pod} ausfallen, sorgt das \textit{Replica Set} dafür, dass ein neuer gestartet wird. Bei hoher Ressourceauslastung
+            nutzt das \textit{Replica Set} eine Lastenverteilung, um alle \textit{Pods} gleichmäßig auszulasten~\cite{kubernetes-replica-set-kubematic}.
+      \item[Deployment]
+            Mit Hilfe eines \textit{Deployments} ist es möglich die Anwendungen in \textit{Pods}, die einem \textit{Replica Set} zugeordnet sind, zu aktualisieren.
+            In der \textit{Manifest}-Datei kann dazu der \textit{Desired State} definiert werden.
+            Das Ausrollen der Aktualisierung erfolgt für alle \textit{Pods} schrittweise.
+            Tritt bei der Aktualisierung eines \textit{Pods} ein Fehler auf, so kann dieser neu erstellt oder wenn nötig auf den alten Stand zurückgesetzt werden.
+            Kubernetes sorgt dafür, dass die Ausfallzeit der Anwendung so gering wie möglich ist~\cite{kubernetes-in-action-chapter-9,kubernetes-deployment-vmware}.
+      \item[Secret]
+            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie \ac{zB} Passwörter oder SSH-Schlüssel, verschlüsselt speichert.
+            Sensible Daten müssen so nicht in der \textit{Manifest}-Datei des \textit{Pods} und im Programmcode der Anwendung gespeichert werden~\cite{kubernetes-secrets,kubernetes-secrets-medium}.
+      \item[Namespace]
+            Ein \textit{Namespace} ermöglicht dem Nutzer ein physisches Kubernetes-Cluster in verschiedene virtuelle Cluster aufzuteilen.
+            Sie können zum Einsatz kommen, wenn sich verschiedene Teams ein Kubernetes-Cluster teilen~\cite{kubernetes-namespaces-vmware}.
+      \item[Label]
+            Ein \textit{Label} ist ein Schlüssel-Wert-Paar, das einem Kubernetes Objekt, wie \ac{zB} einem \textit{Pod}, zugeordnet werden kann.
+            \textit{Labels} können im \textit{metadata} Attribut der \textit{Manifest}-Datei eines Objektes angegeben werden.
+            Der Schlüssel eines \textit{Labels} muss für ein Objekt eindeutig sein. Ein \textit{Label} kann mehreren Objekten zugeordnet werden.
+            Der Nutzer hat die Möglichkeit eine Menge von Objekten über ein \textit{Label} zu selektieren~\cite{kubernetes-labels}.
+\end{description}
 
 \section{\acs{json}-Schema}
