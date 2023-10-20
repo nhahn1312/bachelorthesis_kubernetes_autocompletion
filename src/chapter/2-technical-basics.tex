@@ -1,78 +1,5 @@
 \chapter{Technische Grundlagen}\label{ch:technical-basics}
 
-\section{\acs{lsp}}
-
-Das \ac{lsp} wurde 2015 von Microsoft für den Editor Visual Studio Code entwickelt.
-Bei einem Editor handelt es sich in diesem Kontext um ein Computerprogramm zur Erstellung und Bearbeitung von Textdateien~\cite{editor-definition}.
-Das Ziel war es, eine Schnittstelle bereitzustellen, die unter anderem die Autovervollständigung, die Code Navigation und das Syntaxhighlighting
-für jeden Editor vereinheitlicht~\cite{lsp-witekio}.
-Die Fähigkeit eines Editors Autovervollständigung, Code Navigation und Syntaxhighlighting zu ermöglichen wird im Folgenden als Sprachunterstützung bezeichnet.
-Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor seperat durchgeführt werden muss.
-Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
-
-\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
-      \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
-      \label{fig:without-lsp}
-\end{figure}
-
-Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
-Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet \ac{zB} Änderungen an Dateien zum Server.
-Der \ac{lsp}-Server enthält auf der anderen Seite die Logiken zur Sprachunterstützung~\cite{lsp-witekio}.
-Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt wird.
-Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
-
-\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
-      \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
-      \label{fig:with-lsp}
-\end{figure}
-
-Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
-Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
-die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enhält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
-das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. TODO:Erklärung RPC
-
-Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
-\begin{description}
-      \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
-            Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
-            Der Server muss eine Antwort an den Client zurücksenden.
-      \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
-            Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
-      \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
-            Der Empfänger muss auf diese Art von Nachricht nicht antworten.
-            Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
-\end{description}
-
-Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
-Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
-\begin{description}
-      \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
-      \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
-      \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
-\end{description}
-
-Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
-Der Client sendet eine Nachricht zur Intialisierung mit seinen \textit{Capabilities} an den Server.
-Dieser antwortet wiederum mit einer Nachricht, die dessen \textit{Capabilities} enthält.
-Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Server um zu signalisieren, dass die Intialisierung abgeschlossen ist.
-Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
-
-\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
-      \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
-      \label{fig:lsp-sequence-diagram}
-\end{figure}
-
-Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
-Dabei erfolgt die Intialisierung der Verbindung mit Mitteilung der \textit{Capabilities}.
-Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
-Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enhalten könnte.
-
 \section{Virtualisierung}
 
 Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im folgenden \textit{Host} genannt, erstellen.
@@ -238,4 +165,146 @@ zum besseren Verständnis beschrieben werden:
             Der Nutzer hat die Möglichkeit eine Menge von Objekten über ein \textit{Label} zu selektieren~\cite{kubernetes-labels}.
 \end{description}
 
+\section{\acs{lsp}}
+
+Das \ac{lsp} wurde 2015 von Microsoft für den Editor Visual Studio Code entwickelt.
+Bei einem Editor handelt es sich in diesem Kontext um ein Computerprogramm zur Erstellung und Bearbeitung von Textdateien~\cite{editor-definition}.
+Das Ziel war es, eine Schnittstelle bereitzustellen, die unter anderem die Autovervollständigung, die Code Navigation und das Syntaxhighlighting
+für jeden Editor vereinheitlicht~\cite{lsp-witekio}.
+Die Fähigkeit eines Editors Autovervollständigung, Code Navigation und Syntaxhighlighting zu ermöglichen wird im Folgenden als Sprachunterstützung bezeichnet.
+Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor seperat durchgeführt werden muss.
+Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
+      \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
+      \label{fig:without-lsp}
+\end{figure}
+
+Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
+Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet \ac{zB} Änderungen an Dateien zum Server.
+Der \ac{lsp}-Server enthält auf der anderen Seite die Logiken zur Sprachunterstützung~\cite{lsp-witekio}.
+Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt wird.
+Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
+      \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
+      \label{fig:with-lsp}
+\end{figure}
+
+Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
+Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
+die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enhält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
+das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. TODO:Erklärung RPC
+
+Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
+\begin{description}
+      \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
+            Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
+            Der Server muss eine Antwort an den Client zurücksenden.
+      \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
+            Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
+      \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
+            Der Empfänger muss auf diese Art von Nachricht nicht antworten.
+            Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
+\end{description}
+
+Die Methoden und Ereignisse die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
+Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
+\begin{description}
+      \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
+      \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
+      \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
+\end{description}
+
+Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
+Der Client sendet eine Nachricht zur Intialisierung mit seinen \textit{Capabilities} an den Server.
+Dieser antwortet wiederum mit einer Nachricht, die dessen \textit{Capabilities} enthält.
+Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Server um zu signalisieren, dass die Intialisierung abgeschlossen ist.
+Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
+      \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
+      \label{fig:lsp-sequence-diagram}
+\end{figure}
+
+Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
+Dabei erfolgt die Intialisierung der Verbindung mit Mitteilung der \textit{Capabilities}.
+Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
+Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enhalten könnte.
+
 \section{\acs{json}-Schema}
+
+\acs{json}-Schema ist eine deklarative Sprache, die die Validierung des Formates und der Struktur eines \ac{json}-Objektes ermöglicht.
+Mit Hilfe des \acs{json}-Schema können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-Objektes zu beschreiben~\cite{json-schema-description}.
+
+\begin{listing}[htp]
+      \begin{minted}{json}
+      {
+            "product": {
+                  "name": "Widget",
+                  "price": 10.99
+            }
+      }
+      \end{minted}
+      \caption{Ein \acs{json}-Objekt}
+      \label{lst:json-object}
+\end{listing}
+
+\begin{listing}[h]
+      \begin{minted}{json}
+      {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "Product",
+            "type": "object",
+            "properties": {
+                "product": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "price": {
+                            "type": "number", 
+                            "minimum": 0
+                        },
+                    },
+                    "required": ["name", "price"]
+                }
+            },
+            "required": ["product"]
+      }
+      \end{minted}
+      \caption{Ein \acs{json}-Schema}
+      \label{lst:json-schema}
+\end{listing}
+
+Die Regeln und Einschränkungen werden mit einem Satz von Schlüsselwörtern definiert und Objekten im \acs{json}-Format definiert.
+\\
+Auf Listing~\ref{lst:json-object} ist ein Beispiel eines \acs{json}-Objektes abgebildet, dass mit Hilfe des auf Listing~\ref{lst:json-schema}
+dargestellten \acs{json}-Schemas validiert werden kann.
+\\
+Es folgt eine Erklärung der verwendeten Schlüsselwörter~\cite{json-schema-creation}:
+
+\begin{itemize}
+      \setlength\itemsep{-0.5cm}
+      \item
+            \textbf{\$schema} Gibt die Version der \acs{json}-Schema Spezifikation. Unterschiedliche Versionen der Spezifikation
+            unterstützen andere Schlüsselwörter.
+      \item
+            \textbf{type} Legt den Typ des Attributes im \acs{json}-Format fest.
+      \item
+            \textbf{properties} Gibt an, welche Attribute ein \acs{json}-Objekt enthalten kann.
+      \item
+            \textbf{required} Legt fest, welche Attribute ein \acs{json}-Objekt enthalten muss.
+      \item
+            \textbf{minimum} Gibt den kleinsten Wert an, den ein numerischer Wert enthalten darf.
+\end{itemize}
+
+Anhand der im \acs{json}-Schema enthaltenen Informationen kann ein Algorithmus die Validierung des Objektes durchführen.
+Die \acs{json}-Schema Spezifikation enthält noch weitere Schlüsselwörter, die aufgrund des Umfangs nicht erläutert werden.
