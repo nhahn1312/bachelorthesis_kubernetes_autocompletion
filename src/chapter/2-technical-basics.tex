@@ -198,7 +198,11 @@ Für die verschiedenen Editoren muss folglich nur eine Client Erweiterung implem
 Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
 Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
 die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enhält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
-das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}. TODO:Erklärung RPC
+das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}.
+\\
+Bei \ac{rpc} handelt es sich um ein Programmierparadigma, dass die Entwicklung von verteilten Anwendungen vereinfachen soll.
+Das Konzept ist dabei, dass ein Programm auf einem Client eine Methode auf eineem entfernten System, einem Server, aufrufen kann,
+ohne die zugrundliegenden Netzwerkdetails zu kennen \cite{rpc-computer-weekly}.
 
 Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
 \begin{description}

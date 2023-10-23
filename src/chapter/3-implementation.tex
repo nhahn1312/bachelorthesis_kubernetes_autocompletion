@@ -1,5 +1,43 @@
 \chapter{Implementierung}\label{ch:implementation}
 
+Um die in Kapitel~\ref{ch:introduction} gestellten Forschungsfragen zu beantworten, wurde ein \ac{lsp}-Server und ein \ac{lsp}-Client entwickelt,
+welche die Autovervollständigung und Validierung von Kubernetes \textit{Manifest}-Dateien ermöglichen.
+Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-Editor \ac{vscode} bereitgestellt.
+
+\section{Technologien}
+
+\begin{description}
+      \item[NodeJS]
+            Bei \textit{NodeJS} handelt es sich um eine plattformübergreifende Laufzeitumgebung, mit welcher Javascript-Programme entwickelt werden können,
+            die unabhängig von Host-Anwendungen, wie \ac{zB} dem Webbrowser laufen.
+            Das Konzept des ``non-blocking I/O'' wird von \textit{NodeJS} für die parallele und asynchrone Ausführung von Code verwendet.
+            Programme müssen dabei nicht auf die Ergebnisse einer Ein-/Ausgabe-Funktion warten,
+            sondern werden über ein Ereignis über die Beendigung informiert~\cite{node-js-dev-insider,node-js-about}.
+            Im Rahmen des Projektes wurden mit Hilfe von NodeJS der \ac{lsp}-Client und \ac{lsp}-Server implementiert.
+      \item[Typescript]
+            \textit{Typescript} ist eine Skriptsprache, die eine syntaktische Obermenge von Javascript ist. Das heißt, dass \textit{Typescript} und Javascript
+            die gleiche Syntax besitzen, Typescript jedoch noch über zusätzliche Syntax verfügt.
+            \textit{Typescript} erlaubt dem Programmierer \ac{zB} die statische Typisierung von Variablen, Funktionsparametern und Rückgabetypen.
+            Die Code-Qualität kann dadurch erhöht werden. Ein Compiler übersetzt \textit{Typescript}-Code in lauffähigen Javascript-Code, welcher dann von einer
+            wie \ac{zB} \textit{NodeJS} ausgeführt werden kann~\cite{typescript-kinsta,typescript-doubleslash-blog}.
+            Der \ac{lsp}-Client und \ac{lsp}-Server wurden mit der Skriptsprache \textit{Typescript} entwickelt.
+      \item[Docker for Desktop]
+            Mit \textit{Docker for Desktop} lassen sich Anwendungen in \textit{Containern} zusammenstellen, teilen und ausführen.
+            Das Programm ist für Mac, Linux und Windows Umgebungen verfügbar und bietet ein \ac{gui} zur Verwaltung der \textit{Container} an~\cite{docker-for-desktop-overview}.
+            \textit{Docker for Desktop} enthält außerdem ein Kubernetes-Cluster, welches lokal auf einem einzigen \textit{Node} ausgeführt wird~\cite{docker-for-desktop-kubernetes}.
+            Die Kubernetes-API des Clusters wurde bei der Implementierung des \ac{lsp}-Server verwendet, um
+            die bestehenden Objekte auf dem Cluster abzufragen und diese für die Autovervollständigung zu verwenden.
+      \item[kubectl]
+            \textit{kubectl} ist ein Kommandozeilentool, welches zum erstellen, untersuchen, aktualisieren und löschen von Kubernetes Objekten, sowie zum Ausrollen
+            von Anwendungen und verwalten der Cluser-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der Kubernetes-API.\@
+            Bei der Entwicklung wurde \textit{kubectl} verwendet um den momentanen Zustand des Clusters abzufragen,
+            um zu verifizieren, welche Objekte der \ac{lsp}-Server zurückgeben muss.
+            Außerdem konnte der ``verbose''-Parameter der \textit{kubectl} verwendet, um die benötigten Anfragen an die Kubernetes-API anzeigen zu lassen.
+            Diese wurden für die Implementierung des \ac{lsp}-Servers genutzt.
+\end{description}
+
+\section{Vorgehen}
+
 \section{Anforderungen}
 
 \section{Bereitstellung des Clusters}
