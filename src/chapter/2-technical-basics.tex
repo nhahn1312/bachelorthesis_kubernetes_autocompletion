@@ -248,44 +248,16 @@ Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem 
 Mit Hilfe des \acs{json}-Schema können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-Objektes zu beschreiben~\cite{json-schema-description}.
 
 \begin{listing}[htp]
-      \begin{minted}{json}
-      {
-            "product": {
-                  "name": "Widget",
-                  "price": 10.99
-            }
-      }
+      \begin{minted}[fontsize=\small]{json}
+{
+  "product": {
+    "name": "Widget",
+    "price": 10.99
+  }
+}
       \end{minted}
       \caption{Ein \acs{json}-Objekt}
       \label{lst:json-object}
-\end{listing}
-
-\begin{listing}[h]
-      \begin{minted}{json}
-      {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "title": "Product",
-            "type": "object",
-            "properties": {
-                "product": {
-                    "type": "object",
-                    "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "price": {
-                            "type": "number", 
-                            "minimum": 0
-                        },
-                    },
-                    "required": ["name", "price"]
-                }
-            },
-            "required": ["product"]
-      }
-      \end{minted}
-      \caption{Ein \acs{json}-Schema}
-      \label{lst:json-schema}
 \end{listing}
 
 Die Regeln und Einschränkungen werden mit einem Satz von Schlüsselwörtern definiert und Objekten im \acs{json}-Format definiert.
@@ -312,3 +284,31 @@ Es folgt eine Erklärung der verwendeten Schlüsselwörter~\cite{json-schema-cre
 
 Anhand der im \acs{json}-Schema enthaltenen Informationen kann ein Algorithmus die Validierung des Objektes durchführen.
 Die \acs{json}-Schema Spezifikation enthält noch weitere Schlüsselwörter, die aufgrund des Umfangs nicht erläutert werden.
+\newpage
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\small]{json}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product",
+  "type": "object",
+  "properties": {
+      "product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number", 
+            "minimum": 0
+          },
+        },
+        "required": ["name", "price"]
+      }
+  },
+  "required": ["product"]
+}
+      \end{minted}
+      \caption{Ein \acs{json}-Schema}
+      \label{lst:json-schema}
+\end{listing}

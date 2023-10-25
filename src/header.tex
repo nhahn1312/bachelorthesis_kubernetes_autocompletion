@@ -65,7 +65,8 @@
 \newmintinline[code]{text}{breaklines}
 
 \newminted[mdcodeblock]{md}{autogobble,frame=none,linenos=false,breaklines}
-\renewcommand\theFancyVerbLine{\large\arabic{FancyVerbLine}}
+\usemintedstyle[js]{abap}
+\renewcommand\theFancyVerbLine{\normalsize\arabic{FancyVerbLine}}
 
 % list of abbreviations
 \usepackage[printonlyused]{acronym}
@@ -103,3 +104,5 @@
 \newcommand{\lst}[1]{Listing~\ref{#1}} %shortcut for a listing reference
 \newcommand{\sect}[1]{Section~\ref{#1}} %shortcut for a Section reference
 
+\counterwithout{figure}{chapter}
+\counterwithout{listing}{chapter}
