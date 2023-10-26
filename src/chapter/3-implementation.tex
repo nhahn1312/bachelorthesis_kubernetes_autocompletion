@@ -32,14 +32,14 @@ Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-
             die bestehenden Objekte auf dem Cluster abzufragen und diese für die Autovervollständigung zu verwenden.
       \item[kubectl]
             \textit{kubectl} ist ein Kommandozeilentool, welches zum erstellen, untersuchen, aktualisieren und löschen von Kubernetes Objekten, sowie zum Ausrollen
-            von Anwendungen und verwalten der Cluser-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der Kubernetes-API.\@
+            von Anwendungen und verwalten der Cluster-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der Kubernetes-API.\@
             Bei der Entwicklung wurde \textit{kubectl} verwendet um den momentanen Zustand des Clusters abzufragen,
             um zu verifizieren, welche Objekte der \ac{lsp}-Server zurückgeben muss.
             Außerdem konnte der ``verbose''-Parameter der \textit{kubectl} verwendet, um die benötigten Anfragen an die Kubernetes-API anzeigen zu lassen.
             Diese wurden für die Implementierung des \ac{lsp}-Servers genutzt.
 \end{description}
 
-\section{Anforderungen}
+\section{Anforderungen}\label{sec:requirements}
 
 Bevor mit der Implementierung begonnen wurde, wurden Anforderungen zur Autovervollständigung und Validierung festgelegt. Zur Veranschaulichung
 dieser Anforderungen stellt Listing~\ref{lst:kubernetes-object-definition} eine nicht vollständige \textit{Manifest}-Datei im \ac{yaml}-Format dar.
@@ -63,28 +63,25 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
       \label{lst:kubernetes-object-definition}
 \end{listing}
 
-\subsection{Validierung der Manifest-Dateien}
-
-Bei der Validierung der \textit{Manifest}-Dateien muss der Nutzer über folgende Fehler bei der Eingabe informiert werden:
 \begin{description}
-      \setlength\itemsep{-0.5cm}
-      \item[Fehlen eines Attributes] Der Nutzer muss darüber informiert werden, welche Attribute
+      \item[Anforderung 1]{- Funktionalität für jedes Kubernetes Objekt\\}
+            Die Autovervollständigung und Validierung soll dem Nutzer für jedes auf dem Cluster im Standard verfügbare Kubernetes Objekt möglich sein.
+            Eine eindeutige Identifikation des Objektes, welches dabei die Felder zur Validierung und Autovervollständigung vorgibt, erfolgt über
+            die Angabe des Attributes \textit{apiVersion} und des Attributes \textit{kind}. Sind diese nicht angegeben, kann das definierte Objekt nicht
+            eindeutig bestimmt werden.
+      \item[Anforderung 2]{- Fehlen eines Attributes bei Validierung\\}
+            Der Nutzer muss darüber informiert werden, welche Attribute
             in der Datei zur vollständigen Definition fehlen. Der Definition fehlt hier \ac{zB}
-            die \textit{apiVersion}.
-      \item[Definition von nicht vorhandene Attributen] Gibt der Nutzer ein Attribut an, welches nicht in der Definition des Objektes enthalten ist, siehe Zeile 11, so erhält dieser eine Fehlermeldung
-      \item[Typvalidierung eines Attributes] Ist \ac{zB} der erwartete Wert eines Attributes vom Typ ``integer'',
+            die \textit{apiVersion}. Vorausgesetzt es handelt sich um ein Pflichtattribut
+      \item[Anforderung 3]{- Definition eines nicht vorhandenen Attributes bei Validierung\\}
+            Gibt der Nutzer ein Attribut an, welches nicht in der Definition des Objektes enthalten ist, siehe Zeile 11, so erhält dieser eine Fehlermeldung
+      \item[Anforderung 4]{- Typvalidierung eines Attributes\\}
+            Ist \ac{zB} der erwartete Wert eines Attributes vom Typ ``integer'',
             so muss der Nutzer bei Eingabe einer Zeichenkette darauf hingewiesen werden. Dieser Fehler ist in Zeile 3 zu sehen.
-\end{description}
-
-\subsection{Autovervollständigung der Manifest-Dateien}
-
-Bei der Autovervollständigung wurden folgende Anforderungen festgelegt:
-\begin{description}
-      \setlength\itemsep{-0.5cm}
-      \item[Autovervollständigung von Attributen]
+      \item[Anforderung 5]{- Autovervollständigung von Attributen\\}
             Dem Nutzer müssen, abhängig vom Kontext, Attribute zur Autovervollständigung angeboten werden.
             Wenn der Nutzer \ac{zB} seinen Cursor in Zeile 12 am Anfang stehen hat, so wird diesem das Attribut \textit{apiVersion} angeboten.
-      \item[Autovervollständigung von Attributwerten]
+      \item[Anforderung 6]{- Autovervollständigung von Attributwerten\\}
             Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines Attributes, so sollen diesem, anhängig vom Attribut, Werte zur Autovervollständigung
             angeboten werden. Die Autovervollständigung von Attributwerten ist nur möglich, falls diese vorhanden sind.
             Befindet sich der Nutzer \ac{zB} mit seinm Cursor im Wertbereich des Attributes \textit{namespace} in Zeile 10,
@@ -105,7 +102,7 @@ Der \ac{lsp}-Client wird mit Hilfe der Klasse ``LanguageClient'' aus dem Modul `
 Ein Objekt der Klasse enthält alle notwendigen Funktionalitäten zur Kommunikation mit einem \ac{lsp}-Server.
 Zur Intialisierung wird eine Client und Server-Konfiguration benötigt.
 \\
-Die Server-Konfiguration, siehe Zeile 8, gibt an wo sich die Implementierung des \ac{lsp}-Servers befindet (Attribut ``module'')
+Die Server-Konfiguration, siehe Zeile 9, gibt an wo sich die Implementierung des \ac{lsp}-Servers befindet (Attribut ``module'')
 und wie die Kommunikation zwischen \ac{lsp}-Client und Server stattfindet (Attribut ``transport'').
 Die Implementierung des \ac{lsp}-Servers kann über die Verzeichnisstruktur des \ac{lsp}-Clients eingebunden werden, siehe Zeile 6, da
 ein \textit{Monorepo} zur Entwicklung der Erweiterung genutzt wurde.
@@ -116,10 +113,10 @@ die neueste Version aktualisiert werden.
 Die Kommunikation zwischen \ac{lsp}-Client und Server findet mittels \text{ipc} statt. Dabei handelt es sich um ein Modul von \textit{NodeJS}
 zur Interprozesskommunikation. Damit können zwei \textit{NodeJS}-Prozesse, in dem Fall \acs{lsp}-Client und Server, miteinander kommunizieren.
 \\
-Die Client-Konfiguration, siehe Zeile 14, gibt an für welche Dateien der \ac{lsp}-Server registriert wird. Außerdem wird in Zeile 16 definiert,
+Die Client-Konfiguration, siehe Zeile 13, gibt an für welche Dateien der \ac{lsp}-Server registriert wird. Außerdem wird in Zeile 15 definiert,
 für welche Dateien der \ac{lsp}-Server über Änderungen informiert wird.
 \\
-Der \ac{lsp}-Client wird mit der Anweisung in Zeile 28 gestartet. Der Start des \ac{lsp}-Servers benötigt keine weitere Anweisung.
+Der \ac{lsp}-Client wird mit der Anweisung in Zeile 24 gestartet. Der Start des \ac{lsp}-Servers benötigt keine weitere Anweisung.
 Dieser wird gestartet sobald eine \ac{yaml}-Datei geöffnet wird.
 
 \begin{listing}[htp]
@@ -135,24 +132,20 @@ export function activate(context: ExtensionContext) {
     run: { module: serverModule, transport: TransportKind.ipc },
     //...
   };
-
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ language: 'yaml' }, { pattern: '*.y(a)ml' }],
     synchronize: {
         fileEvents: [workspace.createFileSystemWatcher('**/*.y?(a)ml')]
     }
   };
-
   client = new LanguageClient(
-      'yamlKubernetesCompletionClient',
-      'YAML Kubernetes Completion',
+      //...
       serverOptions,
       clientOptions
   );
-
-  const outputChannel = window.createOutputChannel('YAML Kubernetes Completion');
+  //...
   client.start().catch((reason) => {
-      outputChannel.append(reason);
+      //...
   });
 }
 //...
@@ -163,9 +156,34 @@ export function activate(context: ExtensionContext) {
 
 \section{\acs{lsp}-Server}
 
-\subsection{Bereitstellung des Clusters}
+Bei der Implementierung des \ac{lsp}-Servers wurden die Anforderungen aus Kapitel~\ref{sec:requirements} umgesetzt.
+Der \acs{lsp}-Client stellt lediglich die Anfragen zur Autovervollständigung und Validierung und der Server enthält die
+Logiken um diese Anfragen zu beantworten.
+Bevor die Anforderungen umgesetzt wurden, wurde zunächst das Kubernetes Cluster
+mit Hilfe von \textit{Docker for Desktop} bereitgestellt. Mit der Bereitstellung des Clusters wird außerdem
+ein \textit{kubectl}-Client installiert, der den Zugriff auf das Cluster ermöglicht.
 
-\subsection{Erstellen der \acs{json}-Schema Dateien aus der OpenAPI-Spezifikation von Kubernetes}
+\subsection{Erstellen von \acs{json}-Schema Dateien}
+
+Um die Struktur der \textit{Manifest}-Dateien vorzugeben, bietet sich das in Kapitel~\ref{sec:json-schema} eingeführte \acs{json}-Schema an.
+Damit lässt sich vorgeben, welche Attribute vorhanden sind, welche Attribute angegeben werden müssen und welche Typen diese haben.
+Es wäre demnach möglich für alle Kubernetes Objekte händisch ein \acs{json}-Schema zu schreiben. Dies würde jedoch viel Zeit in Anspruch nehmen und
+könnte bei neuen Kubernetes-Versionen mit Änderungen, die die Struktur und Syntax von \textit{Manifest}-Dateien betreffen, wieder zu einem hohen Aufwand führen.
+\\
+Stattdessen bietet die \textit{KubernetesAPI} die Möglichkeit den Aufbau der \textit{Manifest}-Dateien mit Hilfe der \textit{OpenAPI}-Spezifikation abzuleiten.
+\\
+Bei \textit{OpenAPI} handelt es sich um einen Standard zur Beschreibung von Anwendungsschnittstellen, auch~\ac{apis} genannt. Die Beschreibung der \acs{api} ist
+unabhängig von einer Programmiersprache und wird im \ac{json}- oder \ac{yaml}-Format zur Verfügung gestellt~\cite{openapi-org}.
+Die \textit{KubernetesAPI} stellt die \textit{OpenAPI}-Spezifikation im \ac{json}-Format bereit und diese kann anschließend durch einen Konverter in
+mehrere Dateien umgewandelt werden, sodass diese jeweils ein \acs{json}-Schema eines Kubernetes Objektes enthalten.
+\\
+Zum Erstellen der \acs{json}-Schema Dateien wurde wie folgt vorgegangen:
+
+\begin{description}
+      \item[1. KubernetesAPI mittels Proxy zugänglich machen]
+      \item[2. Installieren des Konverters]
+      \item[3. Umwandlung der OpenAPI Spezifikation in JSON-Schema Dateien]
+\end{description}
 
 \subsection{Umwandlung des \acs{ast}}
 
