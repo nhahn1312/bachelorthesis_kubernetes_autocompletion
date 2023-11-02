@@ -15,7 +15,7 @@ Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-
             sondern werden über ein Ereignis über die Beendigung informiert.
             \textit{NodeJS} lässt sich mit Modulen erweitern.
             Der sogenannte \ac{npm} unterstützt den Entwickler dabei und kann Module sowie deren Abhängigkeiten suchen,
-            installieren, entfernen und installieren.~\cite{node-js-dev-insider,node-js-about}.
+            installieren, entfernen und aktualisieren.~\cite{node-js-dev-insider,node-js-about}.
             Im Rahmen des Projektes wurden mit Hilfe von NodeJS der \ac{lsp}-Client und \ac{lsp}-Server implementiert.
       \item[Typescript]
             \textit{Typescript} ist eine Skriptsprache, die eine syntaktische Obermenge von Javascript ist. Das heißt, dass \textit{Typescript} und Javascript
@@ -28,12 +28,12 @@ Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-
             Mit \textit{Docker for Desktop} lassen sich Anwendungen in \textit{Containern} zusammenstellen, teilen und ausführen.
             Das Programm ist für Mac, Linux und Windows Umgebungen verfügbar und bietet ein \ac{gui} zur Verwaltung der \textit{Container} an~\cite{docker-for-desktop-overview}.
             \textit{Docker for Desktop} enthält außerdem ein Kubernetes-Cluster, welches lokal auf einem einzigen \textit{Node} ausgeführt wird~\cite{docker-for-desktop-kubernetes}.
-            Die Kubernetes-API des Clusters wurde bei der Implementierung des \ac{lsp}-Server verwendet, um
+            Die Kubernetes-API des Clusters wurde bei der Implementierung des \ac{lsp}-Servers verwendet, um
             die bestehenden Objekte auf dem Cluster abzufragen und diese für die Autovervollständigung zu verwenden.
       \item[kubectl]
-            \textit{kubectl} ist ein Kommandozeilentool, welches zum erstellen, untersuchen, aktualisieren und löschen von Kubernetes Objekten, sowie zum Ausrollen
+            \textit{kubectl} ist ein Kommandozeilentool, welches zum Erstellen, untersuchen, aktualisieren und löschen von Kubernetes Objekten, sowie zum Ausrollen
             von Anwendungen und verwalten der Cluster-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der Kubernetes-API.\@
-            Bei der Entwicklung wurde \textit{kubectl} verwendet um den momentanen Zustand des Clusters abzufragen,
+            Bei der Entwicklung wurde \textit{kubectl} verwendet, um den momentanen Zustand des Clusters abzufragen,
             um zu verifizieren, welche Objekte der \ac{lsp}-Server zurückgeben muss.
             Außerdem konnte der ``verbose''-Parameter der \textit{kubectl} verwendet, um die benötigten Anfragen an die Kubernetes-API anzeigen zu lassen.
             Diese wurden für die Implementierung des \ac{lsp}-Servers genutzt.
@@ -84,25 +84,26 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
       \item[Anforderung 6]{- Autovervollständigung von Attributwerten\\}
             Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines Attributes, so sollen diesem, anhängig vom Attribut, Werte zur Autovervollständigung
             angeboten werden. Die Autovervollständigung von Attributwerten ist nur möglich, falls diese vorhanden sind.
-            Befindet sich der Nutzer \ac{zB} mit seinm Cursor im Wertbereich des Attributes \textit{namespace} in Zeile 10,
+            Befindet sich der Nutzer \ac{zB} mit seinem Cursor im Wertbereich des Attributes \textit{namespace} in Zeile 10,
             werden diesem die verfügbaren \textit{Namespaces} auf dem Kubernetes Cluster vorschlagen.
             \\
             Folgende Attribute sollen dazu Autovervollständigung mit Hilfe des \textit{Kubernetes API} erhalten:
             \textbf{namespace}, \textbf{secretName}, \textbf{apiVersion}, \textbf{kind} und \textbf{labels}
 \end{description}
 
-\section{\acs{lsp}-Client}
+\section{\acs{lsp}-Client}\label{sec:lsp-client}
+
 Wie bereits zu Beginn des Kapitels erwähnt, wird das Projekt als Erweiterung für den Quellcode-Editor \ac{vscode} entwickelt.
 Der Code auf Listing~\ref{lst:client-code} stellt den Einstiegspunkt für die Erweiterung dar.
 Dazu wird eine activate- und eine deactivate-Funktion benötigt. Die activate-Funktion enthält Code, der zum Start der Erweiterung ausgeführt wird.
 Die deactivate-Funktion enthält Code, welcher beim Beenden der Erweiterung ausgeführt wird.
 Die dargestellte activate-Funktion, siehe Zeile 5, enthält außerdem Code zum Start des \ac{lsp}-Clients.
 \\
-Der \ac{lsp}-Client wird mit Hilfe der Klasse ``LanguageClient'' aus dem Modul ``vscode-languageclient/node'' intialisiert, siehe Zeile 20.
+Der \ac{lsp}-Client wird mit Hilfe der Klasse ``LanguageClient'' aus dem Modul ``vscode-languageclient/node'' initialisiert, siehe Zeile 20.
 Ein Objekt der Klasse enthält alle notwendigen Funktionalitäten zur Kommunikation mit einem \ac{lsp}-Server.
-Zur Intialisierung wird eine Client und Server-Konfiguration benötigt.
+Zur Initialisierung wird eine Client und eine Server-Konfiguration benötigt.
 \\
-Die Server-Konfiguration, siehe Zeile 9, gibt an wo sich die Implementierung des \ac{lsp}-Servers befindet (Attribut ``module'')
+Die Server-Konfiguration, siehe Zeile 9, gibt an, an welcher Stelle die Implementierung des \ac{lsp}-Servers zu finden ist(Attribut ``module'').
 und wie die Kommunikation zwischen \ac{lsp}-Client und Server stattfindet (Attribut ``transport'').
 Die Implementierung des \ac{lsp}-Servers kann über die Verzeichnisstruktur des \ac{lsp}-Clients eingebunden werden, siehe Zeile 6, da
 ein \textit{Monorepo} zur Entwicklung der Erweiterung genutzt wurde.
@@ -117,7 +118,7 @@ Die Client-Konfiguration, siehe Zeile 13, gibt an für welche Dateien der \ac{ls
 für welche Dateien der \ac{lsp}-Server über Änderungen informiert wird.
 \\
 Der \ac{lsp}-Client wird mit der Anweisung in Zeile 24 gestartet. Der Start des \ac{lsp}-Servers benötigt keine weitere Anweisung.
-Dieser wird gestartet sobald eine \ac{yaml}-Datei geöffnet wird.
+Dieser wird gestartet, sobald eine \ac{yaml}-Datei geöffnet wird.
 
 \begin{listing}[htp]
       \begin{minted}[fontsize=\footnotesize]{js}
@@ -157,8 +158,8 @@ export function activate(context: ExtensionContext) {
 \section{\acs{lsp}-Server}
 
 Bei der Implementierung des \ac{lsp}-Servers wurden die Anforderungen aus Kapitel~\ref{sec:requirements} umgesetzt.
-Der \acs{lsp}-Client stellt lediglich die Anfragen zur Autovervollständigung und Validierung und der Server enthält die
-Logiken um diese Anfragen zu beantworten.
+Der \acs{lsp}-Client stellt lediglich die Anfragen zur Autovervollständigung und Validierung und der Server enthält die Logiken,
+um diese Anfragen zu beantworten.
 Bevor die Anforderungen umgesetzt wurden, wurde zunächst das Kubernetes Cluster
 mit Hilfe von \textit{Docker for Desktop} bereitgestellt. Mit der Bereitstellung des Clusters wird außerdem
 ein \textit{kubectl}-Client installiert, der den Zugriff auf das Cluster ermöglicht.
@@ -181,11 +182,264 @@ Zum Erstellen der \acs{json}-Schema Dateien wurde wie folgt vorgegangen:
 
 \begin{description}
       \item[1. KubernetesAPI mittels Proxy zugänglich machen]
+            Bevor der Konverter auf die \textit{OpenAPI}-Spezifikation des Kubernetes Clusters zugreifen kann, muss die \textit{KubernetesAPI}
+            für HTTP-Aufrufe ohne Nutzung von \textit{kubectl} verfügbar gemacht werden. Dies wird mit einem \textit{Proxy} erreicht, der über die \textit{kubectl}
+            bereitgestellt werden kann. \\
+            Ein \textit{Proxy} ist ein Vermittler zwischen zwei Netzwerken~\cite{proxy-ryte-wiki,proxy-it-service-network}.
+            Für das Projekt macht der \textit{Proxy} die \textit{KubernetesAPI} über die lokale \acs{ip}-Adresse des Rechners erreichbar.
+            Dazu wird folgende Anweisung verwendet:
+            \begin{minted}[linenos=false]{console}
+                  kubectl proxy
+            \end{minted}
       \item[2. Installieren des Konverters]
-      \item[3. Umwandlung der OpenAPI Spezifikation in JSON-Schema Dateien]
+            Der ausgewählte Konverter ist in Python implementiert. Um den Konverter auszuführen wird daher ein Python-Interpreter benötigt.
+            Um den Konverter als Kommandozeilentool zu nutzen muss außerdem das Paketverwaltungsprogramm \textit{pip} installiert sein.
+            Der Konverter kann dann über folgende Anweisung installiert werden~\cite{openapi-to-json-schema}:
+            \begin{minted}[linenos=false]{console}
+                  pip install openapi2jsonschema
+            \end{minted}
+      \item[3. Umwandlung der \textit{OpenAPI}-Spezifikation in JSON-Schema Dateien]
+            Die \textit{OpenAPI}\\-Spezifikation kann nach Ausführung der vorherigen Schritte mit folgender Anweisung umgewandelt werden:
+            \begin{minted}[linenos=false, breaklines]{console}
+                  openapi2jsonschema -o path/to/output/directory --kubernetes http://localhost:8001/openapi/v2
+            \end{minted}
+            Der Parameter ``-o'' gibt an, in welchem Verzeichnis die \ac{json}-Schema-Dateien abgelegt werden sollen.
+            Mit dem Parameter ``--kubernetes'' werden zusätzliche Informationen über das betreffende Kubernetes Objekt als Attribut im \ac{json}-Schema gespeichert.
+            Die angegebene \ac{url} führt zur \textit{OpenAPI}\\-Spezifikation.
 \end{description}
 
-\subsection{Umwandlung des \acs{ast}}
+Die generierten \ac{json}-Schema Dateien ermöglichen das Erfüllen von \textbf{Anforderung 1} aus Kapitel~\ref{sec:requirements}.
+
+\subsection{Konzeption}
+
+Im nächsten Schritt wurde ein Modul für \textit{NodeJS} gesucht, mit dem eine \ac{yaml}-Datei mit Hilfe eines \ac{json}-Schemas validieren
+und autovervollständigen kann. Es wurde das Modul ``vscode-json-languageservice'' ausgewählt, dass von Microsoft im Editor \ac{vscode} verwendet
+wird. Das gewählte Modul kann allerdings nur eine \ac{json}-Datei anhand eines \ac{json}-Schemas validieren
+und autovervollständigen. Um die Funktionalitäten für \ac{yaml}-Dateien zu ermöglichen, waren grundlegende Änderungen an dem Modul nötig.
+Der Code des Moduls wurde als Grundlage für die Implementierung der Sprachunterstützung genutzt.
+Das Modul stellt ein \textit{Interface} bereit, welches einen Überblick über die Funktionalitäten gibt und aufzeigt, welche Änderungen
+nötig sind, um diese für \ac{yaml}-Dateien zu nutzen.
+\\
+Abbildung~\ref{fig:language-service-interface-defition-excerpt} zeigt einen Auszug, der für die Implementierung
+der Funktionalität bei \ac{yaml}-Dateien relevanten, Methoden des \textit{Interface} ``LanguageService''.
+Die vollständige Definition \textit{Interface} befindet sich im Anhang auf Abbildung \ref{fig:language-service-interface-defition}.
+Es folgt eine Beschreibung der einzelnen Methoden~\cite{vscode-json-language-service}:
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.75\textwidth]{images/language-service-interface-excerpt.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms des \textit{Interface} ``LanguageService''}
+      \label{fig:language-service-interface-defition-excerpt}
+\end{figure}
+
+
+\begin{description}
+      \item[parseJSONDocument]
+            Parst eine \ac{json}-Datei speichert den Inhalt in einem Objekt der Klasse \textit{JSONDocument}.
+            Der Parameter der Klasse \textit{TextDocument} enthält den Inhalt einer Datei, welcher durch den \ac{lsp}-Client an den \ac{lsp}-Server gesendet wird.
+      \item[doComplete]
+            Ermöglicht die Autovervollständigung einer \ac{json}-Datei mit einem \ac{json}-Schema. Das betreffende \ac{json}-Schema wird bei der
+            Initialisierung des ``LanguageService'' übergeben.
+            Als Parameter werden ein Objekt der Klasse \textit{TextDocument}, ein Objekt der Klasse \textit{JSONDocument} und ein Objekt
+            des Typs \textit{Position} benötigt, welches die Zeile und Spalte angibt, in dem sich der Cursor des Nutzers befindet.
+            Die Methode liefert als Ergebnis eine Liste von Elementen zur Autovervollständigung, falls vorhanden.
+      \item[doValidation] Ermöglicht die Validierung einer \ac{json}-Datei mit einem \ac{json}-Schema.
+            Als Parameter werden ein Objekt der Klasse \textit{TextDocument}, ein Objekt der Klasse \textit{JSONDocument} benötigt.
+            Die Methode liefert als Ergebnis einen Array mit Fehlern, die bei der Validierung gefunden wurden.
+            Dabei werden Fehler bei der Validierung mittels \ac{json}-Schema und Syntaxfehler zurückgegeben.
+\end{description}
+
+Die Methoden zur Validierung und Autovervollständigung benötigten jeweils ein Objekt der Klasse \textit{JSONDocument}, welches durch das Parsen einer
+\ac{json}-Datei erzeugt wird.
+Der Aufbau der Klasse \textit{JSONDocument} wurde als Nächstes analysiert, um festzustellen, welche Anforderungen der Parser einer \ac{yaml}-Datei
+erfüllen muss, damit mit den Ergebnissen des Parsers ein Objekt erzeugt werden kann.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.3\textwidth]{images/class-diagram-json-document-excerpt.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms der Klasse ``JSONDocument''}
+      \label{fig:class-diagram-json-document-excerpt}
+\end{figure}
+
+Aus dem Auszug des Klassendiagramms auf Abbildung~\ref{fig:class-diagram-json-document-excerpt} können die Anforderungen an
+den Parser aus den Attributen der Klasse abgeleitet werden:
+\begin{description}
+      \setlength\itemsep{-0.5cm}
+      \item[root]
+            In dem Attribut wird eine Baumstruktur des Aufbaus einer \ac{json}-Datei gespeichert. Der Parser muss demnach auch einen \ac{ast} erzeugen können,
+            der sich in die von der Klasse ``ASTNode'' vorgegebene Struktur konvertieren lässt.
+      \item[syntaxErrors] Der Parser muss Syntaxfehler erkennen und speichern.
+      \item[comments] Kommentare müssen durch den Parser erkannt und gespeichert werden.
+\end{description}
+
+Aufgrund der Anforderungen wurde das Modul ``yaml'' für \textit{NodeJS} ausgewählt. Das Modul erzeugt einen \ac{ast} und parst Syntaxfehler und Kommentare.
+Die interne Darstellung des \ac{ast} weicht jedoch von dem \ac{ast}, welcher in der Klasse \textit{JSONDocument} als Attribut \textit{root}
+gespeichert wird, ab und muss daher konvertiert werden.
+\\
+Aus dem erlangten Wissen aus diesem Abschnitt und den Anforderungen aus Abschnitt~\ref{sec:requirements} wurde ein Klassendiagramm erstellt.
+Das vollständige Klassendiagramm befindet sich im Anhang auf Abbildung~\ref{fig:class-diagram-lsp-Server}.
+In den kommenden Abschnitten wird das gesamte Klassendiagramm mit Auszügen erläutert.
+
+\subsection{Kommunikation mit dem \acs{lsp}-Client}
+
+In Abschnitt~\ref{sec:lsp-client} wurde bereits gezeigt, dass der Client angibt, wie der \ac{lsp}-Server zu erreichen ist.
+Die Implementierung des Einstiegspunkts des \ac{lsp}-Servers wird auf Listing~\ref{lst:server-entrypoint} dargestellt.
+Dabei wurden die Module ``vscode-languageserver/node'' und ``vscode-languageserver-textdocument'' genutzt, um die
+Implementierung der \ac{lsp}-Funktionalitäten zur vereinfachen.
+\\
+Zunächst wird ein Objekt der Klasse ``\_Connection'' erstellt mit der Funktion ``createConnection'' erstellt, siehe Zeile 10.
+Die Klasse liefert Funktionalitäten zur Kommunikation mit dem \ac{lsp}-Client.
+Eine Funktionalität ist \ac{zB} die Möglichkeit auf eine Anfrage zur Autovervollständigung des \ac{lsp}-Clients zu reagieren.
+\\
+In Zeile 11 wird der ein Objekt erstellt, dass für Verwaltung von Textdateien auf dem Server zuständig ist.
+Die Textdateien sind ein Abbild der vorhandenen Textdateien, die dem Client zur Verfügung stehen.
+Dieses Objekt wird im folgenden als \textit{DocumentManager} bezeichnet.
+Der \textit{DocumentManager} sorgt dafür, dass bei Änderungen einer Textdatei auf der Clientseite diese auch auf dem \ac{lsp}-Server aktualisiert wird.
+Zusätzlich kann über Ereignisse des \textit{DocumentManager} auf das Öffnen, Ändern und Schließen einer Textdatei reagiert werden.
+\\
+Das Verzeichnis, in dem sich der Server befindet, wird in der Variablen ``baseUri'', siehe Zeile 12, als absoluter Pfad gespeichert.
+Der absolute Pfad wird zum Zugriff auf die \ac{json}-Schema-Dateien benötigt.
+Zuletzt wird in Zeile 13 ein Objekt der Klasse ``YamlLanguageServer'' erzeugt.
+
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\footnotesize]{js}
+import { 
+  createConnection, 
+  TextDocuments, 
+  //...
+} from 'vscode-languageserver/node';
+import { TextDocument } from 'vscode-languageserver-textdocument';
+import { YamlLanguageServer } from './yamlLanguageServer';
+import path from 'path';
+//...
+const connection = createConnection(/*...*/);
+const documentManager: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
+const baseUri = path.resolve(__dirname, '../');
+new YamlLanguageServer(connection, documentManager, baseUri);
+      \end{minted}
+      \caption{Auszug Implementierung des Einstiegspunkts des \acs{lsp}-Servers}
+      \label{lst:server-entrypoint}
+\end{listing}
+
+
+Die Klasse ``YamlLanguageServer'' ist eine Kommunikationsschnittstelle zum \ac{lsp}-Client.
+Einen Überblick über die Implementierung der Klasse liefert Listing~\ref{lst:server-entrypoint}.
+In Zeile 6 wird ein Objekt der Klasse ``ConfigurationService'' erzeugt. Das Objekt kümmert sich
+mit Hilfe von Methoden der ``\_Connection''-Klasse um die Initialisierung der Verbindung mit dem \ac{lsp}-Client.
+\\
+Die ``onCompletion''-Methode enthält die Logik zur Autovervollständigung. Diese wird bei einer Client-Anfrage
+aufgerufen, siehe Zeile 8.
+\\
+Bei Änderungen an einer Textdatei wird der \textit{DocumentManager} benachrichtigt und die geänderte Datei
+wird durch die ``validateTextDocument''-Methode validiert, siehe Zeile 10 und 11.
+\\
+Die Autovervollständigung und Validierung, die in den Methoden erfolgt, wird durch eine weitere Klasse, ``YamlLanguageService'', koordiniert.
+
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\footnotesize]{js}
+public constructor(
+  private connection: _Connection,
+  private documentManager: TextDocuments<TextDocument>,
+  private baseUri: string
+) {
+    new ConfigurationService(connection);
+    //...
+    this.connection.onCompletion(this.onCompletion.bind(this));
+    //...
+    this.documentManager.onDidChangeContent((change) => {
+        this.validateTextDocument(change.document);
+    });
+    //...
+  }
+      \end{minted}
+      \caption{Auszug Implementierung des Konstruktors der Klasse ``YamlLanguageServer''}
+      \label{lst:server-entrypoint}
+\end{listing}
+
+\subsection{Parsen von \acs{yaml}-Dateien}
+
+Bevor eine Autovervollständigung oder eine Validierung einer Datei stattfinden kann, muss die \ac{yaml}-Datei geparst und
+der \ac{ast} in die von der Klasse ``ASTNode'' vorgegebene Struktur umgewandelt werden.
+Abbildung~\ref{fig:class-diagram-yaml-language-service-parser} stellt die beteiligten Klassen, mit wichtigen Methoden und Attributen,
+beim Parsen einer \ac{yaml}-Datei dar.
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-parser.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms der benötigten Klassen zum Parsen}
+      \label{fig:class-diagram-yaml-language-service-parser}
+\end{figure}
+
+Das Parsen einer \ac{yaml}-Datei beginnt mit dem Aufruf der ``parseYamlDocument''-Methode der Klasse ``YamlLanguageService''.
+Dieser Methode wird die Textdatei, welche geparst werden soll übergeben. Innerhalb der Methode erfolgt ein Aufruf
+der Methode ``parse'' der Klasse ``YamlParser''.
+\\
+Listing~\ref{lst:parse-yaml-parser} zeigt einen Auszug des Quellcodes der ``parse''-Methode der Klasse ``YamlParser''.
+\\
+Die Methode nimmt eine Textdatei entgegen und liefert einen Array von Objekten der Klasse ``YamlDocument'' zurück.
+Mit dem Objekt der Klasse ``Parser'' werden mit einer lexikalischen Analyse \textit{Token} erzeugt, siehe Zeile 5 bis 7.
+Anschließend wird jeweils eine Menge von \textit{Token} zu einem \ac{yaml}-Document zusammengefasst.
+Dies geschieht in Zeile 10 und 11 mit einem Objekt der Klasse ``Composer''.
+Dabei wird eine syntaktische Analyse durchgeführt. Die Variable ``documents'' enthält damit einen Array
+von Objekten die Syntaxfehler und einen \ac{ast} bereitstellen.
+Die Syntaxfehler werden in Zeile 15 ausgelesen und gespeichert.
+Der \ac{ast} wird in Zeile 23 mittels ``convert''-Methode der Klasse ``AstConverter'' umgewandelt.
+Dieser befindet sich somit im richtigen Format für die weitere Verarbeitung.
+Zuletzt werden in Zeile 31 die Kommentare aus der Menge von \textit{Token} ausgelesen und dem jeweiligen ``YamlDocument''-Objekt hinzugefügt.
+
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\footnotesize]{js}
+public parse(textDocument: TextDocument): YamlDocument[] {
+    this.yamlDocuments = [];
+    const text = textDocument.getText();  
+    //...
+    const parser = /*...*/ new Parser() /*...*/;
+    const parsedTokens = parser.parse(text);
+    const tokens: CST.Token[] = Array.from(parsedTokens);
+    let syntaxErrorDiagnostics: Diagnostic[];
+    //...  
+    const composer = new Composer(/*...*/);
+    const documents = composer.compose(tokens, true, text.length);
+    for (const document of documents) {
+      //...
+      syntaxErrorDiagnostics = [];
+      for (const error of document.errors) {
+        syntaxErrorDiagnostics.push(
+            //...
+        );
+      }
+      //...
+      if (document.contents) {
+        const astConverter = new AstConverter();
+        const astNode = astConverter.convert(document.contents, /*...*/);
+        const yamlDocument = 
+          new YamlDocument(astNode, textDocument, syntaxErrorDiagnostics);
+        //...   
+        this.yamlDocuments.push(yamlDocument);
+      }
+    }
+    //...          
+    this.parseCommentsFromTokens(textDocument, tokens);
+    return this.yamlDocuments;
+  }
+      \end{minted}
+      \caption{Auszug Quellcode ``parse''-Methode der Klasse ``YamlParser''}
+      \label{lst:parse-yaml-parser}
+\end{listing}
+
+Für die Implementierung der ``convert''-Methode der Klasse ``AstConverter'' wurde der Aufbau des \ac{ast} des genutzten Parsers für
+die Dateien im \ac{yaml}-Format und der Aufbau des \ac{ast} des Parsers für die \ac{json}-Dateien verglichen.
+Es wurde eine Zuordnungstabelle angelegt, um die Konvertierung zu implementieren.
+
+
+\subsection{Validierung von mit Hilfe des \acs{json}-Schemas}
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-validation.svg} % width immer angeben!
+      \caption{xxxxx}
+      \label{fig:class-diagram-yaml-language-service-validation}
+\end{figure}
 
 \subsection{Autovervollständigung mit Hilfe des \acs{json}-Schemas}
 
