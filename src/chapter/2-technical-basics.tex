@@ -112,10 +112,10 @@ Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
 
 Kubernetes Objekte sind persistente Entitäten eines Kubernetes Systems. Sie repräsentieren den aktuellen Zustand des Clusters.
 Die Kubernetes Objekte können beschreiben, welche Anwendungen auf dem Cluster in \textit{Containern} laufen,
-welche Ressourcen den Anwendungungen zur Verfügung stehen und
+welche Ressourcen den Anwendungen zur Verfügung stehen und
 wie sich die Anwendungen verhalten, \ac{zB} unter welchen Umständen eine Anwendung neu gestartet werden soll~\cite{kubernetes-objects}.
 \\
-Eines der Kernkonzepte von Kubernetes ist der sogennante \textit{Desired State}~\cite{kubernetes-objects-kodekloud}.
+Eines der Kernkonzepte von Kubernetes ist der sogenannte \textit{Desired State}~\cite{kubernetes-objects-kodekloud}.
 Der Nutzer definiert mit Hilfe Kubernetes Objekte den angestrebten Zustand (\textit{Desired State}) des Clusters und Kubernetes
 sorgt für die Herstellung und Aufrechterhaltung dieses Zustandes.
 \\
@@ -139,7 +139,7 @@ zum besseren Verständnis beschrieben werden:
 
 \begin{description}
       \item[Pod]
-            Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf dem selben \textit{Worker Node} befinden.
+            Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf demselben \textit{Worker Node} befinden.
             Es wird sichergestellt, dass sich alle \textit{Container}, die in einem Pod zusammengefasst,
             immer auf dem selben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
       \item[Replica Set]
@@ -242,10 +242,108 @@ Dabei erfolgt die Initialisierung der Verbindung mit Mitteilung der \textit{Capa
 Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
 Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enthalten könnte.
 
+
+\section{\acs{json}-Format}\label{sec:json-format}
+
+\ac{json} ist ein textbasiertes Format zum Austausch von Daten. Die Syntax ist von Programmiersprache Javascript abgeleitet.
+Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing \ref{lst:json-example} erklärt \cite{json-org,json-developer-mozilla}.
+
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\small]{yaml}
+{
+  "ray": "a drop of golden sun",
+  "pi": 3.14159,
+  "xmas": true,
+  "french-hens": 3,
+  "calling-birds": [
+     "huey",
+     "hello": {
+       "count": 2
+     }    
+  ],
+  "xmas-fifth-day": {
+    "partridges": {
+      "count": null,
+    },
+  }
+}
+      \end{minted}
+      \caption{Beispiel einer \acs{json}-Datei}
+      \label{lst:json-example}
+\end{listing}
+
+\begin{description}
+      \setlength\itemsep{-0.5cm}
+      \item[Object] TODO
+      \item[Array] TODO
+      \item[Key und Value] TODO
+\end{description}
+
+
+
+\section{\acs{yaml}-Format}\label{sec:yaml-format}
+
+\ac{yaml} ist eine Sprache zur Serialisierung von Daten. Sie wird oft als Format für Konfigurationsdateien genutzt
+und stellt eine Alternative zum \acs{json}-Format dar.
+Listing~\ref{lst:yaml-example} zeigt eine Beispieldatei im \ac{yaml}-Format. Das Beispiel enthält die gleichen Daten, wie die
+in Listing~\ref{lst:json-example} dargestellte \acs{json}-Datei.
+Im Folgenden wird der Aufbau und die wichtigsten Elemente des Formats erläutert~\cite{yaml-spacelift,yaml-cloudbees,yaml-javatpoint}.
+
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\small]{yaml}
+---
+#comment
+ray: a drop of golden sun
+pi: 3.14159
+xmas: true
+french-hens: 3
+calling-birds:
+  - huey
+  - hello:
+      count: 2
+xmas-fifth-day:
+  partridges:
+    count: null
+      \end{minted}
+      \caption{Beispiel einer \acs{yaml}-Datei}
+      \label{lst:yaml-example}
+\end{listing}
+
+\begin{description}
+      \setlength\itemsep{-0.5cm}
+      \item[Einrückung und Leerzeichen]
+            Leerzeichen sind ein Teil der \acs{yaml}-Formatierung. Neue Zeilen zeigen das Ende eines Elementes an.
+            Die Anzahl der Leerzeichen, welche auch als Einrückung bezeichnet wird, definiert die Hierarchie von Elementen.
+            So gehört das Element in Zeile 10 \ac{zB} zu dem Element in Zeile 9.
+      \item[Document]
+            Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logische voneinander.
+            Sie können also als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
+            Eingeleitet wird ein \textit{Document}
+            durch ``---'', siehe Zeile 1.
+      \item[Kommentare]
+            Einen einzeiliger Kommentar wird im \ac{yaml}-Format durch ``\#'' eingeleitet, siehe Zeile 2.
+      \item[Mapping]
+            Ein \textit{Mapping} ist eine ungeordnete Menge von Schlüssel-Werte Paaren, wobei jeder Schlüssel
+            in Kontext des \textit{Mappings} einzigartig sein muss.\ \textit{Mappings} können verschachtelt werden.
+            Die Verschachtelung wird mit der Einrückung angezeigt, siehe Zeile 11 bis 13.
+      \item[Pair]
+            Ein Schlüssel-Werte Paar eines \textit{Mappings} wird auch \textit{Pair} genannt.
+      \item[Scalar]
+            Ein \textit{Scalar} kann eine Zeichenkette, eine Zahl, einen boolscher Wert oder den Wert ``null'' enthalten.
+            Ein \textit{Scalar} kann der Schlüssel eines \textit{Mappings} sein oder den Wert eines Elementes darstellen.
+            Beispiele dafür sind in Zeile 3, 4, 5 und in Zeile 13 zu sehen.
+      \item[Sequence]
+            Bei einer \textit{Sequence} handelt es sich um eine ungeordnete Folge von einem oder mehreren \ac{yaml}-Elementen.
+            Das Element einer \textit{Sequence} durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
+            Es kann ein \textit{Scalar} oder ein \textit{Mapping} enthalten, siehe Zeile 8 und 9.
+
+\end{description}
+
+
 \section{\acs{json}-Schema}\label{sec:json-schema}
 
-\acs{json}-Schema ist eine deklarative Sprache, die die Validierung des Formates und der Struktur eines \ac{json}-Objektes ermöglicht.
-Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-Objektes zu beschreiben~\cite{json-schema-description}.
+\acs{json}-Schema ist eine deklarative Sprache, die die Validierung des Formates und der Struktur eines \ac{json}-\textit{Object} ermöglicht.
+Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-\textit{Objects} zu beschreiben~\cite{json-schema-description}.
 
 \begin{listing}[htp]
       \begin{minted}[fontsize=\small]{json}
@@ -262,7 +360,7 @@ Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert w
 
 Die Regeln und Einschränkungen werden mit einem Satz von Schlüsselwörtern und Objekten im \acs{json}-Format definiert.
 \\
-Auf Listing~\ref{lst:json-object} ist ein Beispiel eines \acs{json}-Objektes abgebildet, dass mit Hilfe des auf Listing~\ref{lst:json-schema}
+Auf Listing~\ref{lst:json-object} ist ein Beispiel eines \acs{json}-\textit{Objects} abgebildet, dass mit Hilfe des auf Listing~\ref{lst:json-schema}
 dargestellten \acs{json}-Schemas validiert werden kann.
 \\
 Es folgt eine Erklärung der auf Listing ~\ref{lst:json-schema} verwendeten Schlüsselwörter~\cite{json-schema-creation}:

@@ -385,8 +385,9 @@ von Objekten die Syntaxfehler und einen \ac{ast} bereitstellen.
 Die Syntaxfehler werden in Zeile 15 ausgelesen und gespeichert.
 Der \ac{ast} wird in Zeile 23 mittels ``convert''-Methode der Klasse ``AstConverter'' umgewandelt.
 Dieser befindet sich somit im richtigen Format für die weitere Verarbeitung.
-Zuletzt werden in Zeile 31 die Kommentare aus der Menge von \textit{Token} ausgelesen und dem jeweiligen ``YamlDocument''-Objekt hinzugefügt.
+Zuletzt werden in Zeile 31 die Kommentare aus der Menge von \textit{Token} ausgelesen und dem jeweiligen ``YamlDocument''-Objekt zugeordnet.
 
+\newpage
 \begin{listing}[htp]
       \begin{minted}[fontsize=\footnotesize]{js}
 public parse(textDocument: TextDocument): YamlDocument[] {
@@ -430,14 +431,41 @@ public parse(textDocument: TextDocument): YamlDocument[] {
 Für die Implementierung der ``convert''-Methode der Klasse ``AstConverter'' wurde der Aufbau des \ac{ast} des genutzten Parsers für
 die Dateien im \ac{yaml}-Format und der Aufbau des \ac{ast} des Parsers für die \ac{json}-Dateien verglichen.
 Es wurde eine Zuordnungstabelle angelegt, um die Konvertierung zu implementieren.
+Diese Zuordnungstabelle ist auf Tabelle~\ref{tbl:yaml-ast-to-json-ast-convert} zu seehen.
+Die Tabelle zeigt außerdem eine Zuordnung der Objekttypen der beiden Formate.
+Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anhang.
 
+\begin{table}[htp]
+      \centering
+      \begin{tabular}{|l|l|l|l|}
+            \hline
+            \acs{yaml}-Objekttyp   & Klasse \acs{yaml}-\acs{ast} & \acs{json}-Objekttyp   & Klasse \acs{json}-\acs{ast} \\
+            \hline
+            \hline
+            Sequence               & YamlSeq                     & Array                  & ArrayAstImpl                \\
+            \hline
+            Mapping                & YamlMap                     & Object                 & ObjectAstImpl               \\
+            \hline
+            Pair                   & Pair                        & Property               & PropertyAstImpl             \\
+            \hline
+            \multirow{4}{*}{Value} & \multirow{4}{*}{Scalar}     & \multirow{4}{*}{Value} & StringAstImpl               \\
+                                   &                             &                        & NumberAstImpl               \\
+                                   &                             &                        & BooleanAstImpl              \\
+                                   &                             &                        & NullAstImpl                 \\
+            \hline
+            Key                    & Scalar                      & Key                    & StringAstImpl               \\
+            \hline
+      \end{tabular}
+      \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
+      \label{tbl:yaml-ast-to-json-ast-convert}
+\end{table}
 
 \subsection{Validierung von mit Hilfe des \acs{json}-Schemas}
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
       \centering
       \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-validation.svg} % width immer angeben!
-      \caption{xxxxx}
+      \caption{Auszug des Klassendiagramms der benötigten Klassen zur Validierung}
       \label{fig:class-diagram-yaml-language-service-validation}
 \end{figure}
 
