@@ -67,25 +67,25 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
       \item[Anforderung 1]{- Funktionalität für jedes Kubernetes Objekt\\}
             Die Autovervollständigung und Validierung soll dem Nutzer für jedes auf dem Cluster im Standard verfügbare Kubernetes Objekt möglich sein.
             Eine eindeutige Identifikation des Objektes, welches dabei die Felder zur Validierung und Autovervollständigung vorgibt, erfolgt über
-            die Angabe des Attributes \textit{apiVersion} und des Attributes \textit{kind}. Sind diese nicht angegeben, kann das definierte Objekt nicht
+            die Angabe des \textit{Mapping}-Schlüssels \textit{apiVersion} und des \textit{Mapping}-Schlüssels \textit{kind}. Sind diese nicht angegeben, kann das definierte Objekt nicht
             eindeutig bestimmt werden.
-      \item[Anforderung 2]{- Fehlen eines Attributes bei Validierung\\}
-            Der Nutzer muss darüber informiert werden, welche Attribute
-            in der Datei zur vollständigen Definition fehlen. Der Definition fehlt hier \ac{zB}
-            die \textit{apiVersion}. Vorausgesetzt es handelt sich um ein Pflichtattribut
-      \item[Anforderung 3]{- Definition eines nicht vorhandenen Attributes bei Validierung\\}
+      \item[Anforderung 2]{- Fehlen eines Mapping-Schlüssels bei Validierung\\}
+            Der Nutzer muss darüber informiert werden, welche \textit{Mapping}-Schlüssel in der Datei zur vollständigen Definition fehlen.
+            Vorausgesetzt es handelt sich um einen Pflichtschlüssel.
+            Der Definition fehlt hier \ac{zB} die \textit{apiVersion}.
+      \item[Anforderung 3]{- Definition eines nicht vorhandenen \textit{Mapping}-Schlüssels bei Validierung\\}
             Gibt der Nutzer ein Attribut an, welches nicht in der Definition des Objektes enthalten ist, siehe Zeile 11, so erhält dieser eine Fehlermeldung
-      \item[Anforderung 4]{- Typvalidierung eines Attributes\\}
-            Ist \ac{zB} der erwartete Wert eines Attributes vom Typ ``integer'',
+      \item[Anforderung 4]{- Typvalidierung eines Scalars\\}
+            Ist \ac{zB} der erwartete Wert eines \textit{Scalars} vom Typ ``integer'',
             so muss der Nutzer bei Eingabe einer Zeichenkette darauf hingewiesen werden. Dieser Fehler ist in Zeile 3 zu sehen.
-      \item[Anforderung 5]{- Autovervollständigung von Attributen\\}
-            Dem Nutzer müssen, abhängig vom Kontext, Attribute zur Autovervollständigung angeboten werden.
-            Wenn der Nutzer \ac{zB} seinen Cursor in Zeile 12 am Anfang stehen hat, so wird diesem das Attribut \textit{apiVersion} angeboten.
-      \item[Anforderung 6]{- Autovervollständigung von Attributwerten\\}
-            Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines Attributes, so sollen diesem, abhängig vom Attribut, Werte zur Autovervollständigung
-            angeboten werden. Die Autovervollständigung von Attributwerten ist nur möglich, falls diese vorhanden sind.
-            Befindet sich der Nutzer \ac{zB} mit seinem Cursor im Wertbereich des Attributes \textit{namespace} in Zeile 10,
-            werden diesem die verfügbaren \textit{Namespaces} auf dem Kubernetes Cluster vorschlagen.
+      \item[Anforderung 5]{- Autovervollständigung von Mapping-Schlüsseln\\}
+            Dem Nutzer müssen, abhängig vom Kontext, \textit{Mapping}-Schlüssel zur Autovervollständigung angeboten werden.
+            Wenn der Nutzer \ac{zB} seinen Cursor in Zeile 12 am Anfang stehen hat, so wird diesem der Schlüssel \textit{apiVersion} angeboten.
+      \item[Anforderung 6]{- Autovervollständigung von Mapping-Schlüssel Werten\\}
+            Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines \textit{Mapping}-Schlüssels, so sollen diesem, abhängig von diesem, Werte zur Autovervollständigung
+            angeboten werden. Die Autovervollständigung von Werten ist nur möglich, falls diese vorhanden sind.
+            Befindet sich der Nutzer \ac{zB} mit seinem Cursor im Wertbereich des \textit{Mapping}-Schlüssels \textit{namespace} in Zeile 10,
+            werden diesem die verfügbaren \textit{Namespaces} auf dem Kubernetes-Cluster vorschlagen.
             \\
             Folgende Attribute sollen dazu Autovervollständigung mit Hilfe des \textit{Kubernetes API} erhalten:
             \textbf{namespace}, \textbf{secretName}, \textbf{apiVersion}, \textbf{kind} und \textbf{labels}
@@ -463,14 +463,6 @@ Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \a
 
 \subsection{Validierung mit Hilfe des \acs{json}-Schemas}
 
-Als Nächstes erfolgte die Implementierung der Validierung. Wie bereits in Abschnitt~\ref{sec:lsp-client-communication} erwähnt wird die
-Validierung bei jeder Änderung an einer \ac{yaml}-Datei, die durch den Nutzer erfolgt, durchgeführt.
-Auf Abbildung~\ref{fig:class-diagram-yaml-language-service-validation} ist dazu ein Auszug des Klassendiagramms der beteiligten Klassen dargestellt.
-Da die Umwandlung des \ac{ast} erfolgt ist, konnten die bereits Klassen ``JSONValidation'' und ``JSONSchemaService''
-des Moduls ``vscode-json-languageservice'' verwendet und erweitert werden.
-
-
-
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
       \centering
       \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-validation.svg} % width immer angeben!
@@ -478,8 +470,18 @@ des Moduls ``vscode-json-languageservice'' verwendet und erweitert werden.
       \label{fig:class-diagram-yaml-language-service-validation}
 \end{figure}
 
-Nachdem das Parsen der \ac{yaml}-Datei durchgeführt und der \ac{ast} der \ac{yaml}-\textit{Documents}  in das benötigte Format umgewandelt wurde, können diese
-validiert werden. Dazu wird die Methode ``doValidation'' der Klasse ``YamlLanguageService'' genutzt.
+Als Nächstes erfolgte die Implementierung der Validierung. Wie bereits in Abschnitt~\ref{sec:lsp-client-communication} erwähnt wird die
+Validierung bei jeder Änderung an einer \ac{yaml}-Datei, die durch den Nutzer erfolgt, durchgeführt.
+Auf Abbildung~\ref{fig:class-diagram-yaml-language-service-validation} ist dazu ein Auszug des Klassendiagramms der beteiligten Klassen dargestellt.
+Da die Umwandlung des \ac{ast} erfolgt ist, konnten die bereits bestehenden Klassen ``JSONValidation'' und ``JSONSchemaService''
+des Moduls ``vscode-json-languageservice'' verwendet und erweitert werden.
+Die Validierung beginnt mit dem Aufruf der Methode ``doValidation'' der Klasse ``YamlLanguageService''.
+Vor jeder Validierung findet das Parsen der \ac{yaml}-Datei mit der im vorherigen Abschnitt erwähnten Methode ``parseYamlDocument'' statt.
+%% Ab hier morgen neu
+``JSONValidation'' anhand des Inhalts der \ac{yaml}-Datei wird ein passendes Schema zur Validierung mit der einem Objekt der Klasse ``JSONSchemaService'' gefunden.
+Die Auswahl des Schemas erfolgt mit kind und apiVersion aus der \ac{yaml}-Datei. Ist keines oder nur eines der Attribute vorhanden, gibt es kein eindeutiges Ergebnis,
+was dem Nutzer durch eine Warnung angezeigt wird.
+Ist ein Schema gefunden wird die Validierung durchgeführt und mögliche Fehler werden an den Nutzer gemeldet.
 
 
 \subsection{Autovervollständigung mit Hilfe des \acs{json}-Schemas}
