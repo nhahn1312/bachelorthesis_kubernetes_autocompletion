@@ -1,6 +1,12 @@
 \chapter{Technische Grundlagen}\label{ch:technical-basics}
 
-\section{Virtualisierung}
+Im kommenden Kapitel werden die technischen Grundlagen für Technologien erläutert, die im Rahmen dieser Arbeit
+bei der Untersuchung verwendet werden. Dabei werden zunächst die Grundlagen zum Verständnis von \textit{Kubernetes}
+in Abschnitt~\ref{sec:virtualization} und Abschnitt~\ref{sec:kubernetes} erläutert. Anschließend werden in den
+darauf folgenden Abschnitten die benötigten Grundlagen zum Verständnis der Implementierung und zur Durchführung des Vergleichs
+vorgestellt.
+
+\section{Virtualisierung}\label{sec:virtualization}
 
 Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im folgenden \textit{Host} genannt, erstellen.
 Dazu wird Software genutzt, die die physische Hardware emuliert~\cite{virtualization-techtarget}. Diese Software wird auch \textit{Hypervisor} genannt.
@@ -11,6 +17,7 @@ Das heißt, dass jede virtuelle Maschine ein eigenes Betriebssystem benötigt, u
 
 Sollen zwei verschiedene Anwendungen isoliert voneinander ausgeführt werden, werden dafür zwei virtuelle Maschinen mit jeweils einem eigenen Betriebssystem benötigt.
 Jede virtuelle Maschine führt dabei ihren eigenen Satz von Systemprozessen aus, was neben der Ausführung der Anwendung zusätzliche Ressourcen erfordert~\cite{kubernetes-in-action-introduction}.
+Es kommt zu einer redundanten Nutzung der Hardwareressourcen durch die Systemprozesse, die auf den virtuellen Maschinen ausgeführt werden.
 Um dieses Problem zu lösen wurde die Containervirtualisierung eingeführt.
 
 \begin{figure}
@@ -39,9 +46,13 @@ eine auf dem \textit{Host}-Betriebssystem installierte Software ist.
 Die Komponenten einer Containervirtualisierung sind auf Abbildung~\ref{fig:container-virtualization} dargestellt.
 Im Gegensatz zur Vollvirtualisierung können Anwendungen über sogenannte \textit{Container} voneinander getrennt werden.
 Ein \textit{Container} ist ein einziger, isolierter Prozess, der im Betriebssystem des Hosts läuft und nur die Ressourcen nutzt, die von der Anwendung benötigt werden.
+\textit{Container} richten ihre Aufrufe dabei an denselben Kernel. Die Isolierung der \textit{Container} wird durch \textit{Linux-Namespaces} und
+\textit{LinuxCgroups} ermöglicht.~\textit{Linux-Namespaces} stellen sicher, dass jeder Prozess eine separate Sichtweise auf das Betriebssystem erhält.
+Sie können \ac{zB} steuern, welche Netzwerkschnittstellen einem Prozess zur Verfügung stehen. Mit Hilfe der \textit{LinuxCgroups} lässt sich die Menge
+der Systemressourcen, \ac{zB} die Menge des Arbeitsspeichers, einschränken die ein Prozess nutzen kann.
 Es entsteht so kein Mehraufwand für Systemprozesse, wie bei der Vollvirtualisierung~\cite{kubernetes-in-action-introduction}.
-Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt~\cite{kubernetes-overview}.
 \\
+Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt~\cite{kubernetes-overview}.
 Eine \textit{Container Runtime} ist eine Softwarekomponente, die die Ausführung von \textit{Containern} auf einem Host-Betriebssystem ermöglicht.
 Die Aufgaben einer \textit{Container Runtime} sind dabei das Erstellen, Starten, Stoppen und Löschen von \textit{Containern},
 das Überwachen der Systemressourcen des Hosts, das Isolieren von Systemressourcen für einen \textit{Container}
@@ -51,7 +62,7 @@ Ein \textit{Container Image} enthält Software und alle Ressourcen, die die Soft
 Neben dem Programmcode und den Bibliotheken, die die Anwendung zur Laufzeit nutzt, können dies auch weitere Programme sein, auf die zugegriffen werden muss.
 \textit{Container Images} werden über ein zentrales \textit{Respository} verwaltet und können darüber bei Bedarf heruntergeladen werden~\cite{container-image-dev-insider}.
 
-\section{Kubernetes}
+\section{Kubernetes}\label{sec:kubernetes}
 
 Kubernetes (K8s) wurde ursprünglich von Google entwickelt und 2014 als Open-Source-Software veröffentlicht.
 Kubernetes ist eine Software zur Bereitstellung, Verwaltung und Skalierung von Anwendungen in Containern. Der Name kommt aus dem Griechischen und bedeutet Steuermann.
@@ -66,7 +77,7 @@ Die zugrundeliegende Infrastruktur wird dabei ausgeblendet und Kubernetes betrac
 Jedes Cluster besteht aus verschiedenen Typen von \textit{Nodes}.
 Für ein funktionierendes Kubernetes Cluster wird mindestens ein \textit{Master Node (Control Plane)} und ein \textit{Worker Node} benötigt~\cite{kubernetes-in-action-introduction}.
 Auf Abbildung~\ref{fig:kubernetes-architecture} ist der minimale Aufbau eines Kubernetes-Clusters schematisch dargestellt. Es folgt eine
-Beschreibung der Aufgaben des \textit{Master} und \textit{Worker Nodes}, sowie eine Beschreibung der einzelnen Komponenten.
+Beschreibung der Aufgaben des \textit{Master} und des \textit{Worker Nodes}, sowie eine Beschreibung der einzelnen Komponenten.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
       \centering
@@ -140,7 +151,7 @@ zum besseren Verständnis beschrieben werden:
 \begin{description}
       \item[Pod]
             Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf demselben \textit{Worker Node} befinden.
-            Es wird sichergestellt, dass sich alle \textit{Container}, die in einem Pod zusammengefasst,
+            Es wird sichergestellt, dass sich alle \textit{Container}, die in einem Pod zusammengefasst sind,
             immer auf dem selben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
       \item[Replica Set]
             Ein \textit{Replica Set} führt eine spezifizierte Anzahl von \textit{Pods} aus und sorgt dafür, dass diese Anzahl konstant bleibt.
@@ -153,7 +164,7 @@ zum besseren Verständnis beschrieben werden:
             Tritt bei der Aktualisierung eines \textit{Pods} ein Fehler auf, so kann dieser neu erstellt oder wenn nötig auf den alten Stand zurückgesetzt werden.
             Kubernetes sorgt dafür, dass die Ausfallzeit der Anwendung so gering wie möglich ist~\cite{kubernetes-in-action-chapter-9,kubernetes-deployment-vmware}.
       \item[Secret]
-            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie \ac{zB} Passwörter oder SSH-Schlüssel, verschlüsselt speichert.
+            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie \ac{zB} Passwörter oder SSH-Schlüssel, speichert.
             Sensible Daten müssen so nicht in der \textit{Manifest}-Datei des \textit{Pods} und im Programmcode der Anwendung gespeichert werden~\cite{kubernetes-secrets,kubernetes-secrets-medium}.
       \item[Namespace]
             Ein \textit{Namespace} ermöglicht dem Nutzer ein physisches Kubernetes-Cluster in verschiedene virtuelle Cluster aufzuteilen.
@@ -245,8 +256,8 @@ Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem 
 
 \section{\acs{json}-Format}\label{sec:json-format}
 
-\ac{json} ist ein textbasiertes Format zum Austausch von Daten. Die Syntax ist von Programmiersprache Javascript abgeleitet.
-Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing \ref{lst:json-example} erklärt \cite{json-org,json-developer-mozilla}.
+\ac{json} ist ein textbasiertes Format zum Austausch von Daten. Die Syntax ist von der Programmiersprache Javascript abgeleitet.
+Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing~\ref{lst:json-example} erklärt~\cite{json-org,json-developer-mozilla}.
 
 \begin{listing}[htp]
       \begin{minted}[fontsize=\small]{yaml}
@@ -257,8 +268,10 @@ Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing \ref{ls
   "french-hens": 3,
   "calling-birds": [
      "huey",
-     "hello": {
-       "count": 2
+     {
+       "hello": {
+         "count": 2
+       }
      }    
   ],
   "xmas-fifth-day": {
@@ -274,9 +287,18 @@ Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing \ref{ls
 
 \begin{description}
       \setlength\itemsep{-0.5cm}
-      \item[Object] TODO
-      \item[Array] TODO
-      \item[Key und Value] TODO
+      \item[Object]
+            Ein \textit{Object} ist eine ungeordnete Menge von Schlüssel-Werte Paaren. Ein Schlüssel muss für jedes \textit{Object} einzigartig sein.
+            Der Inhalt eines \textit{Objects} wird mit geschweiften Klammern eingeschlossen. Der Schlüssel und der Wert eines \textit{Objects} werden durch einen
+            Doppelpunkt voneinander getrennt. Die Paare werden durch ein Komma separiert. Ein Beispiel eines \textit{Objects} ist in Zeile 8 bis Zeile 12 zu sehen.
+      \item[Property] Ein Schlüssel-Werte Paar eines \textit{Objects} wird als \textit{Property} bezeichnet.
+      \item[Key] Ein \textit{Key} ist der Schlüssel einer \textit{Property}. Der Wert des Schlüssels muss durch Anführungszeichen eingeschlossen werden, siehe Zeile 1.
+      \item[Value] Ein \textit{Value} kann ein \textit{Object}, ein \textit{Array}, eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null''
+            enthalten. Eine Verschachtelung der verschiedenen Strukturen ist möglich. Zeichenketten werden mit Anführungszeichen eingeschlossen.
+            Beispiele dafür sind in Zeile 1, 2, 3, 5 und 14 zu sehen.
+      \item[Array]
+            Ein \textit{Array} ist eine geordnete Liste von Werten. Ein \textit{Array} beginnt einer geöffneten und endet mit einer geschlossen eckigen Klammer.
+            Ein Beispiel ist in Zeile 6 bis Zeile 13 dargestellt.
 \end{description}
 
 
@@ -316,12 +338,12 @@ xmas-fifth-day:
             Die Anzahl der Leerzeichen, welche auch als Einrückung bezeichnet wird, definiert die Hierarchie von Elementen.
             So gehört das Element in Zeile 10 \ac{zB} zu dem Element in Zeile 9.
       \item[Document]
-            Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logische voneinander.
+            Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logisch voneinander.
             Sie können also als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
             Eingeleitet wird ein \textit{Document}
-            durch ``---'', siehe Zeile 1.
+            durch ``$---$'', siehe Zeile 1.
       \item[Kommentare]
-            Einen einzeiliger Kommentar wird im \ac{yaml}-Format durch ``\#'' eingeleitet, siehe Zeile 2.
+            Einen einzeiliger Kommentar wird im \ac{yaml}-Format durch ``$\#$'' eingeleitet, siehe Zeile 2.
       \item[Mapping]
             Ein \textit{Mapping} ist eine ungeordnete Menge von Schlüssel-Werte Paaren, wobei jeder Schlüssel
             in Kontext des \textit{Mappings} einzigartig sein muss.\ \textit{Mappings} können verschachtelt werden.
@@ -329,13 +351,13 @@ xmas-fifth-day:
       \item[Pair]
             Ein Schlüssel-Werte Paar eines \textit{Mappings} wird auch \textit{Pair} genannt.
       \item[Scalar]
-            Ein \textit{Scalar} kann eine Zeichenkette, eine Zahl, einen boolscher Wert oder den Wert ``null'' enthalten.
+            Ein \textit{Scalar} kann eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null'' enthalten.
             Ein \textit{Scalar} kann der Schlüssel eines \textit{Mappings} sein oder den Wert eines Elementes darstellen.
             Beispiele dafür sind in Zeile 3, 4, 5 und in Zeile 13 zu sehen.
       \item[Sequence]
             Bei einer \textit{Sequence} handelt es sich um eine ungeordnete Folge von einem oder mehreren \ac{yaml}-Elementen.
             Das Element einer \textit{Sequence} durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
-            Es kann ein \textit{Scalar} oder ein \textit{Mapping} enthalten, siehe Zeile 8 und 9.
+            Bei dem Element kann es sich um \textit{Scalar} oder ein \textit{Mapping} handeln, siehe Zeile 8 und 9.
 
 \end{description}
 
@@ -382,7 +404,7 @@ Es folgt eine Erklärung der auf Listing ~\ref{lst:json-schema} verwendeten Schl
 
 Anhand der im \acs{json}-Schema enthaltenen Informationen kann ein Algorithmus die Validierung des Objektes durchführen.
 Die \acs{json}-Schema-Spezifikation enthält noch weitere Schlüsselwörter, die aufgrund des Umfangs nicht erläutert werden.
-\newpage
+
 \begin{listing}[htp]
       \begin{minted}[fontsize=\small]{json}
 {

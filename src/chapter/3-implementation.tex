@@ -82,7 +82,7 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
             Dem Nutzer müssen, abhängig vom Kontext, Attribute zur Autovervollständigung angeboten werden.
             Wenn der Nutzer \ac{zB} seinen Cursor in Zeile 12 am Anfang stehen hat, so wird diesem das Attribut \textit{apiVersion} angeboten.
       \item[Anforderung 6]{- Autovervollständigung von Attributwerten\\}
-            Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines Attributes, so sollen diesem, anhängig vom Attribut, Werte zur Autovervollständigung
+            Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines Attributes, so sollen diesem, abhängig vom Attribut, Werte zur Autovervollständigung
             angeboten werden. Die Autovervollständigung von Attributwerten ist nur möglich, falls diese vorhanden sind.
             Befindet sich der Nutzer \ac{zB} mit seinem Cursor im Wertbereich des Attributes \textit{namespace} in Zeile 10,
             werden diesem die verfügbaren \textit{Namespaces} auf dem Kubernetes Cluster vorschlagen.
@@ -108,8 +108,8 @@ und wie die Kommunikation zwischen \ac{lsp}-Client und Server stattfindet (Attri
 Die Implementierung des \ac{lsp}-Servers kann über die Verzeichnisstruktur des \ac{lsp}-Clients eingebunden werden, siehe Zeile 6, da
 ein \textit{Monorepo} zur Entwicklung der Erweiterung genutzt wurde.
 Bei einem \textit{Monorepo} handelt es sich um ein \textit{Repository}, das mehrere unterschiedliche Projekte enthält~\cite{monorepo-narwhal}.
-Der Vorteil des \textit{Monorepo} besteht im Rahmen des Projektes darin, dass der Client immer mit der aktuellen Version des Servers arbeitet.
-Würde sich dieser in einem eigenen Projekt befinden, so müsste dieser mittels \ac{npm} installiert werden und bei jeder Änderung am Server auf
+Der Vorteil des \textit{Monorepo} besteht im Rahmen des Projektes darin, dass der Client stets mit der aktuellen Version des Servers arbeitet.
+Würde sich dieser in einem eigenen \textit{Repository} befinden, so müsste dieser mittels \ac{npm} installiert werden und bei jeder Änderung am Server auf
 die neueste Version aktualisiert werden.
 Die Kommunikation zwischen \ac{lsp}-Client und Server findet mittels \text{ipc} statt. Dabei handelt es sich um ein Modul von \textit{NodeJS}
 zur Interprozesskommunikation. Damit können zwei \textit{NodeJS}-Prozesse, in dem Fall \acs{lsp}-Client und Server, miteinander kommunizieren.
@@ -280,7 +280,7 @@ Aus dem erlangten Wissen aus diesem Abschnitt und den Anforderungen aus Abschnit
 Das vollständige Klassendiagramm befindet sich im Anhang auf Abbildung~\ref{fig:class-diagram-lsp-Server}.
 In den kommenden Abschnitten wird das gesamte Klassendiagramm mit Auszügen erläutert.
 
-\subsection{Kommunikation mit dem \acs{lsp}-Client}
+\subsection{Kommunikation mit dem \acs{lsp}-Client}\label{sec:lsp-client-communication}
 
 In Abschnitt~\ref{sec:lsp-client} wurde bereits gezeigt, dass der Client angibt, wie der \ac{lsp}-Server zu erreichen ist.
 Die Implementierung des Einstiegspunkts des \ac{lsp}-Servers wird auf Listing~\ref{lst:server-entrypoint} dargestellt.
@@ -431,36 +431,45 @@ public parse(textDocument: TextDocument): YamlDocument[] {
 Für die Implementierung der ``convert''-Methode der Klasse ``AstConverter'' wurde der Aufbau des \ac{ast} des genutzten Parsers für
 die Dateien im \ac{yaml}-Format und der Aufbau des \ac{ast} des Parsers für die \ac{json}-Dateien verglichen.
 Es wurde eine Zuordnungstabelle angelegt, um die Konvertierung zu implementieren.
-Diese Zuordnungstabelle ist auf Tabelle~\ref{tbl:yaml-ast-to-json-ast-convert} zu seehen.
-Die Tabelle zeigt außerdem eine Zuordnung der Objekttypen der beiden Formate.
-Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anhang.
+Diese Zuordnungstabelle ist auf Tabelle~\ref{tbl:yaml-ast-to-json-ast-convert} zu sehen.
+Sie zeigt eine Zuordnung der Objekttypen der beiden Formate zu deren Klassen der \ac{ast}-Implementierung.
+Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \ac{ast} der \ac{yaml}-Datei rekursiv traversiert und konvertiert.
+%Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anhang.
 
 \begin{table}[htp]
       \centering
       \begin{tabular}{|l|l|l|l|}
             \hline
-            \acs{yaml}-Objekttyp   & Klasse \acs{yaml}-\acs{ast} & \acs{json}-Objekttyp   & Klasse \acs{json}-\acs{ast} \\
+            \acs{yaml}-Objekttyp    & Klasse \acs{yaml}-\acs{ast} & \acs{json}-Objekttyp   & Klasse \acs{json}-\acs{ast} \\
             \hline
             \hline
-            Sequence               & YamlSeq                     & Array                  & ArrayAstImpl                \\
+            Sequence                & YamlSeq                     & Array                  & ArrayAstImpl                \\
             \hline
-            Mapping                & YamlMap                     & Object                 & ObjectAstImpl               \\
+            Mapping                 & YamlMap                     & Object                 & ObjectAstImpl               \\
             \hline
-            Pair                   & Pair                        & Property               & PropertyAstImpl             \\
+            Pair                    & Pair                        & Property               & PropertyAstImpl             \\
             \hline
-            \multirow{4}{*}{Value} & \multirow{4}{*}{Scalar}     & \multirow{4}{*}{Value} & StringAstImpl               \\
-                                   &                             &                        & NumberAstImpl               \\
-                                   &                             &                        & BooleanAstImpl              \\
-                                   &                             &                        & NullAstImpl                 \\
+            \multirow{4}{*}{Scalar} & \multirow{4}{*}{Scalar}     & \multirow{4}{*}{Value} & StringAstImpl               \\
+                                    &                             &                        & NumberAstImpl               \\
+                                    &                             &                        & BooleanAstImpl              \\
+                                    &                             &                        & NullAstImpl                 \\
             \hline
-            Key                    & Scalar                      & Key                    & StringAstImpl               \\
+            Schlüssel eines Pair    & Scalar                      & Key                    & StringAstImpl               \\
             \hline
       \end{tabular}
       \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
       \label{tbl:yaml-ast-to-json-ast-convert}
 \end{table}
 
-\subsection{Validierung von mit Hilfe des \acs{json}-Schemas}
+\subsection{Validierung mit Hilfe des \acs{json}-Schemas}
+
+Als Nächstes erfolgte die Implementierung der Validierung. Wie bereits in Abschnitt~\ref{sec:lsp-client-communication} erwähnt wird die
+Validierung bei jeder Änderung an einer \ac{yaml}-Datei, die durch den Nutzer erfolgt, durchgeführt.
+Auf Abbildung~\ref{fig:class-diagram-yaml-language-service-validation} ist dazu ein Auszug des Klassendiagramms der beteiligten Klassen dargestellt.
+Da die Umwandlung des \ac{ast} erfolgt ist, konnten die bereits Klassen ``JSONValidation'' und ``JSONSchemaService''
+des Moduls ``vscode-json-languageservice'' verwendet und erweitert werden.
+
+
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
       \centering
@@ -468,6 +477,10 @@ Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anha
       \caption{Auszug des Klassendiagramms der benötigten Klassen zur Validierung}
       \label{fig:class-diagram-yaml-language-service-validation}
 \end{figure}
+
+Nachdem das Parsen der \ac{yaml}-Datei durchgeführt und der \ac{ast} der \ac{yaml}-\textit{Documents}  in das benötigte Format umgewandelt wurde, können diese
+validiert werden. Dazu wird die Methode ``doValidation'' der Klasse ``YamlLanguageService'' genutzt.
+
 
 \subsection{Autovervollständigung mit Hilfe des \acs{json}-Schemas}
 
