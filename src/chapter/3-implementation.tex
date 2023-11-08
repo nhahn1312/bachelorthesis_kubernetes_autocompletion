@@ -201,10 +201,12 @@ Zum Erstellen der \acs{json}-Schema Dateien wurde wie folgt vorgegangen:
       \item[3. Umwandlung der \textit{OpenAPI}-Spezifikation in JSON-Schema Dateien]
             Die \textit{OpenAPI}\\-Spezifikation kann nach Ausführung der vorherigen Schritte mit folgender Anweisung umgewandelt werden:
             \begin{minted}[linenos=false, breaklines]{console}
-                  openapi2jsonschema -o path/to/output/directory --kubernetes http://localhost:8001/openapi/v2
+                  openapi2jsonschema -o path/to/output/directory --kubernetes --strict http://localhost:8001/openapi/v2
             \end{minted}
             Der Parameter ``-o'' gibt an, in welchem Verzeichnis die \ac{json}-Schema-Dateien abgelegt werden sollen.
             Mit dem Parameter ``--kubernetes'' werden zusätzliche Informationen über das betreffende Kubernetes Objekt als Attribut im \ac{json}-Schema gespeichert.
+            ``--strict'' ist ein Parameter, welcher angibt, dass keine nicht vorhanden \textit{Mapping}-Schlüssel erlaubt sind bei der Definition einer Datei erlaubt sind.
+            Dies wird mit einer \textit{Property} in den generierten \ac{json}-Schema-Dateien erreicht.
             Die angegebene \ac{url} führt zur \textit{OpenAPI}\\-Spezifikation.
 \end{description}
 
@@ -387,8 +389,7 @@ Der \ac{ast} wird in Zeile 23 mittels ``convert''-Methode der Klasse ``AstConver
 Dieser befindet sich somit im richtigen Format für die weitere Verarbeitung.
 Zuletzt werden in Zeile 31 die Kommentare aus der Menge von \textit{Token} ausgelesen und dem jeweiligen ``YamlDocument''-Objekt zugeordnet.
 
-\newpage
-\begin{listing}[htp]
+\begin{listing}[t]
       \begin{minted}[fontsize=\footnotesize]{js}
 public parse(textDocument: TextDocument): YamlDocument[] {
     this.yamlDocuments = [];
@@ -436,7 +437,7 @@ Sie zeigt eine Zuordnung der Objekttypen der beiden Formate zu deren Klassen der
 Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \ac{ast} der \ac{yaml}-Datei rekursiv traversiert und konvertiert.
 %Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anhang.
 
-\begin{table}[htp]
+\begin{table}[h]
       \centering
       \begin{tabular}{|l|l|l|l|}
             \hline
@@ -454,37 +455,89 @@ Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \a
                                     &                             &                        & BooleanAstImpl              \\
                                     &                             &                        & NullAstImpl                 \\
             \hline
-            Schlüssel eines Pair    & Scalar                      & Key                    & StringAstImpl               \\
+            Mapping-Schlüssel       & Scalar                      & Key                    & StringAstImpl               \\
             \hline
       \end{tabular}
       \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
       \label{tbl:yaml-ast-to-json-ast-convert}
 \end{table}
 
-\subsection{Validierung mit Hilfe des \acs{json}-Schemas}
-
-\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-validation.svg} % width immer angeben!
-      \caption{Auszug des Klassendiagramms der benötigten Klassen zur Validierung}
-      \label{fig:class-diagram-yaml-language-service-validation}
-\end{figure}
+\subsection{Validierung}
 
 Als Nächstes erfolgte die Implementierung der Validierung. Wie bereits in Abschnitt~\ref{sec:lsp-client-communication} erwähnt wird die
 Validierung bei jeder Änderung an einer \ac{yaml}-Datei, die durch den Nutzer erfolgt, durchgeführt.
 Auf Abbildung~\ref{fig:class-diagram-yaml-language-service-validation} ist dazu ein Auszug des Klassendiagramms der beteiligten Klassen dargestellt.
 Da die Umwandlung des \ac{ast} erfolgt ist, konnten die bereits bestehenden Klassen ``JSONValidation'' und ``JSONSchemaService''
-des Moduls ``vscode-json-languageservice'' verwendet und erweitert werden.
-Die Validierung beginnt mit dem Aufruf der Methode ``doValidation'' der Klasse ``YamlLanguageService''.
+des Moduls ``vscode-json-languageservice'' verwendet und bei Bedarf erweitert werden.
+
+\begin{figure}[t] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.7\textwidth]{images/class-diagram-yaml-language-service-validation.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms der benötigten Klassen zur Validierung}
+      \label{fig:class-diagram-yaml-language-service-validation}
+\end{figure}
+
+Die Validierung beginnt mit dem Aufruf der Methode ``doValidation'' der Klasse ``YamlLanguageService'', welcher
+durch eine Änderung an einer \ac{yaml}-Datei auf Clientseite ausgelöst wird.
 Vor jeder Validierung findet das Parsen der \ac{yaml}-Datei mit der im vorherigen Abschnitt erwähnten Methode ``parseYamlDocument'' statt.
-%% Ab hier morgen neu
-``JSONValidation'' anhand des Inhalts der \ac{yaml}-Datei wird ein passendes Schema zur Validierung mit der einem Objekt der Klasse ``JSONSchemaService'' gefunden.
-Die Auswahl des Schemas erfolgt mit kind und apiVersion aus der \ac{yaml}-Datei. Ist keines oder nur eines der Attribute vorhanden, gibt es kein eindeutiges Ergebnis,
-was dem Nutzer durch eine Warnung angezeigt wird.
-Ist ein Schema gefunden wird die Validierung durchgeführt und mögliche Fehler werden an den Nutzer gemeldet.
+Die Methode ``doValidation'' der Klasse ``JSONValidation'' wird anschließend aufgerufen. An dieser mussten keine Änderungen durchgeführt werden.
+In der Methode wird mit Hilfe von einem Objekt der Klasse ``JSONSchema'' und dessen Methode ``getSchemaForResource'' ein geeignetes \ac{json}-Schema
+für die zu validierende \ac{yaml}-Datei gesucht. Diese Suche wurde erweitert, sodass sie das \ac{json}-Schema anhand
+der \textit{Mapping}-Schlüssel ``apiVersion'' und ``kind'' auswählt.
+Ist keiner oder nur einer der \textit{Mapping}-Schlüssel vorhanden, gibt es kein eindeutiges Ergebnis, was dem Nutzer durch eine Warnung angezeigt wird.
+Wird ein \ac{json}-Schema gefunden, findet anhand dessen eine Validierung statt und dem Nutzer werden mögliche Fehler angezeigt.
+Da für die Validierung mittels \ac{json}-Schema die bereits vorhandenen Klassen genutzt oder erweitert wurden,
+konnten damit die \textbf{Anforderungen 2}, \textbf{3} und \textbf{4} aus Abschnitt~\ref{sec:requirements} erfüllt werden.
 
+\subsection{Autovervollständigung}
 
-\subsection{Autovervollständigung mit Hilfe des \acs{json}-Schemas}
+Der Auslöser für die Autovervollständigung ist das Betätigen einer Tastenkombination auf der Clientseite. Der \ac{lsp}-Client signalisiert dem \ac{lsp}-Server,
+dass eine Autovervollständigung vom Nutzer gewünscht ist und übergibt die Position des Cursors in der Datei.
+Anschließend wird vom \ac{lsp}-Server die ``doComplete''-Methode des Objekts der Klasse ``YamlLanguageService'' aufgerufen.
+Ein Ausschnitt des Quellcodes der Methode ist auf Listing zu sehen.
 
-\subsection{Autovervollständigung mit Hilfe der Kubernetes-\acs{api}}
+\begin{listing}[htp]
+      \begin{minted}[fontsize=\footnotesize]{js}
+async doComplete(document: TextDocument, position: Position, doc: YamlDocument)
+: Promise<CompletionList | null> 
+{
+  const compColl: CompletionsCollectorImpl = new CompletionsCollectorImpl();
+  //...
+  const offset = document.offsetAt(position);
+  const node = doc.getNodeFromOffset(offset);
+  const documentInfo: DocumentInfo = {
+    document: document,
+    yamlDocument: doc,
+    position: position
+  };
+
+  await this.schemaCompletionService.doComplete(node, compColl, documentInfo);
+  await this.schemaLessCompletionService.doComplete(node, compColl, documentInfo);
+
+  return compColl.getCompletionList();
+}
+      \end{minted}
+      \caption{Auszug Quellcode ``doComplete''-Methode der Klasse ``YamlLanguageService''}
+      \label{lst:do-complete-yaml-language-service}
+\end{listing}
+
+Die Methode erhält als Übergabeparameter den Inhalt einer Textdatei, die Position des Cursors und das \ac{yaml}-\textit{Document},
+in dem sich der Cursor befindet, siehe Zeile 1.
+Das Objekt der Klasse ``CompletionsCollectorImpl'' dient zum Speichern der möglichen Autovervollständigungen, siehe Zeile 3.
+\\
+Bevor diese gefunden werden können, muss der Kontext der Position der Cursors bestimmt werden.
+Dieser wird mit der Methode ``getNodeFromPosition'' der Klasse ``YamlDocument'' bestimmt, siehe Zeile 7.
+Dafür wird der Knoten im \ac{ast} bestimmt, welcher den Wert enthalten würde, den der Nutzer vervollständigen möchte.
+Der bestimmte Knoten könnte \ac{zB} ein \textit{Mapping}-Schlüssel sein.
+Zur Autovervollständigung würde der Nutzer Werte für den \textit{Mapping}-Schlüssel vorgeschlagen bekommen.
+Ein Ablaufdiagramm der ``getNodeFromPosition''-Methode befindet sich im Anhang.
+\\
+Anschließend können durch die Objekte der Klassen ``SchemaCompletionService'' und ``SchemalessCompletionService''
+die Vorschläge zur Autovervollständigung unter Berücksichtigung des Kontexts gesammelt werden.
+Dies wird jeweils mit dem Aufruf der ``doComplete''-Methode erreicht, siehe Zeile 14 und Zeile 15.
+Die Methode liefert abschließend in Zeile 17 die Vorschläge zur Autovervollständigung.
+
+\textbf{Autovervollständigung mit Hilfe des \ac{json}-Schemas}
+
+Das ``SchemaCompletionService'' liefert
 
