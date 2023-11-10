@@ -178,7 +178,7 @@ unabhängig von einer Programmiersprache und wird im \ac{json}- oder \ac{yaml}-F
 Die \textit{KubernetesAPI} stellt die \textit{OpenAPI}-Spezifikation im \ac{json}-Format bereit und diese kann anschließend durch einen Konverter in
 mehrere Dateien umgewandelt werden, sodass diese jeweils ein \acs{json}-Schema eines Kubernetes Objektes enthalten.
 \\
-Zum Erstellen der \acs{json}-Schema Dateien wurde wie folgt vorgegangen:
+Zum Erstellen der \acs{json}-Schema-Dateien wurde wie folgt vorgegangen:
 
 \begin{description}
       \item[1. KubernetesAPI mittels Proxy zugänglich machen]
@@ -193,7 +193,7 @@ Zum Erstellen der \acs{json}-Schema Dateien wurde wie folgt vorgegangen:
             \end{minted}
       \item[2. Installieren des Konverters]
             Der ausgewählte Konverter ist in Python implementiert. Um den Konverter auszuführen wird daher ein Python-Interpreter benötigt.
-            Um den Konverter als Kommandozeilentool zu nutzen muss außerdem das Paketverwaltungsprogramm \textit{pip} installiert sein.
+            Um den Konverter als Kommandozeilentool zu nutzen, muss außerdem das Paketverwaltungsprogramm \textit{pip} installiert sein.
             Der Konverter kann dann über folgende Anweisung installiert werden~\cite{openapi-to-json-schema}:
             \begin{minted}[linenos=false]{console}
                   pip install openapi2jsonschema
@@ -493,7 +493,9 @@ konnten damit die \textbf{Anforderungen 2}, \textbf{3} und \textbf{4} aus Abschn
 
 Der Auslöser für die Autovervollständigung ist das Betätigen einer Tastenkombination auf der Clientseite. Der \ac{lsp}-Client signalisiert dem \ac{lsp}-Server,
 dass eine Autovervollständigung vom Nutzer gewünscht ist und übergibt die Position des Cursors in der Datei.
-Anschließend wird vom \ac{lsp}-Server die ``doComplete''-Methode des Objekts der Klasse ``YamlLanguageService'' aufgerufen.
+Anschließend wird vom \ac{lsp}-Server die ``doComplete''-Methode des Objekts der Klasse ``YamlLanguageServer'' aufgerufen.
+In der Methode wird die \ac{yaml}-Datei geparst und das \ac{yaml}-\textit{Document} gefunden, in welchem sich der Cursor befindet.
+Dieses wird dem Inhalt der Textdatei und der Position des Cursors an die Methode ``doComplete'' der Instanz der Klasse ``YamlLanguageService'' übergeben.
 Ein Ausschnitt des Quellcodes der Methode ist auf Listing zu sehen.
 
 \begin{listing}[htp]
@@ -521,23 +523,140 @@ async doComplete(document: TextDocument, position: Position, doc: YamlDocument)
       \label{lst:do-complete-yaml-language-service}
 \end{listing}
 
-Die Methode erhält als Übergabeparameter den Inhalt einer Textdatei, die Position des Cursors und das \ac{yaml}-\textit{Document},
-in dem sich der Cursor befindet, siehe Zeile 1.
 Das Objekt der Klasse ``CompletionsCollectorImpl'' dient zum Speichern der möglichen Autovervollständigungen, siehe Zeile 3.
 \\
-Bevor diese gefunden werden können, muss der Kontext der Position der Cursors bestimmt werden.
+Bevor diese gefunden werden können, muss der Kontext der Position des Cursors bestimmt werden.
 Dieser wird mit der Methode ``getNodeFromPosition'' der Klasse ``YamlDocument'' bestimmt, siehe Zeile 7.
-Dafür wird der Knoten im \ac{ast} bestimmt, welcher den Wert enthalten würde, den der Nutzer vervollständigen möchte.
-Der bestimmte Knoten könnte \ac{zB} ein \textit{Mapping}-Schlüssel sein.
-Zur Autovervollständigung würde der Nutzer Werte für den \textit{Mapping}-Schlüssel vorgeschlagen bekommen.
+Dafür wird der Knoten im \ac{ast} gesucht, welcher den Wert enthalten würde, den der Nutzer vervollständigen möchte.
+Der gefundene Knoten könnte \ac{zB} ein \textit{Mapping}-Schlüssel sein.
+Zur Autovervollständigung würde der Nutzer mögliche Werte für den \textit{Mapping}-Schlüssel vorgeschlagen bekommen.
 Ein Ablaufdiagramm der ``getNodeFromPosition''-Methode befindet sich im Anhang.
 \\
 Anschließend können durch die Objekte der Klassen ``SchemaCompletionService'' und ``SchemalessCompletionService''
 die Vorschläge zur Autovervollständigung unter Berücksichtigung des Kontexts gesammelt werden.
 Dies wird jeweils mit dem Aufruf der ``doComplete''-Methode erreicht, siehe Zeile 14 und Zeile 15.
 Die Methode liefert abschließend in Zeile 17 die Vorschläge zur Autovervollständigung.
+\\
+\\
+Das Objekt der Klasse ``SchemaCompletionService'' liefert Autovervollständigungen mit Hilfe der \ac{json}-Schema-Dateien.
+Dazu wird, wie bei der Validierung, das Objekt der Klasse ``JSONSchemaService'' um das \ac{json}-Schema für das \ac{yaml}-\textit{Document}
+zu ermitteln. Die Klasse ``SchemaCompletionService'' wurde auf Grundlage der Klasse ``JSONCompletionService'' des Moduls ``vscode-json-languagservice''
+entwickelt. Es wurden Anpassungen vorgenommen, die bei der Autovervollständigung aufgrund des \ac{yaml}-Formates notwendig waren.
+Hier musste z.B. verhindert werden, dass bei der Vervollständigung eines \ac{json}-\textit{Keys} dieser mit Anführungszeichen eingeschlossen wurde.
+Im \ac{yaml}-Format ist dies für einen \textit{Mapping}-Schlüssel nicht erlaubt.
+Die Klasse ``SchemaCompletionService'' erfüllt \textbf{Anforderung 5} aus Abschnitt~\ref{sec:requirements}.
+\\
+\\
+Das Objekt der Klasse ``SchemalessCompletionService'' liefert Autovervollständigungen mit Hilfe der \textit{KubernetesAPI} und
+sammelt außerdem Informationen von Kubernetes Objekten, aus dem aktuellen und anderen auf dem Client geöffneten Dokumenten, die noch nicht auf das
+Cluster ausgerollt wurden.
+Abbildung~\ref{fig:class-diagram-yaml-language-service-schemaless-completion} zeigt einen Auszug des Klassendiagramms der dazu benötigten Klassen.
 
-\textbf{Autovervollständigung mit Hilfe des \ac{json}-Schemas}
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=1.0\textwidth]{images/class-diagram-yaml-language-service-schemaless-completion.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms der benötigten Klassen zur Autovervollständigung mit KubernetesAPI}
+      \label{fig:class-diagram-yaml-language-service-schemaless-completion}
+\end{figure}
 
-Das ``SchemaCompletionService'' liefert
+Die Klasse ``KubernetesApiService'' ist die Schnittstelle zur \textit{KubernetesAPI}. Sie sendet Anfragen über das \ac{https}-Protokoll zum \textit{API-Server}
+des Kubernetes Clusters und verarbeitet die Antworten. Wie in \textbf{Anforderung 6} aus Abschnitt~\ref{sec:requirements} festgelegt,
+speichert ein Objekt der Klasse ``KubernetesApiService'' die Informationen über folgende Kubernetes Objekte auf dem Cluster: \textit{Namespace} und \textit{Secret}.
+Es wird zusätzlich eine Liste aller verfügbaren Objekttypen(``kind'') mit deren Version(``apiVersion'') gespeichert.
+Zuletzt werden die verfügbaren \textit{Labels} des Clusters festgehalten.
+Die Informationen werden in einem \textit{Cache} abgelegt und nach Ablauf einer Zeitspanne erneut vom Cluster abgefragt, siehe
+Attribut ``cacheMap'' der Klasse ``KubernetesApiService''.
+Die Ablaufzeit und die Zugangsdaten des Clusters können vom Nutzer über eine Einstellung in der \ac{vscode}-Erweiterung
+konfiguriert werden. Diese Einstellungen sind im Attribut ``settings'' bereitgestellt.
+\\
+Die ``buildCompletionCache''-Methode der Klasse ``SchemalessCompletionService'' sammelt anhand der \textit{Mapping}-Schlüssel
+der Ressourcen, die die Klasse ``KubernetesApiService'' speichert, die Werte aus der aktuellen und anderen geöffneten Dateien.
+Damit kann \ac{zB} ein \textit{Namespace} dem Nutzer als Autovervollständigung angeboten werden, der noch nicht auf dem Cluster vorhanden ist,
+die \textit{Manifest}-Datei zur Erstellung aber bereits angelegt wurde.
+\\
+Das Problem bei der Autovervollständigung von Werten aus dem Cluster ist, dass anhand des \ac{json}-Schemas nicht bestimmt werden kann,
+welches Kubernetes Objekt welchem \textit{Mapping}-Schlüssel in der \textit{Manifest}-Datei zugeordnet ist.
+Das \ac{json}-Schema bietet nicht die Möglichkeit zur Definition eigener Typen.
+\\
+Der \textit{Mapping}-Schlüssel für einen \textit{Namespace} ist \ac{zB} vom Typ ``string'' und kann ohne weitere Informationen nicht in der Datei vervollständigt werden.
+Die Lösung dafür ist eine eigene Zuordnung von \textit{Mapping}-Schlüsseln zu Kubernetes Objekten oder anderen aus dem Cluster gespeicherten Informationen anzulegen.
+Die Implementierung dieser Lösung ist unabhängig von den \ac{json}-Schema-Dateien möglich.
+\\
+Bei der Implementierung wurde ein Entwurfsmuster aus der Softwareentwicklung verwendet, welches als ``Template Method'' bezeichnet wird.
+``Template Method'' ist ein sogenanntes Verhaltensmuster, welches den Aufbau eines Algorithmus in einer Basisklasse beschreibt und
+die abgeleiteten Klassen spezifische Schritte des Algorithmus überschreiben lässt.
+Die Basisklasse definiert dazu eine abstrakte Methode, welche als Platzhalter agiert und optional eine Standardimplementierung besitzt.
+Die abgeleiteten Klassen überschreiben diese Methode und andere Methoden, die an dem Prozess beteiligt sind, um
+das Verhalten für einen spezifischen Anwendungsfall zu ändern oder zu vervollständigen~\cite{typescript-design-pattern-chapter-6,design-patterns-refactoring-guru}.
+Abbildung~\ref{fig:class-diagram-completion-rule} zeigt das Klassendiagramm der Anwendung des Verhaltensmusters zum Bestimmen von Werten zur Autovervollständigung.
 
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+      \centering
+      \includesvg[width=0.8\textwidth]{images/class-diagram-completion-rule.svg} % width immer angeben!
+      \caption{Auszug des Klassendiagramms zur Anwendung des ``Template Method''-Verhaltensmuster}
+      \label{fig:class-diagram-completion-rule}
+\end{figure}
+
+Die Basisklasse ist die Klasse ``CompletionRule''. Sie liefert Werte zur Autovervollständigung mittels der Methode ``getCompletionValues''.
+Sie wird von mehreren Klassen erweitert, die die benötigten Informationen vom Kubernetes Cluster bereitstellen. Diese Klassen
+werden im Folgen als Regeln zur Vervollständigung bezeichnet.
+Beispielhaft ist die Klasse ``SecretCompletionRule'' zu sehen, welche die verfügbaren \textit{Secrets} auf dem Kubernetes Cluster abfragt.
+Es folgt eine Beschreibung der übrigen dargestellten Methoden und Attributen der Klassen:
+\begin{description}
+      \setlength\itemsep{-0.5cm}
+      \item[keys]
+            Gibt an für welche \textit{Mapping}-Schlüssel die Werte zur Autovervollständigung dem Nutzer angeboten werden.
+            Das Attribut muss von abgeleiteten Klassen überschrieben werden.
+            Für Klasse ``SecretCompletionRule'' enthält das Attribut den Wert den \textit{Mapping}-Schlüssel ``secretName''.
+      \item[shouldCollectValuesFromDocuments]
+            Gibt an, ob für die angegebene Menge von ``keys'' Werte aus dem aktuellen und anderen geöffneten Dateien gesammelt werden sollen.
+            Das Attribut muss von abgeleiteten Klassen überschrieben werden.
+      \item[getApiCompletionValues]
+            Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Sie für die Abfrage der benötigten Werte vom Cluster zuständig.
+      \item[test]
+            Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Mit ihr können zusätzliche Einschränkungen
+            für die Autovervollständigung definiert werden. Damit kann \ac{zB} festgelegt werden, welchen Elternknoten im \ac{ast}
+            ein \textit{Mapping}-Schlüssel haben muss, damit der Nutzer Werte zur Autovervollständigung erhält.
+      \item[isApplicable]
+            Ermittelt mit Hilfe der ``test''-Methode, ob Werte zur Autovervollständigung für einen gegebenen Knoten im \ac{ast}
+            gesucht werden sollen.
+\end{description}
+
+Der Ausschnitt des Quellcodes der ``getCompletions''-Methode der Klasse ``SchemalessCompletionService'' veranschaulicht, wie Objekte der
+Kindklassen der Klasse ``CompletionRule'' verwendet werden, um die Werte zur Autovervollständigung für den Nutzer bereitzustellen.
+Diese Klassen
+Der Ausschnitt des Quellcodes ist auf Listing zu sehen. Die Methode aus der Methode ``doComplete'' aufgerufen.
+Sie erhält als Übergabeparameter den Knoten und den \textit{Mapping}-Schlüssel die den Wert enthalten, sowie den Parameter vom Typ
+``DocumentInfo''. Dieser enthält die Position des Cursors, die Textdatei und das \ac{yaml}-\textit{Document}, in dem sich die
+Position des Cursors befindet. Das ``completionRules''-Attribut in Zeile 5 enthält je eine Instanz der Regeln zur Vervollständigung.
+
+\begin{listing}[t]
+      \begin{minted}[fontsize=\footnotesize]{js}
+private async getCompletions(
+        node: ASTNode,
+        key: string,
+        documentInfo: DocumentInfo,
+        //...
+    ): Promise<CompletionItem[]> {
+let completions: CompletionItem[] = [];
+  for (const completionRule of this.completionRules) {
+    if (completionRule.isApplicable(node, key, /*...*/)) {
+      const apiCompletionValues = await completionRule.getCompletionValues(documentInfo);
+      completions = [
+        ...completions,
+        ...apiCompletionValues,
+        ...this.getCachedCompletionsFromDocuments(completionRule)
+      ];
+    }
+  }
+  return completions;
+}
+      \end{minted}
+      \caption{Auszug Quellcode ``getCompletions''-Methode der Klasse ``SchemalessCompletionService''}
+      \label{lst:get-completions-schemaless-completion-service}
+\end{listing}
+
+\section{Bereitstellen der \acs{vscode}-Erweiterung}
+
+Nach Abschluss der Implementierung wurde die \acs{vscode}-Erweiterung aus dem Quellcode erstellt.
+Dazu wurde das Kommandozeilentool \textit{vsce} 
