@@ -539,7 +539,7 @@ Die Methode liefert abschließend in Zeile 17 die Vorschläge zur Autovervollst�
 \\
 \\
 Das Objekt der Klasse ``SchemaCompletionService'' liefert Autovervollständigungen mit Hilfe der \ac{json}-Schema-Dateien.
-Dazu wird, wie bei der Validierung, das Objekt der Klasse ``JSONSchemaService'' um das \ac{json}-Schema für das \ac{yaml}-\textit{Document}
+Dazu wird, wie bei der Validierung, das Objekt der Klasse ``JSONSchemaService'' genutzt, um das \ac{json}-Schema für das \ac{yaml}-\textit{Document}
 zu ermitteln. Die Klasse ``SchemaCompletionService'' wurde auf Grundlage der Klasse ``JSONCompletionService'' des Moduls ``vscode-json-languagservice''
 entwickelt. Es wurden Anpassungen vorgenommen, die bei der Autovervollständigung aufgrund des \ac{yaml}-Formates notwendig waren.
 Hier musste z.B. verhindert werden, dass bei der Vervollständigung eines \ac{json}-\textit{Keys} dieser mit Anführungszeichen eingeschlossen wurde.
@@ -616,7 +616,7 @@ Es folgt eine Beschreibung der übrigen dargestellten Methoden und Attributen de
       \item[test]
             Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Mit ihr können zusätzliche Einschränkungen
             für die Autovervollständigung definiert werden. Damit kann \ac{zB} festgelegt werden, welchen Elternknoten im \ac{ast}
-            ein \textit{Mapping}-Schlüssel haben muss, damit der Nutzer Werte zur Autovervollständigung erhält.
+            ein \textit{Mapping}-Schlüssel besitzen muss, damit der Nutzer Werte zur Autovervollständigung erhält.
       \item[isApplicable]
             Ermittelt mit Hilfe der ``test''-Methode, ob Werte zur Autovervollständigung für einen gegebenen Knoten im \ac{ast}
             gesucht werden sollen.
@@ -624,11 +624,11 @@ Es folgt eine Beschreibung der übrigen dargestellten Methoden und Attributen de
 
 Der Ausschnitt des Quellcodes der ``getCompletions''-Methode der Klasse ``SchemalessCompletionService'' veranschaulicht, wie Objekte der
 Kindklassen der Klasse ``CompletionRule'' verwendet werden, um die Werte zur Autovervollständigung für den Nutzer bereitzustellen.
-Diese Klassen
-Der Ausschnitt des Quellcodes ist auf Listing zu sehen. Die Methode aus der Methode ``doComplete'' aufgerufen.
+Der Ausschnitt des Quellcodes ist auf Listing~\ref{lst:get-completions-schemaless-completion-service} zu sehen. Die Methode aus der Methode ``doComplete'' aufgerufen.
 Sie erhält als Übergabeparameter den Knoten und den \textit{Mapping}-Schlüssel die den Wert enthalten, sowie den Parameter vom Typ
 ``DocumentInfo''. Dieser enthält die Position des Cursors, die Textdatei und das \ac{yaml}-\textit{Document}, in dem sich die
-Position des Cursors befindet. Das ``completionRules''-Attribut in Zeile 5 enthält je eine Instanz der Regeln zur Vervollständigung.
+Position des Cursors befindet. Das ``completionRules''-Attribut in Zeile 8 enthält je eine Instanz der Regeln zur Vervollständigung.
+Mit Hilfe der Bedingung wird überprüft, ob eine der Regeln zur Vervollständigung im aktuellen Kontext angewendet werden kann.
 
 \begin{listing}[t]
       \begin{minted}[fontsize=\footnotesize]{js}
@@ -659,4 +659,12 @@ let completions: CompletionItem[] = [];
 \section{Bereitstellen der \acs{vscode}-Erweiterung}
 
 Nach Abschluss der Implementierung wurde die \acs{vscode}-Erweiterung aus dem Quellcode erstellt.
-Dazu wurde das Kommandozeilentool \textit{vsce} 
+Dazu wurde das Kommandozeilentool \ac{vsce} verwendet, welches das Erstellen und veröffentlichen von
+\acs{vscode}-Erweiterungen ermöglicht. In dem Fall wurde nur die Erweiterung erstellt und als
+Datei zur Verfügung gestellt.
+Dazu wurde folgender Befehl im Wurzelverzeichnis des Projekts ausgeführt:
+\begin{minted}[linenos=false, breaklines]{console}
+      vsce package
+\end{minted}
+Die erstellte Datei kann anschließend auf einem System mit installiertem \ac{vscode} ausgeführt
+werden. Dadurch wird die Erweiterung installiert.
