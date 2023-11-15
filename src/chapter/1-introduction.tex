@@ -13,10 +13,12 @@ welche Anwendungen auf dem Cluster laufen, welche Ressourcen diesen zur Verfügu
 
 Die Definition von Kubernetes Objekten kann in deklarativen Konfigurationsdateien im \acs{yaml}-Format vorgenommen werden~\cite{kubernetes-config-declarative}.
 Das Schreiben und Pflegen dieser Konfigurationsdateien ist schwierig und fehleranfällig, insbesondere wenn die Größe und Komplexität des Clusters zunimmt~\cite{kubernetes-config-problems} TODO: find more sources.
-Im Rahmen dieser Arbeit werden die Möglichkeiten der Autovervollständigung und Validierung von Kubernetes Konfigurationsdateien untersucht.
+Im Rahmen dieser Arbeit werden die Probleme und Herausforderungen beim Schreiben von  Kubernetes Konfigurationsdateien untersucht.
 Dabei werden folgende Fragen beantwortet:
 \begin{enumerate}
-    \item Wie kann die Autovervollständigung und Validierung von Kubernetes Konfigurationsdateien in eine \acs{ide} integriert werden?
+    \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
+    \item Welche Möglichkeiten zur besseren Verwendung der Konfigurationsdateien gibt es?
+    \item Wie kann eine Lösung zur besseren Verwendung implementiert werden?
     \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
 \end{enumerate}
 
@@ -34,3 +36,25 @@ Die Vor- und Nachteile werden der verschiedenen Lösungen im anschließenden Kap
 Abschließend folgt das Fazit der Arbeit und ein Ausblick auf weitere mögliche Schritte.
 
 \section{Verwandte Arbeiten}
+
+Zunächst wird betrachtet, ob wissenschaftliche Arbeiten existieren, die sich mit Kubernetes Konfigurationen beschäftigen:
+\begin{itemize}
+    \item In der wissenschaftlichen Arbeit ``Isopod: An Expressive DSL for Kubernetes Configuration'' von Charles Xu und Dmitry Ilyevskiy stellt die
+          Software ``Isopod'' vor, die eine alternative Konfiguration von Kubernetes Objekten ermöglicht. Die Konfiguration erfolgt nicht mittels \ac{yaml}-Dateien,
+          sondern mit der Skriptsprache Starlark verfasst. Die Kubernetes Objekte werden als Protocol Buffers Definition zur Verfügung gestellt und sind daher streng typisiert.
+          Das Anwenden der Konfigurationen wird von ``Isopod'' mittels Kommunikation mit der \textit{KubernetesAPI} ermöglicht.
+          Bei Cruise LLC, einem Unternehmen für selbstfahrende Autos, hat der Einsatz von ``Isopod'' zu einer Reduzierung der Codezeilen um $60\%$ geführt~\cite{10.1145/3357223.3365759}.
+    \item Die wissenschaftliche Arbeit ``Creating Helm Charts to ease deployment of Enterprise Application and its related Services in Kubernetes'' von
+          S. Gokhale et al.\ beschäftigt damit, die Konfiguration von Kubernetes schneller und einfacher zu machen. Dabei kommen sog. Helm Charts zum Einsatz,
+          mit denen Anwendungen vorkonfiguriert sowie deren Entwicklung und das Testen automatisiert werden kann. Ein Experiment mit der vorgestellten Methodik
+          hat gezeigt, dass das Ausrollen einer Anwendung mit Helm Charts 6.185 Mal schneller war, wie ohne die Nutzung~\cite{9776450}.
+    \item ``'Under-reported' Security Defects in Kubernetes Manifests'' untersucht Sicherheitsmängel in Kubernetes Konfigurationsdateien.
+          Dazu wurden zunächst \textit{Repositories} von Open-Source-Software mit Kubernetes Nutzung durchsucht und anhand bestimmter Kriterien ausgewählt, welche für
+          die Untersuchung geeignet sind. Anschließend wurde eine qualitative Analyse der \textit{Commits} durchgeführt, um herauszufinden, wie oft Sicherheitsmängel in Kubernetes
+          Konfigurationsdateien auftreten. $0,79\%$ der \textit{Commits} waren auf Sicherheitsmängel bezogen. Die Autoren schlussfolgern daraus,
+          Sicherheitsmängel in Kubernetes Konfigurationsdateien oft nicht gefunden werden. Sie empfehlen die Entwicklung von statischen und dynamischen Analysetools
+          zur Erkennung von Sicherheitsverstößen in Kubernetes~\cite{9476056}.
+\end{itemize}
+
+Es ist zu erkennen, dass die Konfiguration von Kubernetes in verschiedenen wissenschaftlichen Arbeiten angesprochen wird und vor allem die Vereinfachung
+der Konfiguration eine Rolle spielt.
