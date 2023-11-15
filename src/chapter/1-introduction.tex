@@ -11,29 +11,28 @@ welche Anwendungen auf dem Cluster laufen, welche Ressourcen diesen zur Verfügu
 
 \section{Problemstellung}\label{sec:problem}
 
-Die Definition von Kubernetes Objekten kann in deklarativen Konfigurationsdateien im \acs{yaml}-Format vorgenommen werden~\cite{kubernetes-config-declarative}.
-Das Schreiben und Pflegen dieser Konfigurationsdateien ist schwierig und fehleranfällig, insbesondere wenn die Größe und Komplexität des Clusters zunimmt~\cite{kubernetes-config-problems} TODO: find more sources.
-Im Rahmen dieser Arbeit werden die Probleme und Herausforderungen beim Schreiben von  Kubernetes Konfigurationsdateien untersucht.
-Dabei werden folgende Fragen beantwortet:
+Die Definition von Kubernetes Objekten kann in deklarativen Konfigurationsdateien im \ac{yaml}-Format vorgenommen werden~\cite{kubernetes-config-declarative}.
+Das Schreiben und Pflegen dieser Konfigurationsdateien ist schwierig und fehleranfällig, 
+insbesondere wenn die Größe und Komplexität des Clusters zunimmt.
+Es kommt zu Problemen beim Verständnis und bei der Validierung der \ac{yaml}-Dateien~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management}. 
+\\
+Weiterhin ist die Syntax der Dateien ein Problem für den Nutzer, da diese sehr umfangreich ist~\cite{entwickler-de-kubernetes-problems}.
+Sie ist außerdem für verschiedene Kubernetes Objekte nicht einheitlich. 
+Es kommt zur Mehrdeutigkeit einzelner Wörter der Syntax~\cite{dev-to-kubernetes-challenges}.
+\\
+Zuletzt spielt die Abhängigkeit der Kubernetes Objekte im Cluster untereinander eine Rolle, 
+da sie die Komplexität für den Nutzer zusätzlich erhöht~\cite{spacelift-io-kubernetes-challenges,newstack-io-kubernetes-manifest-lifecycle}.
+Der Nutzer muss zum Schreiben und Pflegen der Konfigurationsdateien über andere Objekte auf dem Cluster informiert sein, um 
+keine Fehler zu verursachen.
+
+\section{Zielsetzung}
+Um die zuvor beschriebenen Probleme und Herausforderungen genauer zu untersuchen werden im Rahmen dieser Arbeit folgende Fragen beantwortet:
 \begin{enumerate}
     \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
     \item Welche Möglichkeiten zur besseren Verwendung der Konfigurationsdateien gibt es?
     \item Wie kann eine Lösung zur besseren Verwendung implementiert werden?
     \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
 \end{enumerate}
-
-\section{Methodik}
-Um die in Kapitel~\ref{sec:problem} gestellten Fragen zu beantworten, wird eine \acs{ide}-Erweiterung entwickelt, welche die Validierung und Autovervollständigung von
-Kubernetes Konfigurationsdateien ermöglicht. Anschließend wird die entwickelte Lösung mit bereits bestehenden Lösungen verglichen.
-Hierbei werden ausgewählte Kriterien zur Beurteilung aus~\cite[A Large-Scale Study of Usability Criteria Addressed by Static Analysis Tools]{usability-criteria-static-analysis-tools} herangezogen.
-Außerdem wird die Autovervollständigung ausgewählter Lösungen in einem Laborversuch untersucht.
-Die Ergebnisse der Untersuchungen werden abschließend bewertet.
-
-\section{Aufbau der Arbeit}
-Im folgenden Kapitel werden die technischen Grundlagen beschrieben. In Kapitel~\ref{ch:implementation} werden die Schritte zur Implementierung erläutert.
-Der Vergleich der Implementierung mit ähnlichen Lösungen, sowie der Laborversuch erfolgen in Kapitel~\ref{ch:comparison}.
-Die Vor- und Nachteile werden der verschiedenen Lösungen im anschließenden Kapitel evaluiert.
-Abschließend folgt das Fazit der Arbeit und ein Ausblick auf weitere mögliche Schritte.
 
 \section{Verwandte Arbeiten}
 
@@ -58,3 +57,20 @@ Zunächst wird betrachtet, ob wissenschaftliche Arbeiten existieren, die sich mi
 
 Es ist zu erkennen, dass die Konfiguration von Kubernetes in verschiedenen wissenschaftlichen Arbeiten angesprochen wird und vor allem die Vereinfachung
 der Konfiguration eine Rolle spielt.
+
+\section{Methodik}
+Zunächst werden die Probleme und Herausforderungen beim Schreiben der Konfigurationsdateien anhand einer Recherche identifiziert und 
+bereits bestehende Lösungen untersucht. Mit dem Wissen werden fehlende Funktionen der bestehenden Anwendungen in Hinblick auf Autovervollständigung und Validierung identifiziert.
+Zur Umsetzung dieser Funktionen wird eine Anwendung entwickelt. 
+Anschließend wird die entwickelte Lösung mit bereits bestehenden Lösungen verglichen.
+Hierbei werden ausgewählte Kriterien zur Beurteilung aus~\cite[A Large-Scale Study of Usability Criteria Addressed by Static Analysis Tools]{usability-criteria-static-analysis-tools} herangezogen.
+Die Ergebnisse der Untersuchungen werden abschließend bewertet.
+
+\section{Aufbau der Arbeit}
+Die Arbeit umfasst sieben Kapitel.
+Im folgenden Kapitel werden die technischen Grundlagen beschrieben. 
+Kapitel \ref{ch:preparation-analysis} untersucht, die Herausforderungen und Probleme beim Schreiben von Kubernetes Konfigurationsdateien, sowie bereits bestehende Lösungen.
+In Kapitel~\ref{ch:implementation} werden die Schritte zur Implementierung erläutert.
+Der Vergleich der Implementierung mit bereits bestehenden Lösungen erfolgt in Kapitel~\ref{ch:comparison}.
+Die Vor- und Nachteile werden der verschiedenen Lösungen im anschließenden Kapitel evaluiert.
+Abschließend folgt das Fazit der Arbeit und ein Ausblick auf weitere mögliche Schritte.
