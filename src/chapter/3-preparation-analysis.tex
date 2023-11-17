@@ -1,1 +1,63 @@
 \chapter{Vorbereitende Analyse}\label{ch:preparation-analysis}
+
+In dem vorliegenden Kapitel werden die Probleme und Herausforderungen beim Erstellen von Kubernetes \textit{Manifest}-Dateien anhand von wissenschaftlichen Arbeiten
+und Internetquellen, sogenannter grauer Literatur, aufgezeigt. Anschließend werden bereits vorhandene Lösungen für die zuvor herausgearbeiteten Punkte vorgestellt.
+Zuletzt wird evaluiert, ob den vorhandenen Lösungen Funktionen fehlen.
+
+\section{Probleme und Herausforderungen}
+
+Als Erstes wurde nach wissenschaftlichen Arbeiten gesucht, die sich mit Kubernetes Konfigurationen und den Kubernetes \textit{Manifest}-Dateien
+beschäftigen. Dazu wurden folgende Suchbegriffe verwendet:
+\begin{itemize}
+    \setlength\itemsep{-0.5cm}
+    \item ``kubernetes configuration''
+    \item ``kubernetes manifests''
+    \item ``kubernetes challenges''
+    \item ``kubernetes deployment''
+    \item ``kubernetes problems''
+    \item ``kubernetes yaml''
+\end{itemize}
+Die Suche wurde auf folgenden Seiten durchgeführt:
+\begin{itemize}
+    \setlength\itemsep{-0.5cm}
+    \item ACM Digitial Library (\url{https://dl.acm.org/})
+    \item IEEE Xplore (\url{https://ieeexplore.ieee.org/})
+    \item Google Scholar (\url{https://scholar.google.de/})
+\end{itemize}
+Dabei wurden fünf Arbeiten gefunden, die das gesuchte Thema behandeln. Zwei Arbeiten zeigen dabei alternative Wege zur Konfiguration von Kubernetes auf.
+Der Inhalt der Arbeiten wurde bereits in Kapitel~\ref{sec:introduction-related-work} beschrieben. Die anderen drei Arbeiten untersuchen Sicherheitsmängel,
+die durch die Erstellung von Kubernetes \textit{Manifest}-Dateien auftreten können.
+Nur die Arbeit ``Isopod: An Expressive DSL for Kubernetes Configuration'' erwähnt ein Problem, welches keinen Sicherheitsmangel dargestellt, bei der Erstellung von Kubernetes \textit{Manifest}-Dateien
+in einem Satz.
+\\
+Aufgrund der geringen Repräsentation in wissenschaftlichen Arbeiten wurde eine Websuche durchgeführt, um die Probleme und Herausforderungen beim Erstellen
+der Kubernetes Konfigurationsdateien zu untersuchen.
+Die Suche wurde mit den zuvor verwendeten Suchbegriffen durchgeführt und um folgende Suchbegriffe erweitert:
+\begin{itemize}
+    \setlength\itemsep{-0.5cm}
+    \item ``kubernetes yaml manifest''
+    \item ``kubernetes configuration challenges''
+    \item ``kubernetes deployment challenges''
+    \item ``kubernetes manifest challenges''
+    \item ``kubernetes manifest problems''
+\end{itemize}
+Mit Hilfe der Ergebnisse der Websuche konnte eine Liste der Probleme und Herausforderungen beim Schreiben von Kubernetes \textit{Manifest}-Dateien erstellt werden:
+\begin{description}
+    \item[Herausforderung 1]{- \ac{yaml}-Syntax\\}
+          Es kommt zu Herausforderungen bei Einhalten der \ac{yaml}-Syntax~\cite{10.1145/3357223.3365759,the-chief-io-kubernetes-challenges,techtarget-kubernetes-challenges,monokle-kubernetes-challenges}.
+          Die inkorrekte Einrückung kann \ac{zB} ein Problem darstellen~\cite{10.1145/3357223.3365759,monokle-kubernetes-challenges}.
+    \item[Herausforderung 2]{- Komplexe Syntax\\}
+          Die Syntax der \textit{Manifest}-Dateien stellt eine Herausforderung dar~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems,newstack-io-kubernetes-manifest-lifecycle,10.1145/3357223.3365759,techtarget-kubernetes-challenges,monokle-kubernetes-challenges,kubernetes-config-problems}.
+          \textit{Manifest}-Dateien nutzen eine spezielle Syntax, die jedoch inkonsistent und mehrdeutig ist~\cite{dev-to-kubernetes-challenges}.
+          Jede Definition eines Kubernetes Objektes hat eine eigene Konfiguration, die der Nutzer kennen muss~\cite{kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems}.
+          Jedes Kubernetes Objekt hat \ac{zB} eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{techtarget-kubernetes-challenges,10.1145/3357223.3365759}.
+          Außerdem verursachen vom Nutzer falsch eingegebene oder nicht existierende \textit{Mapping}-Schlüssel Probleme~\cite{monokle-kubernetes-challenges}.
+    \item[Herausforderung 3]{- Erkennen von Sicherheitslücken\\}
+          Eine weitere Herausforderung kann das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein.
+          TODO
+    \item[Herausforderung 4]{- Abhängigkeiten zwischen Objekten\\}
+          Die Abhängigkeit der Kubernetes Objekte untereinander stellt den Nutzer vor eine Herausforderung~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
+          Es kann \ac{zB} zu einer inkorrekten Konfiguration eines \textit{Labels} einer Ressource kommen~\cite{spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
+          Dieses Problem kann auftreten, wenn der Nutzer nicht über alle verfügbaren \textit{Labels} informiert.
+\end{description}
+\section{Vorhandene Lösungen}
