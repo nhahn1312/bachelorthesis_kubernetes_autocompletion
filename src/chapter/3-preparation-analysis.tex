@@ -50,14 +50,27 @@ Mit Hilfe der Ergebnisse der Websuche konnte eine Liste der Probleme und Herausf
           Die Syntax der \textit{Manifest}-Dateien stellt eine Herausforderung dar~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems,newstack-io-kubernetes-manifest-lifecycle,10.1145/3357223.3365759,techtarget-kubernetes-challenges,monokle-kubernetes-challenges,kubernetes-config-problems}.
           \textit{Manifest}-Dateien nutzen eine spezielle Syntax, die jedoch inkonsistent und mehrdeutig ist~\cite{dev-to-kubernetes-challenges}.
           Jede Definition eines Kubernetes Objektes hat eine eigene Konfiguration, die der Nutzer kennen muss~\cite{kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems}.
-          Jedes Kubernetes Objekt hat \ac{zB} eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{techtarget-kubernetes-challenges,10.1145/3357223.3365759}.
+          Jedes Kubernetes Objekt hat \ac{zB} eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{10.1145/3357223.3365759, techtarget-kubernetes-challenges}.
           Außerdem verursachen vom Nutzer falsch eingegebene oder nicht existierende \textit{Mapping}-Schlüssel Probleme~\cite{monokle-kubernetes-challenges}.
     \item[Herausforderung 3]{- Erkennen von Sicherheitslücken\\}
-          Eine weitere Herausforderung kann das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein.
-          TODO
+          Eine weitere Herausforderung ist das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein~\cite{9476056,dynatrace-kubernetes-security-challenges,10.1145/3468264.3473495,10.1145/3579639}.
+          Eine Sicherheitslücke kann \ac{zB} ein Passwort im Klartext in einer \textit{Manifest}-Datei sein~\cite{10.1145/3579639}.
     \item[Herausforderung 4]{- Abhängigkeiten zwischen Objekten\\}
           Die Abhängigkeit der Kubernetes Objekte untereinander stellt den Nutzer vor eine Herausforderung~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
           Es kann \ac{zB} zu einer inkorrekten Konfiguration eines \textit{Labels} einer Ressource kommen~\cite{spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
-          Dieses Problem kann auftreten, wenn der Nutzer nicht über alle verfügbaren \textit{Labels} informiert.
+          Dieses Problem kann auftreten, wenn der Nutzer nicht über alle verfügbaren \textit{Labels} informiert ist.
 \end{description}
+
 \section{Vorhandene Lösungen}
+
+\textbf{kubeconform}
+
+\textbf{Monokle}
+
+\textbf{Kubernetes Lens}
+
+\textbf{\acs{vscode}-\ac{yaml}}
+
+\textbf{Kubernetes Manifest Editor}
+
+\textbf{KubeLinter}
