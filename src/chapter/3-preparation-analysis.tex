@@ -63,14 +63,95 @@ Mit Hilfe der Ergebnisse der Websuche konnte eine Liste der Probleme und Herausf
 
 \section{Vorhandene Lösungen}
 
-\textbf{kubeconform}
+%Nachdem bestehende Herausforderungen beim Erstellen von Kubernetes \textit{Manifest} identifiziert wurden, konnte nach bestehenden Lösungen für diese gesucht werden.
+%Die gefundenen Programme wurden anschließend auf fehlende Funktionalitäten zur Lösung der Herausforderungen untersucht.
+Um bestehende Lösungen für die identifizierten Herausforderungen zu finden, wurde eine Websuche anhand folgender Suchbegriffe durchgeführt:
+\begin{itemize}
+    \setlength\itemsep{-0.5cm}
+    \item ``kubernetes validation''
+    \item ``kuberrnetes security validation''
+    \item ``kubernetes autocompletion''
+    \item ``kubernetes manifest tools''
+    \item ``kubernetes manifest autocompletion''
+    \item ``kubernetes IDE''
+    \item ``kubernetes manifest editor''
+\end{itemize}
 
-\textbf{Monokle}
+Es wurden nur Programme berücksichtigt, für welche es in den letzten drei eine Aktualisierung gab.
+Aus der Websuche ergaben sich neun Programme, die mindestens eine der Herausforderungen erfüllen und die
+im definierten Zeitraum eine Aktualisierung erhalten haben.
+Die Erfüllung einer Herausforderung wurde zuerst mit Hilfe der Quellen angenommen und anschließend
+in einem Laborversuch verifiziert.
+\\\\
+Der Laborversuch wurde auf einem Rechner mit dem Betriebssystem Windows 11 durchgeführt.
+Die Anwendung \textit{Docker for Desktop} wurde installiert~\cite{docker-for-desktop-overview}. Sie enthält ein Kubernetes Cluster enthält,
+welches lokal auf einen einzigen \textit{Node} ausgeführt wird~\cite{docker-for-desktop-kubernetes}.
+\\
+Zuerst wurde ein \textit{Namespace} und ein \textit{Secret} auf dem Cluster mit folgenden Befehlen angelegt:
+\begin{enumerate}
+    \item
+          \begin{minted}[linenos=false]{console}
+        kubectl create namespace namespace-exp
+    \end{minted}
+    \item
+          \begin{minted}[linenos=false]{console}
+        kubectl create secret generic secret-exp --namespace=namespace-exp
+    \end{minted}
+\end{enumerate}
+Es wurden zwei verschiedene \textit{Manifest}-Dateien erstellt,
+die jeweils eine vollständige valide Definition eines \textit{Pods} und eines \textit{Deployments} enthalten.
+Im Anhang befindet sich der Inhalt dieser Dateien.
+\\
+Um sicherzustellen, dass die Definition vollständig und valide ist, wurden die Objekte mit dem Kommandozeilentool \textit{kubectl} auf das Cluster ausgerollt.
+Folgende Befehle wurden dazu genutzt:
+\begin{enumerate}
+    \item
+          \begin{minted}[linenos=false]{console}
+        kubectl create -f pod.yaml
+    \end{minted}
+    \item
+          \begin{minted}[linenos=false]{console}
+        kubectl create -f deployment.yaml
+    \end{minted}
+\end{enumerate}
 
-\textbf{Kubernetes Lens}
 
-\textbf{\acs{vscode}-\ac{yaml}}
 
-\textbf{Kubernetes Manifest Editor}
+Im nächsten Schritt wurden Testfälle definiert, die zur Beurteilung der Lösung einer Herausforderung herangezogen werden können.
+\begin{description}
+    \item[Testfall 1] falsche Einrückung(z.B Mapping-Schlüssel in Sequence definiert), fehlender Doppelpunkt
+    \item[Testfall 2.1] fehlender Pflichtschlüssel, unbekannter Mapping-Schlüssel definiert, Scalar eines falschen Typs angegeben
+    \item[Testfall 2.2] Autovervollständigung von Mapping-Schlüsseln
+    \item[Testfall 3] Programm erkennt einen im Paper definierten Sicherheitsmangel
+    \item[Testfall 4.1] nicht existierendes Kubernetes Objekt wurde bei der Definition angegeben. (z.B. secret, namespace)
+    \item[Testfall 4.2] Autovervollständigung von Werten mit Hilfe von Cluster Ressourcen
+\end{description}
 
-\textbf{KubeLinter}
+
+
+%Lösung für 1 -> yaml syntax prüfung \\
+%Lösung für 2 -> validation, autocompletion \\
+%Lösung für 3 -> security validation \\
+%Lösung für 4 -> übersicht der clusterressourcen und autocompletion \\
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lllll}
+        \toprule
+        \begin{tabular}{@{}l@{}} \emptycirc: nicht erfüllt \\ \halfcirc: teilweise erfüllt\\ \fullcirc: vollständig erfüllt \end{tabular} & \rotatebox{90}{Herausforderung 1} & \rotatebox{90}{Herausforderung 2} & \rotatebox{90}{Herausforderung 3} & \rotatebox{90}{Herausforderung 4} \\
+        \midrule
+        kubeconform~\cite{kubeconform-source}                                                                                             & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+        KubeLinter~\cite{kubelinter-source}                                                                                               & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+        kube-score~\cite{kubescore-source}                                                                                                & \fullcirc                         & \emptycirc                        & 3                                 & \emptycirc                        \\
+        kubectl-validate~\cite{kubectl-validate-source}                                                                                   & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+        \midrule
+        Lens~\cite{kubernetes-lens-source}                                                                                                & \fullcirc                         & \halfcirc                         & 3                                 & \halfcirc                         \\
+        Monokle~\cite{monokle-source}                                                                                                     & \fullcirc                         & \fullcirc                         & \fullcirc                         & \halfcirc                         \\
+        vscode-yaml~\cite{vscode-yaml-source}                                                                                             & \fullcirc                         & \fullcirc                         & \emptycirc                        & \emptycirc                        \\
+        ValidCube~\cite{valid-cube-source}                                                                                                & \fullcirc                         & \halfcirc                         & \fullcirc                         & \emptycirc                        \\
+        kpad~\cite{kpad-source}                                                                                                           & \fullcirc                         & \fullcirc                         & \emptycirc                        & \emptycirc                        \\
+        \bottomrule
+    \end{tabular}
+    \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
+    \label{tbl:kubernetes-manifest-tools-capabilities}
+\end{table}

@@ -1,5 +1,78 @@
 \chapter{Anhang}\label{ch:appendix}
 
+\begin{listing}[htp]
+    \begin{minted}[fontsize=\small]{yaml}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-exp
+  namespace: namespace-exp
+  labels:
+    app: backend  
+status:
+  message: experiment
+spec: 
+  hostPID: true
+  hostIPC: true
+  hostNetwork: true
+  automountServiceAccountToken: false
+  containers:
+    - name: node-server
+      image: nginx:stable-alpine
+      env:
+        - name: PASSWORD
+          value: "super_secret"
+        - name: ELASTIC
+          value: "http://localhost:9200" 
+  volumes:
+    - name: dockersocket
+      hostPath:
+        path: /var/run/docker.sock
+    \end{minted}
+    \caption{pod.yaml}
+    \label{lst:pod-yaml-file}
+\end{listing}
+
+\begin{listing}[htp]
+    \begin{minted}[fontsize=\small]{yaml}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: namespace-exp
+  name: deployment-exp
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend-exp
+          image: nginx:stable-alpine
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: true
+            capabilities:
+              add:
+                - CAP_SYS_ADMIN
+                - CAP_SYS_MODULE
+      volumes:
+        - name: secret
+          secret:
+            secretName: secret-exp 
+    \end{minted}
+    \caption{deployment.yaml}
+    \label{lst:deployment-yaml-file}
+\end{listing}
+
+
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
     \centering
     \includesvg[width=0.8\textwidth]{images/language-service-interface.svg} % width immer angeben!

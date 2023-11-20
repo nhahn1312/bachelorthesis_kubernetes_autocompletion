@@ -439,24 +439,23 @@ Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \a
 
 \begin{table}[h]
       \centering
-      \begin{tabular}{|l|l|l|l|}
-            \hline
-            \acs{yaml}-Objekttyp    & Klasse \acs{yaml}-\acs{ast} & \acs{json}-Objekttyp   & Klasse \acs{json}-\acs{ast} \\
-            \hline
-            \hline
-            Sequence                & YamlSeq                     & Array                  & ArrayAstImpl                \\
-            \hline
-            Mapping                 & YamlMap                     & Object                 & ObjectAstImpl               \\
-            \hline
-            Pair                    & Pair                        & Property               & PropertyAstImpl             \\
-            \hline
-            \multirow{4}{*}{Scalar} & \multirow{4}{*}{Scalar}     & \multirow{4}{*}{Value} & StringAstImpl               \\
-                                    &                             &                        & NumberAstImpl               \\
-                                    &                             &                        & BooleanAstImpl              \\
-                                    &                             &                        & NullAstImpl                 \\
-            \hline
-            Mapping-Schlüssel       & Scalar                      & Key                    & StringAstImpl               \\
-            \hline
+      \begin{tabular}{llll}
+            \toprule
+            \textbf{\acs{yaml}-Objekttyp} & \begin{tabular}{@{}l@{}}\textbf{Klasse} \\ \textbf{\acs{yaml}-\acs{ast}}\end{tabular} & \textbf{\acs{json}-Objekttyp} & \begin{tabular}{@{}l@{}}\textbf{Klasse} \\ \textbf{\acs{json}-\acs{ast}}\end{tabular} \\
+            \midrule
+            Sequence                      & YamlSeq                                                                                                          & Array                         & ArrayAstImpl                                                                                                     \\
+            \midrule
+            Mapping                       & YamlMap                                                                                                          & Object                        & ObjectAstImpl                                                                                                    \\
+            \midrule
+            Pair                          & Pair                                                                                                             & Property                      & PropertyAstImpl                                                                                                  \\
+            \midrule
+            \multirow{4}{*}{Scalar}       & \multirow{4}{*}{Scalar}                                                                                          & \multirow{4}{*}{Value}        & StringAstImpl                                                                                                    \\
+                                          &                                                                                                                  &                               & NumberAstImpl                                                                                                    \\
+                                          &                                                                                                                  &                               & BooleanAstImpl                                                                                                   \\
+                                          &                                                                                                                  &                               & NullAstImpl                                                                                                      \\
+            \midrule
+            Mapping-Schlüssel             & Scalar                                                                                                           & Key                           & StringAstImpl                                                                                                    \\
+            \bottomrule
       \end{tabular}
       \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
       \label{tbl:yaml-ast-to-json-ast-convert}
