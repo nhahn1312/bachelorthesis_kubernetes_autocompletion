@@ -1,7 +1,9 @@
 \chapter{Implementierung}\label{ch:implementation}
 
-Um die in Kapitel~\ref{ch:introduction} gestellten Forschungsfragen zu beantworten, wurde ein \ac{lsp}-Server und ein \ac{lsp}-Client entwickelt,
-welche die Autovervollständigung und Validierung von Kubernetes \textit{Manifest}-Dateien ermöglichen.
+Das vorherige Kapitel hat, dass bestehende Implementierungen nicht alle Herausforderungen beim Schreiben von Kubernetes \textit{Manifest}-Dateien erfüllen
+können. Um die fehlende Funktionalität bereitzustellen wurde eine Anwendung entwickelt,
+welche die Autovervollständigung und Validierung von Kubernetes \textit{Manifest}-Dateien ermöglicht und dabei auch ausgewählte
+Cluster-Ressourcen berücksichtigt. Dazu wurde ein \ac{lsp}-Server und ein \ac{lsp}-Client entwickelt.
 Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-Editor \ac{vscode} bereitgestellt.
 
 \section{Technologien}

@@ -1,7 +1,7 @@
 \chapter{Anhang}\label{ch:appendix}
 
 \begin{listing}[htp]
-    \begin{minted}[fontsize=\small]{yaml}
+  \begin{minted}[fontsize=\small]{yaml}
 ---
 apiVersion: v1
 kind: Pod
@@ -13,96 +13,223 @@ metadata:
 status:
   message: experiment
 spec: 
-  hostPID: true
+  containers:
+    - name: node-server
+      image: nginx:stable-alpine
+    \end{minted}
+  \caption{pod.yaml auf Cluster ausgerollt}
+  \label{lst:pod-yaml-file}
+\end{listing}
+
+\begin{listing}[htp]
+  \begin{minted}[fontsize=\small]{yaml}
+---
+apiVersion: v1
+kind Pod
+metadata:
+    name: pod-exp
+  namespace: namespace-exp
+  labels:
+    app: backend
+status:    
+status:
+  message: experiment
+spec:
+  containers:
+    - name: node-server
+      image: nginx:stable-alpine
+    \end{minted}
+  \caption{pod.yaml für Testfälle der Herausforderung 1}
+  \label{lst:pod-yaml-file}
+\end{listing}
+
+\begin{listing}[htp]
+  \begin{minted}[fontsize=\small]{yaml}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  
+  namespace: namespace-exp
+  labels:
+    app: backend
+status:    
+  message: experiment
+  unknown: unknown  
+spec:
+  priority: high
+    \end{minted}
+  \caption{pod.yaml für Testfälle der Herausforderung 2}
+  \label{lst:pod-yaml-file}
+\end{listing}
+
+\begin{listing}[htp]
+  \begin{minted}[fontsize=\small]{yaml}
+---
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-exp
+  namespace: namespace-exp
+  labels:
+    app: backend
+status:    
+  message: experiment 
+spec:
   hostIPC: true
   hostNetwork: true
-  automountServiceAccountToken: false
+  hostPID: true
+  volumes:
+    - name: dockersocket
+      hostPath:
+        path: /var/run/docker.sock
   containers:
     - name: node-server
       image: nginx:stable-alpine
       env:
         - name: PASSWORD
-          value: "super_secret"
+          value: "super_secret_password"
         - name: ELASTIC
-          value: "http://localhost:9200" 
-  volumes:
-    - name: dockersocket
-      hostPath:
-        path: /var/run/docker.sock
-    \end{minted}
-    \caption{pod.yaml}
-    \label{lst:pod-yaml-file}
+          value: "http://localhost:9200"
+  \end{minted}
+  \caption{pod.yaml für Testfälle der Herausforderung 3 - Version 1}
+  \label{lst:pod-yaml-file}
 \end{listing}
 
 \begin{listing}[htp]
-    \begin{minted}[fontsize=\small]{yaml}
+  \begin{minted}[fontsize=\small]{yaml}
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
+  name: pod-exp
   namespace: namespace-exp
-  name: deployment-exp
   labels:
-    app: frontend
+    app: backend
+status:    
+  message: experiment 
 spec:
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend-exp
-          image: nginx:stable-alpine
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: true
-            capabilities:
-              add:
-                - CAP_SYS_ADMIN
-                - CAP_SYS_MODULE
-      volumes:
-        - name: secret
-          secret:
-            secretName: secret-exp 
-    \end{minted}
-    \caption{deployment.yaml}
-    \label{lst:deployment-yaml-file}
+  containers:
+    - name: node-server
+      image: nginx:stable-alpine
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+            - CAP_SYS_ADMIN
+            - CAP_SYS_MODULE
+        privileged: true
+  \end{minted}
+  \caption{pod.yaml für Testfälle der Herausforderung 3 - Version 2}
+  \label{lst:pod-yaml-file}
 \end{listing}
+
+\begin{listing}[htp]
+  \begin{minted}[fontsize=\small]{yaml}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-exp
+  namespace: 
+  labels:
+    app: backend
+status:    
+  message: experiment  
+spec:
+  containers:
+    - name: node-server
+      image: nginx:stable-alpine
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: secret-exp
+    - name: secret-volume-2
+      secret:
+        secretName: unknown-secret
+  \end{minted}
+  \caption{pod.yaml für Testfälle der Herausforderung 4}
+  \label{lst:pod-yaml-file}
+\end{listing}
+
+\begin{table}[htp]
+  \centering
+  \begin{tabularx}{\columnwidth}{lXXl}
+    \toprule
+    \begin{tabular}{@{}l@{}}\textbf{Name des} \\ \textbf{Programms} \end{tabular} & \begin{tabular}{@{}l@{}}\textbf{erfüllte}\\\textbf{Testfälle} \end{tabular} & \begin{tabular}{@{}l@{}}\textbf{nicht}\\\textbf{erfüllte}\\\textbf{Testfälle} \end{tabular} & \textbf{Anmerkungen}                                    \\
+    \midrule
+    \multirow{4}{*}{kubeconform}                                                  & 1.2                                                                         & 1.1, 1.3                                                                                    & Meldet ersten Syntaxfehler                              \\
+                                                                                  & 2.1.1                                                                       & 2.1.2, 2.1.3, 2.2                                                                           & Meldet ersten Syntaxfehler                              \\
+                                                                                  &                                                                             & 3                                                                                           &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \midrule
+    \multirow{4}{*}{KubeLinter}                                                   &                                                                             & 1                                                                                           & Meldet, dass Validierung nicht erfolgreich war          \\
+                                                                                  &                                                                             & 2                                                                                           & Meldet, dass Validierung nicht erfolgreich war          \\
+                                                                                  & 3.1.1, 3.1.3{-}3.1.6, 3.1.8, 3.1.11                                         & 3.1.2, 3.1.7, 3.1.9, 3.1.10                                                                 &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \midrule
+    \multirow{4}{*}{kube-score}                                                   & 1.2                                                                         & 1.1, 1.3                                                                                    & Meldet ersten Syntaxfehler                              \\
+                                                                                  & 2.1.3                                                                       & 2.1.2, 2.1.3, 2.2                                                                           & Meldet ersten Syntaxfehler                              \\
+                                                                                  & 3.1.1, 3.1.2, 3.1.11                                                        & 3.1.3{-}3.1.10                                                                              &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \midrule
+    \multirow{4}{*}{kubectl-validate}                                             & 1.2                                                                         & 1.1, 1.3                                                                                    & Meldet ersten Syntaxfehler                              \\
+                                                                                  & 2.1.2                                                                       & 2.1.1, 2.1.3, 2.2                                                                           & Meldet ersten Syntaxfehler                              \\
+                                                                                  &                                                                             & 3                                                                                           &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \midrule
+    \multirow{4}{*}{Lens}                                                         & 1.2                                                                         & 1.1, 1.3                                                                                    & Meldet ersten Syntaxfehler                              \\
+                                                                                  &                                                                             & 2                                                                                           &                                                         \\
+                                                                                  &                                                                             & 3                                                                                           &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \midrule
+    \multirow{4}{*}{Monokle}                                                      & 1                                                                           &                                                                                             &                                                         \\
+                                                                                  & 2.1.1, 2.1.3, 2.2                                                           & 2.1.2                                                                                       &                                                         \\
+                                                                                  & 3.1.2{-}3.1.5, 3.1.7                                                        & 3.1.1, 3.1.6, 3.1.8{-}3.1.11                                                                &                                                         \\
+                                                                                  & 4.1.2                                                                       & 4.1.1, 4.2                                                                                  & Softwarefehler bei der Validierung von \textit{Secrets} \\
+    \midrule
+    \multirow{4}{*}{vscode-yaml}                                                  & 1                                                                           &                                                                                             &                                                         \\
+                                                                                  & 2.1.1, 2.1.3, 2.2                                                           & 2.1.2                                                                                       &                                                         \\
+                                                                                  & 3.1.1                                                                       & 3.1.2{-}3.1.11                                                                              &                                                         \\
+                                                                                  &                                                                             & 4                                                                                           &                                                         \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Zuordnungstabelle der Herausforderungen mit ihren Testfällen für den Laborversuch}
+  \label{tbl:test-cases-experiment}
+\end{table}
 
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.8\textwidth]{images/language-service-interface.svg} % width immer angeben!
-    \caption{Klassendiagramm des Interface ``LanguageService''}
-    \label{fig:language-service-interface-defition}
+  \centering
+  \includesvg[width=0.8\textwidth]{images/language-service-interface.svg} % width immer angeben!
+  \caption{Klassendiagramm des Interface ``LanguageService''}
+  \label{fig:language-service-interface-defition}
 \end{figure}
 
 \vspace{0.5cm}
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.35\textwidth]{images/class-diagram-json-document.svg} % width immer angeben!
-    \caption{Klassendiagramm der Klasse ``JSONDocument''}
-    \label{fig:class-diagram-json-document}
+  \centering
+  \includesvg[width=0.35\textwidth]{images/class-diagram-json-document.svg} % width immer angeben!
+  \caption{Klassendiagramm der Klasse ``JSONDocument''}
+  \label{fig:class-diagram-json-document}
 \end{figure}
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[angle=90, width=0.73\paperheight]{images/class-diagram-lsp-server.svg} % width immer angeben!
-    \caption{Klassendiagramm \acs{lsp}-Server}
-    \label{fig:class-diagram-lsp-Server}
+  \centering
+  \includesvg[angle=90, width=0.73\paperheight]{images/class-diagram-lsp-server.svg} % width immer angeben!
+  \caption{Klassendiagramm \acs{lsp}-Server}
+  \label{fig:class-diagram-lsp-Server}
 \end{figure}
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-    \centering
-    \includesvg[width=0.8\textwidth]{images/flowchart-get-node-from-offset.svg} % width immer angeben!
-    \caption{Ablaufdiagramm der Methode ``getNodeFromOffset''}
-    \floatfoot{Im Ablaufdiagramm steht ``CP'' für die Position des Cursors und ``K'' kann einen Knoten aus dem \ac{ast} eines
-        \ac{yaml}-\textit{Documents} enthalten.}
-    \label{fig:flowchart-get-node-from-offset}
+  \centering
+  \includesvg[width=0.8\textwidth]{images/flowchart-get-node-from-offset.svg} % width immer angeben!
+  \caption{Ablaufdiagramm der Methode ``getNodeFromOffset''}
+  \floatfoot{Im Ablaufdiagramm steht ``CP'' für die Position des Cursors und ``K'' kann einen Knoten aus dem \ac{ast} eines
+    \ac{yaml}-\textit{Documents} enthalten.}
+  \label{fig:flowchart-get-node-from-offset}
 \end{figure}
 
 

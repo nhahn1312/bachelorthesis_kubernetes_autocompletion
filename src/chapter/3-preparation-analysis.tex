@@ -1,28 +1,28 @@
 \chapter{Vorbereitende Analyse}\label{ch:preparation-analysis}
 
 In dem vorliegenden Kapitel werden die Probleme und Herausforderungen beim Erstellen von Kubernetes \textit{Manifest}-Dateien anhand von wissenschaftlichen Arbeiten
-und Internetquellen, sogenannter grauer Literatur, aufgezeigt. Anschließend werden bereits vorhandene Lösungen für die zuvor herausgearbeiteten Punkte vorgestellt.
-Zuletzt wird evaluiert, ob den vorhandenen Lösungen Funktionen fehlen.
+und Internetquellen, sogenannter grauer Literatur, aufgezeigt. Anschließend werden bereits vorhandene Lösungen für die zuvor herausgearbeiteten Punkte mit einer Websuche identifiziert.
+Zuletzt wird ein Laborversuch durchgeführt. Mit den Ergebnissen wird evaluiert, welche Funktionen den vorhandenen Lösungen fehlen.
 
 \section{Probleme und Herausforderungen}
 
 Als Erstes wurde nach wissenschaftlichen Arbeiten gesucht, die sich mit Kubernetes Konfigurationen und den Kubernetes \textit{Manifest}-Dateien
 beschäftigen. Dazu wurden folgende Suchbegriffe verwendet:
 \begin{itemize}
-    \setlength\itemsep{-0.5cm}
-    \item ``kubernetes configuration''
-    \item ``kubernetes manifests''
-    \item ``kubernetes challenges''
-    \item ``kubernetes deployment''
-    \item ``kubernetes problems''
-    \item ``kubernetes yaml''
+  \setlength\itemsep{-0.5cm}
+  \item ``kubernetes configuration''
+  \item ``kubernetes manifests''
+  \item ``kubernetes challenges''
+  \item ``kubernetes deployment''
+  \item ``kubernetes problems''
+  \item ``kubernetes yaml''
 \end{itemize}
 Die Suche wurde auf folgenden Seiten durchgeführt:
 \begin{itemize}
-    \setlength\itemsep{-0.5cm}
-    \item ACM Digitial Library (\url{https://dl.acm.org/})
-    \item IEEE Xplore (\url{https://ieeexplore.ieee.org/})
-    \item Google Scholar (\url{https://scholar.google.de/})
+  \setlength\itemsep{-0.5cm}
+  \item ACM Digitial Library (\url{https://dl.acm.org/})
+  \item IEEE Xplore (\url{https://ieeexplore.ieee.org/})
+  \item Google Scholar (\url{https://scholar.google.de/})
 \end{itemize}
 Dabei wurden fünf Arbeiten gefunden, die das gesuchte Thema behandeln. Zwei Arbeiten zeigen dabei alternative Wege zur Konfiguration von Kubernetes auf.
 Der Inhalt der Arbeiten wurde bereits in Kapitel~\ref{sec:introduction-related-work} beschrieben. Die anderen drei Arbeiten untersuchen Sicherheitsmängel,
@@ -34,124 +34,191 @@ Aufgrund der geringen Repräsentation in wissenschaftlichen Arbeiten wurde eine 
 der Kubernetes Konfigurationsdateien zu untersuchen.
 Die Suche wurde mit den zuvor verwendeten Suchbegriffen durchgeführt und um folgende Suchbegriffe erweitert:
 \begin{itemize}
-    \setlength\itemsep{-0.5cm}
-    \item ``kubernetes yaml manifest''
-    \item ``kubernetes configuration challenges''
-    \item ``kubernetes deployment challenges''
-    \item ``kubernetes manifest challenges''
-    \item ``kubernetes manifest problems''
+  \setlength\itemsep{-0.5cm}
+  \item ``kubernetes yaml manifest''
+  \item ``kubernetes configuration challenges''
+  \item ``kubernetes deployment challenges''
+  \item ``kubernetes manifest challenges''
+  \item ``kubernetes manifest problems''
 \end{itemize}
 Mit Hilfe der Ergebnisse der Websuche konnte eine Liste der Probleme und Herausforderungen beim Schreiben von Kubernetes \textit{Manifest}-Dateien erstellt werden:
 \begin{description}
-    \item[Herausforderung 1]{- \ac{yaml}-Syntax\\}
-          Es kommt zu Herausforderungen bei Einhalten der \ac{yaml}-Syntax~\cite{10.1145/3357223.3365759,the-chief-io-kubernetes-challenges,techtarget-kubernetes-challenges,monokle-kubernetes-challenges}.
-          Die inkorrekte Einrückung kann \ac{zB} ein Problem darstellen~\cite{10.1145/3357223.3365759,monokle-kubernetes-challenges}.
-    \item[Herausforderung 2]{- Komplexe Syntax\\}
-          Die Syntax der \textit{Manifest}-Dateien stellt eine Herausforderung dar~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems,newstack-io-kubernetes-manifest-lifecycle,10.1145/3357223.3365759,techtarget-kubernetes-challenges,monokle-kubernetes-challenges,kubernetes-config-problems}.
-          \textit{Manifest}-Dateien nutzen eine spezielle Syntax, die jedoch inkonsistent und mehrdeutig ist~\cite{dev-to-kubernetes-challenges}.
-          Jede Definition eines Kubernetes Objektes hat eine eigene Konfiguration, die der Nutzer kennen muss~\cite{kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems}.
-          Jedes Kubernetes Objekt hat \ac{zB} eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{10.1145/3357223.3365759, techtarget-kubernetes-challenges}.
-          Außerdem verursachen vom Nutzer falsch eingegebene oder nicht existierende \textit{Mapping}-Schlüssel Probleme~\cite{monokle-kubernetes-challenges}.
-    \item[Herausforderung 3]{- Erkennen von Sicherheitslücken\\}
-          Eine weitere Herausforderung ist das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein~\cite{9476056,dynatrace-kubernetes-security-challenges,10.1145/3468264.3473495,10.1145/3579639}.
-          Eine Sicherheitslücke kann \ac{zB} ein Passwort im Klartext in einer \textit{Manifest}-Datei sein~\cite{10.1145/3579639}.
-    \item[Herausforderung 4]{- Abhängigkeiten zwischen Objekten\\}
-          Die Abhängigkeit der Kubernetes Objekte untereinander stellt den Nutzer vor eine Herausforderung~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
-          Es kann \ac{zB} zu einer inkorrekten Konfiguration eines \textit{Labels} einer Ressource kommen~\cite{spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
-          Dieses Problem kann auftreten, wenn der Nutzer nicht über alle verfügbaren \textit{Labels} informiert ist.
+  \item[Herausforderung 1]{- \ac{yaml}-Syntax\\}
+        Es kommt zu Herausforderungen bei Einhalten der \ac{yaml}-Syntax~\cite{10.1145/3357223.3365759,the-chief-io-kubernetes-challenges,techtarget-kubernetes-challenges,monokle-kubernetes-challenges}.
+        Die inkorrekte Einrückung kann \ac{zB} ein Problem darstellen~\cite{10.1145/3357223.3365759,monokle-kubernetes-challenges}.
+  \item[Herausforderung 2]{- Komplexe Syntax\\}
+        Die Syntax der \textit{Manifest}-Dateien stellt eine Herausforderung dar~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems,newstack-io-kubernetes-manifest-lifecycle,10.1145/3357223.3365759,techtarget-kubernetes-challenges,monokle-kubernetes-challenges,kubernetes-config-problems}.
+        \textit{Manifest}-Dateien nutzen eine spezielle Syntax, die jedoch inkonsistent und mehrdeutig ist~\cite{dev-to-kubernetes-challenges}.
+        Jede Definition eines Kubernetes Objektes hat eine eigene Konfiguration, die der Nutzer kennen muss~\cite{kubetools-io-kubernetes-manifest-management,entwickler-de-kubernetes-problems}.
+        Jedes Kubernetes Objekt hat \ac{zB} eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{10.1145/3357223.3365759, techtarget-kubernetes-challenges}.
+        Außerdem verursachen vom Nutzer falsch eingegebene oder nicht existierende \textit{Mapping}-Schlüssel Probleme~\cite{monokle-kubernetes-challenges}.
+  \item[Herausforderung 3]{- Erkennen von Sicherheitslücken\\}
+        Eine weitere Herausforderung ist das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein~\cite{9476056,dynatrace-kubernetes-security-challenges,10.1145/3468264.3473495,10.1145/3579639}.
+        Eine Sicherheitslücke kann \ac{zB} ein Passwort im Klartext in einer \textit{Manifest}-Datei sein~\cite{10.1145/3579639}.
+  \item[Herausforderung 4]{- Abhängigkeiten zwischen Objekten\\}
+        Die Abhängigkeit der Kubernetes Objekte untereinander stellt den Nutzer vor eine Herausforderung~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
+        Es kann \ac{zB} zu einer inkorrekten Konfiguration eines \textit{Labels} einer Ressource kommen~\cite{spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
+        Dieses Problem kann auftreten, wenn der Nutzer nicht über alle verfügbaren \textit{Labels} informiert ist.
 \end{description}
 
 \section{Vorhandene Lösungen}
 
-%Nachdem bestehende Herausforderungen beim Erstellen von Kubernetes \textit{Manifest} identifiziert wurden, konnte nach bestehenden Lösungen für diese gesucht werden.
-%Die gefundenen Programme wurden anschließend auf fehlende Funktionalitäten zur Lösung der Herausforderungen untersucht.
 Um bestehende Lösungen für die identifizierten Herausforderungen zu finden, wurde eine Websuche anhand folgender Suchbegriffe durchgeführt:
 \begin{itemize}
-    \setlength\itemsep{-0.5cm}
-    \item ``kubernetes validation''
-    \item ``kuberrnetes security validation''
-    \item ``kubernetes autocompletion''
-    \item ``kubernetes manifest tools''
-    \item ``kubernetes manifest autocompletion''
-    \item ``kubernetes IDE''
-    \item ``kubernetes manifest editor''
+  \setlength\itemsep{-0.5cm}
+  \item ``kubernetes validation''
+  \item ``kuberrnetes security validation''
+  \item ``kubernetes autocompletion''
+  \item ``kubernetes manifest tools''
+  \item ``kubernetes manifest autocompletion''
+  \item ``kubernetes IDE''
+  \item ``kubernetes manifest editor''
 \end{itemize}
 
-Es wurden nur Programme berücksichtigt, für welche es in den letzten drei eine Aktualisierung gab.
+Es wurden nur Programme berücksichtigt, für welche es in den letzten drei Jahren eine Aktualisierung gab.
 Aus der Websuche ergaben sich neun Programme, die mindestens eine der Herausforderungen erfüllen und die
 im definierten Zeitraum eine Aktualisierung erhalten haben.
-Die Erfüllung einer Herausforderung wurde zuerst mit Hilfe der Quellen angenommen und anschließend
-in einem Laborversuch verifiziert.
-\\\\
+Die Erfüllung einer Herausforderung wurde mit Hilfe der Quellen angenommen.
+
+\textbf{Gefundene Kommandozeilentools:} kubeconform~\cite{kubeconform-source}, KubeLinter~\cite{kubelinter-source}, kube-score~\cite{kubescore-source}, kubectl-validate~\cite{kubectl-validate-source}
+\\
+\textbf{Gefundene Programme mit grafischer Oberfläche:} Lens~\cite{kubernetes-lens-source}, Monokle~\cite{monokle-source}, vscode-yaml~\cite{vscode-yaml-source}, kpad~\cite{kpad-source}
+
+
+\section{Laborversuch}
+
+Um zu verifizieren, dass die gefundenen Lösungen die mit den Quellen angenommenen Herausforderungen tatsächlich erfüllen, wird ein Laborversuch durchgeführt.
+
+\subsection{Vorbereitung}
 Der Laborversuch wurde auf einem Rechner mit dem Betriebssystem Windows 11 durchgeführt.
 Die Anwendung \textit{Docker for Desktop} wurde installiert~\cite{docker-for-desktop-overview}. Sie enthält ein Kubernetes Cluster enthält,
 welches lokal auf einen einzigen \textit{Node} ausgeführt wird~\cite{docker-for-desktop-kubernetes}.
 \\
 Zuerst wurde ein \textit{Namespace} und ein \textit{Secret} auf dem Cluster mit folgenden Befehlen angelegt:
 \begin{enumerate}
-    \item
-          \begin{minted}[linenos=false]{console}
+  \item
+        \begin{minted}[linenos=false]{console}
         kubectl create namespace namespace-exp
     \end{minted}
-    \item
-          \begin{minted}[linenos=false]{console}
+  \item
+        \begin{minted}[linenos=false]{console}
         kubectl create secret generic secret-exp --namespace=namespace-exp
     \end{minted}
 \end{enumerate}
-Es wurden zwei verschiedene \textit{Manifest}-Dateien erstellt,
-die jeweils eine vollständige valide Definition eines \textit{Pods} und eines \textit{Deployments} enthalten.
-Im Anhang befindet sich der Inhalt dieser Dateien.
+Es wurde eine \textit{Manifest}-Datei erstellt, die eine vollständige valide Definition eines \textit{Pods} enthält.
+Im Anhang befindet sich der Inhalt der Datei.
 \\
-Um sicherzustellen, dass die Definition vollständig und valide ist, wurden die Objekte mit dem Kommandozeilentool \textit{kubectl} auf das Cluster ausgerollt.
-Folgende Befehle wurden dazu genutzt:
-\begin{enumerate}
-    \item
-          \begin{minted}[linenos=false]{console}
-        kubectl create -f pod.yaml
-    \end{minted}
-    \item
-          \begin{minted}[linenos=false]{console}
-        kubectl create -f deployment.yaml
-    \end{minted}
-\end{enumerate}
+Um sicherzustellen, dass die Definition vollständig und valide ist, wurden das Objekt mit dem Kommandozeilentool \textit{kubectl} auf das Cluster ausgerollt.
+Folgender Befehle wurde dazu genutzt:
 
+\begin{minted}[linenos=false]{console}
+    kubectl create -f pod.yaml
+\end{minted}
 
-
-Im nächsten Schritt wurden Testfälle definiert, die zur Beurteilung der Lösung einer Herausforderung herangezogen werden können.
-\begin{description}
-    \item[Testfall 1] falsche Einrückung(z.B Mapping-Schlüssel in Sequence definiert), fehlender Doppelpunkt
-    \item[Testfall 2.1] fehlender Pflichtschlüssel, unbekannter Mapping-Schlüssel definiert, Scalar eines falschen Typs angegeben
-    \item[Testfall 2.2] Autovervollständigung von Mapping-Schlüsseln
-    \item[Testfall 3] Programm erkennt einen im Paper definierten Sicherheitsmangel
-    \item[Testfall 4.1] nicht existierendes Kubernetes Objekt wurde bei der Definition angegeben. (z.B. secret, namespace)
-    \item[Testfall 4.2] Autovervollständigung von Werten mit Hilfe von Cluster Ressourcen
-\end{description}
-
-
-
-%Lösung für 1 -> yaml syntax prüfung \\
-%Lösung für 2 -> validation, autocompletion \\
-%Lösung für 3 -> security validation \\
-%Lösung für 4 -> übersicht der clusterressourcen und autocompletion \\
-
+Nach dem Ausrollen wurde der \textit{Pod} mit folgendem Befehl wieder vom Cluster entfernt:
+\begin{minted}[linenos=false]{console}
+    kubectl delete -f pod.yaml
+\end{minted}
+Um zu Überprüfen welche Herausforderungen von den jeweiligen Programmen erfüllt werden, wurden für jede Herausforderung mehrere Testfälle definiert.
+Tabelle~\ref{tbl:test-cases-experiment} zeigt die Testfälle und deren Beschreibungen.
 \begin{table}[h]
-    \centering
-    \begin{tabular}{lllll}
-        \toprule
-        \begin{tabular}{@{}l@{}} \emptycirc: nicht erfüllt \\ \halfcirc: teilweise erfüllt\\ \fullcirc: vollständig erfüllt \end{tabular} & \rotatebox{90}{Herausforderung 1} & \rotatebox{90}{Herausforderung 2} & \rotatebox{90}{Herausforderung 3} & \rotatebox{90}{Herausforderung 4} \\
-        \midrule
-        kubeconform~\cite{kubeconform-source}                                                                                             & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
-        KubeLinter~\cite{kubelinter-source}                                                                                               & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
-        kube-score~\cite{kubescore-source}                                                                                                & \fullcirc                         & \emptycirc                        & 3                                 & \emptycirc                        \\
-        kubectl-validate~\cite{kubectl-validate-source}                                                                                   & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
-        \midrule
-        Lens~\cite{kubernetes-lens-source}                                                                                                & \fullcirc                         & \halfcirc                         & 3                                 & \halfcirc                         \\
-        Monokle~\cite{monokle-source}                                                                                                     & \fullcirc                         & \fullcirc                         & \fullcirc                         & \halfcirc                         \\
-        vscode-yaml~\cite{vscode-yaml-source}                                                                                             & \fullcirc                         & \fullcirc                         & \emptycirc                        & \emptycirc                        \\
-        ValidCube~\cite{valid-cube-source}                                                                                                & \fullcirc                         & \halfcirc                         & \fullcirc                         & \emptycirc                        \\
-        kpad~\cite{kpad-source}                                                                                                           & \fullcirc                         & \fullcirc                         & \emptycirc                        & \emptycirc                        \\
-        \bottomrule
-    \end{tabular}
-    \caption{Zuordnungstabelle der Klassen der verschiedenen \acs{ast}-Implementierungen}
-    \label{tbl:kubernetes-manifest-tools-capabilities}
+  \centering
+  \begin{tabularx}{\columnwidth}{lllX}
+    \toprule
+    \begin{tabular}{@{}l@{}}\textbf{Heraus-} \\ \textbf{forderung} \end{tabular} & \begin{tabular}{@{}l@{}}\textbf{Test-}\\\textbf{fall} \end{tabular} & \textbf{Beschreibung}                                                    \\
+    \midrule
+    \multirow{3}{*}{1}                                                           & 1.1                                                                 & falsche Einrückung eines \textit{Mapping}-Schlüssels                     \\
+                                                                                 & 1.2                                                                 & fehlender Doppelpunkt nach \textit{Mapping}-Schlüssel                    \\
+                                                                                 & 1.3                                                                 & redundante Angabe eine \textit{Mapping}-Schlüssels                       \\
+    \midrule
+    \multirow{5}{*}{2}                                                           & 2.1.1                                                               & fehlender Pflichtschlüssel                                               \\
+                                                                                 & 2.1.2                                                               & unbekannter \textit{Mapping}-Schlüssel definiert                         \\
+                                                                                 & 2.1.3                                                               & \textit{Scalar} eines falschen Typs angegeben                            \\
+                                                                                 & 2.2                                                                 & Kontextabhängige Autovervollständigung von \textit{Mapping}-Schlüsseln   \\
+    \midrule
+    \multirow{11}{*}{3}                                                          & 3.1.1                                                               & ``resourceLimit'' nicht definiert                                        \\
+                                                                                 & 3.1.2                                                               & ``securityContext'' nicht definiert                                      \\
+                                                                                 & 3.1.3                                                               & ``hostIPC'' aktiviert                                                    \\
+                                                                                 & 3.1.4                                                               & ``hostNetwork'' aktiviert                                                \\
+                                                                                 & 3.1.5                                                               & ``hostPID'' aktiviert                                                    \\
+                                                                                 & 3.1.6                                                               & Falsche Nutzung der ``capabilities''                                     \\
+                                                                                 & 3.1.7                                                               & Einbinden des Docker-Sockets                                             \\
+                                                                                 & 3.1.8                                                               & Eskalierte Privilegien für Container-Prozesse                            \\
+                                                                                 & 3.1.9                                                               & Benutzernamen oder Passwörter im Klartext                                \\
+                                                                                 & 3.1.10                                                              & Konfiguration von \ac{http}-Verbindungen                                 \\
+                                                                                 & 3.1.11                                                              & ``privileged: true'' im ``securityContext''                              \\
+    \midrule
+    \multirow{3}{*}{4}                                                           & 4.1.1                                                               & Angabe eines existierenden \textit{Secrets}                              \\
+                                                                                 & 4.1.2                                                               & Angabe eines nicht existierenden \textit{Secrets}                        \\
+                                                                                 & 4.2                                                                 & \makecell[l]{Kontextabhängige Autovervollständigung von Werten mit Hilfe \\ von Cluster-Ressourcen} \\
+
+    \bottomrule
+  \end{tabularx}
+  \caption{Zuordnungstabelle der Herausforderungen mit ihren Testfällen für den Laborversuch}
+  \label{tbl:test-cases-experiment}
+\end{table}
+Die \textit{Manifest}-Datei des \textit{Pods} wurde für jede Herausforderung einzeln so modifiziert, dass alle Testfälle gleichzeitig überprüft werden konnten.
+Für Herausforderung 1 wurde sie \ac{zB} so bearbeitet, dass diese Syntaxfehler für die Testfälle 1.1 bis 1.3 enthält.
+Der Inhalt der modifizierten Dateien befindet sich im Anhang.
+\\
+Eine Herausforderung gilt als vollständig erfüllt, wenn das Programm alle Fehler der definierten Testfälle erkennt.
+Es ist auch möglich, dass ein Programm eine Herausforderung teilweise erfüllt, die Bedingungen dafür wurden einzeln festgelegt.
+In allen anderen Fällen erfüllt ein Programm eine Herausforderung nicht.
+\\\\
+Die Testfälle für Herausforderung 1 prüfen, ob das Programm Fehler in der \ac{yaml}-Syntax erkennen kann.
+Eine teilweise Erfüllung ist für diese Herausforderung nicht möglich.
+\\
+Für Herausforderung 2 prüfen die Testfälle, ob das Programm eine Validierung und Autovervollständigung für die Syntax der \textit{Manifest}-Dateien
+bietet. Die Herausforderung gilt als teilweise erfüllt, wenn die unter 2.1 definierten Testfälle erfüllt sind oder Testfall 2.2 erfüllt ist.
+Um die Autovervollständigung aus Testfall 2.2 zu prüfen wurde der \textit{Mapping}-Schlüssel ``name'' aus der Datei entfernt, siehe Zeile 5.
+Programme, bei denen es sich um ein Kommandozeilentool handelt, können nur die unter 2.1 definierten Testfälle erfüllen.
+\\
+Die Testfälle für Herausforderung 3 prüfen Sicherheitsmängel in der Konfiguration. Die in der Tabelle vorhandenen Testfälle wurden
+aus der wissenschaftlichen Arbeit~\cite{10.1145/3579639}[Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study]
+entnommen. Sie sind als Beispiele für Sicherheitsmängel in \textit{Manifest}-Dateien aufgelistet und eignen sich daher als Testfälle im Laborversuch.
+Für diese Herausforderung wurden zwei unterschiedliche modifizierte Versionen der \textit{Manifest}-Datei des \textit{Pods} benötigt,
+da sich Testfall 3.1.2 und 3.1.11 gegenseitig ausschließen.
+In der ersten Version der Datei werden die Testfälle 3.1.1 bis 3.1.5 und 3.1.7, 3.1.9 sowie 3.1.10 abdeckt.
+Die zweite Version deckt die Testfälle 3.1.6, 3.1.8 und 3.1.11 ab.
+Die Herausforderung gilt als teilweise erfüllt, wenn mehr als $50\%$ Testfälle erfüllt sind.
+\\
+Zuletzt wurde überprüft, ob der Nutzer vom Programm bei der Angabe von abhängigen Objekten im Cluster unterstützt wird.
+Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung angezeigt.
+Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde ein der Name des \textit{Namespace} aus der Datei entfernt, siehe Zeile 6.
+Die teilweise Erfüllung der Herausforderung ist mit dem Erfüllen der Testfälle unter 4.1 oder 4.2 möglich.
+
+\subsection{Ergebnisse}
+
+Die Ergebnisse des Laborversuchs sind in Tabelle~\ref{tbl:kubernetes-manifest-tools-capabilities} dargestellt.
+Es ist anzumerken, dass die Testfälle vor der Durchführung des Laborversuchs definiert wurden und die Testbedingungen so nicht
+ideal für einige Programme waren. Einige Programme, wie \ac{zB} kubectl-validate, geben nur den ersten gefundenen Fehler aus.
+Die vorher gewählte Vorgehensweise die Dateien für den Versuch mit mehreren Fehlern für die Testfälle zu versehen stellt für
+diese Programme ein Problem dar. Ein ausführliches Protokoll, welches die erfüllten und nicht erfüllten Testfälle für jedes Programm
+auflistet, befindet sich im Anhang. \\
+Der Laborversuch zeigt, dass alle Programme Herausforderung 4 nicht erfüllen.
+Monokle und Lens bieten zwar eine grafische Übersicht über die Cluster-Ressourcen, aber keine funktionierende
+Validierung oder Autovervollständigung in den \textit{Manifest}-Dateien. Um diese Funktionslücke zu schließen wird im
+nächsten Kapitel eine Lösung für Herausforderung 4 implementiert.
+
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{lllll}
+    \toprule
+    \begin{tabular}{@{}l@{}} \emptycirc: nicht erfüllt \\ \halfcirc: teilweise erfüllt\\ \fullcirc: vollständig erfüllt \end{tabular} & \rotatebox{90}{Herausforderung 1} & \rotatebox{90}{Herausforderung 2} & \rotatebox{90}{Herausforderung 3} & \rotatebox{90}{Herausforderung 4} \\
+    \midrule
+    kubeconform~\cite{kubeconform-source}                                                                                             & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
+    KubeLinter~\cite{kubelinter-source}                                                                                               & \emptycirc                        & \emptycirc                        & \halfcirc                         & \emptycirc                        \\
+    kube-score~\cite{kubescore-source}                                                                                                & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
+    kubectl-validate~\cite{kubectl-validate-source}                                                                                   & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
+    \midrule
+    Lens~\cite{kubernetes-lens-source}                                                                                                & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
+    Monokle~\cite{monokle-source}                                                                                                     & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+    vscode-yaml~\cite{vscode-yaml-source}                                                                                             & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+    ValidCube~\cite{valid-cube-source}                                                                                                & \emptycirc                        & \emptycirc                        & \halfcirc                         & \emptycirc                        \\
+    kpad$^*$~\cite{kpad-source}                                                                                                       & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
+    \bottomrule
+  \end{tabular}
+  \caption{Ergebnisse des Laborversuchs}
+  \floatfoot{$^*$Programm nicht funktionsfähig}
+  \label{tbl:kubernetes-manifest-tools-capabilities}
 \end{table}
