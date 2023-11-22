@@ -1,1 +1,212 @@
 \chapter{Vergleich}\label{ch:comparison}
+
+In dem vorliegenden Kapitel werden die vorhandenen Lösungen aus Kapitel~\ref{ch:preparation-analysis} mit
+der Implementierung aus Kapitel~\ref{ch:implementation} unter Berücksichtigung der Kriterien aus der wissenschaftlichen Arbeit
+~\cite[A Large-Scale Study of Usability Criteria Addressed by Static Analysis Tools]{usability-criteria-static-analysis-tools} verglichen.
+Die Arbeit beschäftigt sich mit Kriterien zur Benutzerfreundlichkeit von statischen Analysetools und führt anhand dieser einen
+Vergleich durch. Die Kriterien werden in diesem Kapitel herausgearbeitet. Anschließend wird entschieden, welche der Kriterien
+im Kontext dieser Arbeit für den Vergleich genutzt werden. Zuletzt folgen die Ergebnisse des Vergleichs mit den ausgewählten Kriterien.
+
+\section{Auswahl der Kriterien}
+
+Die Kriterien wurden als Erstes in sechs Kategorien eingeteilt, die den Unterkapiteln aus dem dritten Kapitel der wissenschaftlichen Arbeit
+entsprechen. Es folgt eine Beschreibung der einzelnen Kategorien~\cite{usability-criteria-static-analysis-tools}:
+
+\begin{description}
+    \setlength\itemsep{-0.5cm}
+    \item[Kategorie 1]{- Warnmeldungen\\}
+          Die Kriterien dieser Kategorie prüfen die Warnmeldungen der Lösungen und wie diese dem Nutzer beschrieben werden.
+    \item[Kategorie 2]{- Unterstützung bei der Fehlerbehebung\\}
+          In dieser Kategorie befinden sich Kriterien, die beurteilen, ob und wie der Nutzer beim Behebung unterstützt wird.
+    \item[Kategorie 3]{- falsch-positive Fehler\\}
+          Diese Kategorie bewertet, welche Mechanismen statische Analysetools bieten, um falsch-positive Fehler zu unterdrücken
+          und den Nutzer dabei zu unterstützen falsch-positive Fehler zu erkennen.
+    \item[Kategorie 4]{Rückmeldungen vom Nutzer\\}
+          Die Kriterien der Kategorie beurteilen, ob und wie sich die Lösung an die Bedürfnisse des Nutzers anpassen lässt.
+          Darunter fällt \ac{zB} die Möglichkeit, spezifische Regeln zu Analyse zu deaktivieren.
+    \item[Kategorie 5]{Integration in den Arbeitsablauf\\}
+          Die Kriterien dieser Kategorie prüfen, wie sich die Lösung in den Arbeitsablauf des Nutzers Integrieren lässt.
+    \item[Kategorie 6]{Benutzeroberfläche\\}
+          Die Kriterien zur Benutzeroberfläche untersuchen, wie Fehlermeldungen dem Nutzer auf der Oberfläche präsentiert werden.
+\end{description}
+
+Die Tabellen   und zeigen eine Übersicht aller Kriterien mit deren einer Kurzbeschreibung und ob diese für den Vergleich im Rahmen der Arbeit ausgewählt wurden.
+Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. Für jede Kategorie wurde dazu eine eigene Tabelle erstellt.
+
+\begin{table}[htp]
+    \centering
+    \begin{tabularx}{\columnwidth}{XXl}
+        \toprule
+        \textbf{Name}              & \textbf{Beschreibung}                                                                                                                & \textbf{ja/nein} \\
+        \midrule
+        Interne Gründe             & Der Nutzer erhält eine Beschreibung der Gründe der Warnmeldung.                                                                      & ja               \\
+        \midrule
+        Auslöser des Fehlers       & Der Nutzer kann verfolgen, was den beschriebenen Fehler ausgelöst hat.                                                               & nein$^{(1)}$     \\
+        \midrule
+        Folgen des Fehlers         & Die Folgen eines Fehlers werden erläutert.                                                                                           & ja               \\
+        \midrule
+        Beispiele zum Fehler       & Die Warnmeldung wird anhand eines Beispiels näher erläutert.                                                                         & ja               \\
+        \midrule
+        Weitere Informationen      & Dem Nutzer werden weitere Informationen zu einem Fehler angeboten, \ac{zB} der Link zu einer Website.                                & ja               \\
+        \midrule
+        Kontext zum Fehler         & Beurteilt, ob die Lösung kontextbezogene Warnmeldungen anbietet oder nur generische Warnmeldungen mit Austausch von Variablen nutzt. & ja               \\
+        \midrule
+        Fehlercode                 & Untersucht, ob eine Anwendung einen einzigartigen Fehlercode für einen Fehler bereitstellt.                                          & ja               \\
+        \midrule
+        Grundlegende Informationen & Prüft, ob die Lösung eine Kategorisierung und Lokalisierung des Fehlers ermöglicht und ob es eine Einteilung nach Schweregrad gibt   & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 1}
+    \label{tbl:criteria-category-1}
+\end{table}
+
+\begin{enumerate}[label= (\arabic*)]
+    \item Dieses Kriterium ist nur für statische Analysetools für Programmiersprachen relevant. Fehler in \textit{Manifest}-Dateien sind direkt lokalisierbar.
+\end{enumerate}
+
+\FloatBarrier
+
+\begin{table}[htp]
+    \centering
+    \begin{tabularx}{\columnwidth}{lXl}
+        \toprule
+        \textbf{Name}                & \textbf{Beschreibung}                                                                       & \textbf{ja/nein} \\
+        \midrule
+        Schnelle Fehlerbehebung      & Die Anwendung gibt einen Vorschlag zum Beheben des Fehlers an.                              & ja               \\
+        \midrule
+        Alternative Lösungen         & Die Anwendung bietet alternative Lösungen zur Fehlerbehebung an.                            & ja               \\
+        \midrule
+        Vorschau zur Fehlerbehebung  & Dem Nutzer wird in einer Vorschau gezeigt, wie die Datei nach Fehlerbehebung aufgebaut ist. & ja               \\
+        \midrule
+        Beispiele zur Fehlerbehebung & Der Nutzer erhält Beispiele zur Lösung des Fehlers.                                         & ja               \\
+        \midrule
+        Anleitung zur Fehlerbehebung & Die Anwendung zeigt dem Nutzer alle nötigen Schritte zur Fehlerbehebung.                    & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 2}
+    \label{tbl:criteria-category-2}
+\end{table}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabularx}{\columnwidth}{lXl}
+        \toprule
+        \textbf{Name}               & \textbf{Beschreibung}                                                                                                                                         & \textbf{ja/nein} \\
+        \midrule
+        Ausblenden von Fehlern      & Die Anwendung gibt dem Nutzer Möglichkeit eine Warnmeldung als falsch-positiv zu markieren und auszublenden.                                                  & ja               \\
+        \midrule
+        Punktesystem                & Die Anwendung fügt Warnmeldungen ein Punktesystem hinzu, mit dessen Hilfe der Nutzer abschätzen kann, ob es sich um einen falsch-positiven Fehler handelt.    & ja               \\
+        \midrule
+        Nutzerwissen zur Einordnung & Bei fehlendem Kontext fragt die Anwendung den Nutzer, um den Fehler besser einzuordnen und die Nutzereingabe zur Verbesserung der Warnmeldungen zu verwenden. & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 3}
+    \label{tbl:criteria-category-3}
+\end{table}
+
+
+\begin{table}[htp]
+    \centering
+    \begin{tabularx}{\columnwidth}{lXl}
+        \toprule
+        \textbf{Name}           & \textbf{Beschreibung}                                                                                                                           & \textbf{ja/nein} \\
+        \midrule
+        Anpassung der Regeln    & Der Nutzer kann die Regeln zur Validierung anpassen und bei Bedarf bestimmte Regeln deaktivieren.                                               & ja               \\
+        \midrule
+        Validierung von Fehlern & Die Anwendung nutzt Fehler, die der Nutzer bereits behoben hat, um ähnliche Fehler besser von falsch-positiven Fehlern unterscheiden zu können. & ja               \\
+        \midrule
+        temporäres Ausblenden   & Der Nutzer hat die Möglichkeit einen Fehler temporär auszublenden, \ac{zB} durch eine Annotation.                                               & ja               \\
+        \midrule
+        Filter zum Ausblenden   & Die Anwendung ermöglicht dem Nutzer Ausblenden von Warnmeldungen mit Hilfe von Filtern                                                          & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 4}
+    \label{tbl:criteria-category-4}
+\end{table}
+
+\begin{table}[t]
+    \centering
+    \begin{tabularx}{\columnwidth}{XXl}
+        \toprule
+        \textbf{Name}                    & \textbf{Beschreibung}                                                              & \textbf{ja/nein} \\
+        \midrule
+        Priorisierung von Fehlern        & Die Anwendung priorisiert die Fehler automatisch für den Nutzer                    & ja               \\
+        \midrule
+        \ac{ide}-Integration             & Die Anwendung kann mit einer Erweiterung in eine \ac{ide} integriert werden        & ja$^{(1)}$       \\
+        \midrule
+        Alleinstehendes Programm         & Bei der Anwendung handelt es sich um ein alleinstehendes installierbares Programm. & nein$^{(2)}$     \\
+        \midrule
+        Browser-Integration              & Die Anwendung ist im Browser ausführbar                                            & nein$^{(3)}$     \\
+        \midrule
+        Integration in den Arbeitsablauf & Prüft, ob das Programm in den Arbeitsablauf integriert werden kann.                & nein$^{(4)}$     \\
+        \midrule
+        Laufzeit                         & Messung der Laufzeit der Lösungen                                                  & nein$^{(5)}$     \\
+        \midrule
+        Rückmeldung bei Fehlerbehebung   & Der Nutzer erhält von der Anwendung Rückmeldung, dass ein Fehler behoben wurde     & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 5}
+    \label{tbl:criteria-category-5}
+\end{table}
+
+\FloatBarrier
+
+\begin{enumerate}[label= (\arabic*)]
+    \item Die wissenschaftliche Arbeit gibt an, dass statische Analysetools zur besseren Integration in den Arbeitsablauf in eine \ac{ide} integriert sein sollten.
+          Damit handelt es sich um ein qualitatives Kriterium.
+    \item Die Kriterien sollen zur qualitativen Beurteilung herangezogen werden. Dieses Kriterium gibt an, um welche Art von Programm es sich handelt.
+    \item Siehe (2)
+    \item die wissenschaftliche Arbeit gibt hier an, dass sich dieses Kriterium vollständig mit ``IDE-Integration'' überdeckt. Es wurde letztlich nur überprüft, ob die Anwendung in eine \ac{ide} integriert werden kann.
+    \item es gibt keine zuverlässige Methode, um einen Unterschied in der Laufzeit bei den zu vergleichenden Lösungen festzustellen.
+\end{enumerate}
+
+\begin{table}[t]
+    \centering
+    \begin{tabularx}{\columnwidth}{XXl}
+        \toprule
+        \textbf{Name}                         & \textbf{Beschreibung}                                                                                                                                                          & \textbf{ja/nein} \\
+        \midrule
+        Markieren von Fehlern und Warnsymbole & Die Anwendung kann mit einer Erweiterung in eine \ac{ide} integriert werden                                                                                                    & ja               \\
+        \midrule
+        Erfüllen von Erwartungen              & Die Anwendung verhält sich den Erwartungen des Nutzers entsprechend. Es wird \ac{zB} überprüft, ob sich ein Kommandozeilentool ähnlich wie andere Kommandozeilentools verhält. & nein$^{(1)}$     \\
+        \midrule
+        Übersicht von Fehlermeldungen         & Die Anwendung stellt eine Übersicht aller Fehler bereit.                                                                                                                       & ja               \\
+        \midrule
+        Fortschrittsanzeige                   & Der Nutzer kann in der Anwendung eine Historie der bereits behobenen Fehler sehen und so seinen Fortschritt überwachen.                                                        & ja               \\
+        \midrule
+        Suche von Fehlern                     & Die Anwendung ermöglicht die Suche in allen vorhandenen Warnmeldungen                                                                                                          & ja               \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Kriterien der Kategorie 6}
+    \label{tbl:criteria-category-6}
+\end{table}
+
+\FloatBarrier
+
+\begin{enumerate}[label= (\arabic*)]
+    \item Es fehlen Kriterien zur Beurteilung, wann sich ein Programm wie ein ähnliches verhält.
+\end{enumerate}
+
+\section{Ergebnisse}
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{lllllll||l}
+        \toprule
+        \textbf{Anwendung}      & \rotatebox{90}{Kategorie 1} & \rotatebox{90}{Kategorie 2} & \rotatebox{90}{Kategorie 3} & \rotatebox{90}{Kategorie 4} & \rotatebox{90}{Kategorie 5} & \rotatebox{90}{Kategorie 6} & \rotatebox{90}{Gesamt} \\
+        \midrule
+        kubeconform             & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                 \\
+        KubeLinter              &                             &                             &                             &                             &                             &                             &                        \\
+        kube-score              &                             &                             &                             &                             &                             &                             &                        \\
+        kubectl-validate        &                             &                             &                             &                             &                             &                             &                        \\
+        \midrule
+        Lens                    &                             &                             &                             &                             &                             &                             &                        \\
+        Monokle                 &                             &                             &                             &                             &                             &                             &                        \\
+        vscode-kubernetes-tools &                             &                             &                             &                             &                             &                             &                        \\
+        ValidCube               &                             &                             &                             &                             &                             &                             &                        \\
+        Eigene Implementierung  &                             &                             &                             &                             &                             &                             &                        \\
+        \bottomrule
+    \end{tabular}
+    \caption{Ergebnisse des Vergleichs}
+    \label{tbl:kubernetes-manifest-tools-capabilities}
+\end{table}

@@ -82,7 +82,7 @@ Die Erfüllung einer Herausforderung wurde mit Hilfe der Quellen angenommen.
 
 \textbf{Gefundene Kommandozeilentools:} kubeconform~\cite{kubeconform-source}, KubeLinter~\cite{kubelinter-source}, kube-score~\cite{kubescore-source}, kubectl-validate~\cite{kubectl-validate-source}
 \\
-\textbf{Gefundene Programme mit grafischer Oberfläche:} Lens~\cite{kubernetes-lens-source}, Monokle~\cite{monokle-source}, vscode-yaml~\cite{vscode-yaml-source}, kpad~\cite{kpad-source}
+\textbf{Gefundene Programme mit grafischer Oberfläche:} Lens~\cite{kubernetes-lens-source}, Monokle~\cite{monokle-source}, vscode-kubernetes-tools~\cite{vscode-kubernetes-tools-source}, kpad~\cite{kpad-source}
 
 
 \section{Laborversuch}
@@ -121,7 +121,7 @@ Nach dem Ausrollen wurde der \textit{Pod} mit folgendem Befehl wieder vom Cluste
 \end{minted}
 Um zu Überprüfen welche Herausforderungen von den jeweiligen Programmen erfüllt werden, wurden für jede Herausforderung mehrere Testfälle definiert.
 Tabelle~\ref{tbl:test-cases-experiment} zeigt die Testfälle und deren Beschreibungen.
-\begin{table}[h]
+\begin{table}[t]
   \centering
   \begin{tabularx}{\columnwidth}{lllX}
     \toprule
@@ -164,28 +164,34 @@ Der Inhalt der modifizierten Dateien befindet sich im Anhang.
 Eine Herausforderung gilt als vollständig erfüllt, wenn das Programm alle Fehler der definierten Testfälle erkennt.
 Es ist auch möglich, dass ein Programm eine Herausforderung teilweise erfüllt, die Bedingungen dafür wurden einzeln festgelegt.
 In allen anderen Fällen erfüllt ein Programm eine Herausforderung nicht.
-\\\\
-Die Testfälle für Herausforderung 1 prüfen, ob das Programm Fehler in der \ac{yaml}-Syntax erkennen kann.
-Eine teilweise Erfüllung ist für diese Herausforderung nicht möglich.
-\\
-Für Herausforderung 2 prüfen die Testfälle, ob das Programm eine Validierung und Autovervollständigung für die Syntax der \textit{Manifest}-Dateien
-bietet. Die Herausforderung gilt als teilweise erfüllt, wenn die unter 2.1 definierten Testfälle erfüllt sind oder Testfall 2.2 erfüllt ist.
-Um die Autovervollständigung aus Testfall 2.2 zu prüfen wurde der \textit{Mapping}-Schlüssel ``name'' aus der Datei entfernt, siehe Zeile 5.
-Programme, bei denen es sich um ein Kommandozeilentool handelt, können nur die unter 2.1 definierten Testfälle erfüllen.
-\\
-Die Testfälle für Herausforderung 3 prüfen Sicherheitsmängel in der Konfiguration. Die in der Tabelle vorhandenen Testfälle wurden
-aus der wissenschaftlichen Arbeit~\cite{10.1145/3579639}[Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study]
-entnommen. Sie sind als Beispiele für Sicherheitsmängel in \textit{Manifest}-Dateien aufgelistet und eignen sich daher als Testfälle im Laborversuch.
-Für diese Herausforderung wurden zwei unterschiedliche modifizierte Versionen der \textit{Manifest}-Datei des \textit{Pods} benötigt,
-da sich Testfall 3.1.2 und 3.1.11 gegenseitig ausschließen.
-In der ersten Version der Datei werden die Testfälle 3.1.1 bis 3.1.5 und 3.1.7, 3.1.9 sowie 3.1.10 abdeckt.
-Die zweite Version deckt die Testfälle 3.1.6, 3.1.8 und 3.1.11 ab.
-Die Herausforderung gilt als teilweise erfüllt, wenn mehr als $50\%$ Testfälle erfüllt sind.
-\\
-Zuletzt wurde überprüft, ob der Nutzer vom Programm bei der Angabe von abhängigen Objekten im Cluster unterstützt wird.
-Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung angezeigt.
-Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde ein der Name des \textit{Namespace} aus der Datei entfernt, siehe Zeile 6.
-Die teilweise Erfüllung der Herausforderung ist mit dem Erfüllen der Testfälle unter 4.1 oder 4.2 möglich.
+
+\begin{description}
+  \setlength\itemsep{-0.5cm}
+  \item[Testfälle für Herausforderung 1]{~\\}
+        Sie prüfen, ob das Programm Fehler in der \ac{yaml}-Syntax erkennen kann.
+        Eine teilweise Erfüllung ist für diese Herausforderung nicht möglich.
+  \item[Testfälle für Herausforderung 2]{~\\}
+        Es wird geprüft, ob das Programm eine Validierung und Autovervollständigung für die Syntax der \textit{Manifest}-Dateien
+        bietet. Die Herausforderung gilt als teilweise erfüllt, wenn die unter 2.1 definierten Testfälle erfüllt sind oder Testfall 2.2 erfüllt ist.
+        Um die Autovervollständigung aus Testfall 2.2 zu prüfen wurde der \textit{Mapping}-Schlüssel ``name'' aus der Datei entfernt, siehe Zeile 5.
+        Programme, bei denen es sich um ein Kommandozeilentool handelt, können nur die unter 2.1 definierten Testfälle erfüllen.
+  \item[Testfälle für Herausforderung 3]{~\\}
+        Sie prüfen Sicherheitsmängel in der Konfiguration. Die in der Tabelle vorhandenen Testfälle wurden
+        aus der wissenschaftlichen Arbeit~\cite{10.1145/3579639}[Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study]
+        entnommen. Sie sind als Beispiele für Sicherheitsmängel in \textit{Manifest}-Dateien aufgelistet und eignen sich daher als Testfälle im Laborversuch.
+        Für diese Herausforderung wurden zwei unterschiedliche modifizierte Versionen der \textit{Manifest}-Datei des \textit{Pods} benötigt,
+        da sich Testfall 3.1.2 und 3.1.11 gegenseitig ausschließen.
+        \\
+        In der ersten Version der Datei werden die Testfälle 3.1.1 bis 3.1.5 und 3.1.7, 3.1.9 sowie 3.1.10 abdeckt.
+        Die zweite Version deckt die Testfälle 3.1.6, 3.1.8 und 3.1.11 ab.
+        Die Herausforderung gilt als teilweise erfüllt, wenn mehr als $50\%$ Testfälle erfüllt sind.
+
+  \item[Testfälle für Herausforderung 4]{~\\}
+        Die Testfälle überprüfen, ob der Nutzer vom Programm bei der Angabe von abhängigen Objekten im Cluster unterstützt wird.
+        Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung angezeigt.
+        Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde ein der Name des \textit{Namespace} aus der Datei entfernt, siehe Zeile 6.
+        Die teilweise Erfüllung der Herausforderung ist mit dem Erfüllen der Testfälle unter 4.1 oder 4.2 möglich.
+\end{description}
 
 \subsection{Ergebnisse}
 
@@ -213,7 +219,7 @@ nächsten Kapitel eine Lösung für Herausforderung 4 implementiert.
     \midrule
     Lens~\cite{kubernetes-lens-source}                                                                                                & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
     Monokle~\cite{monokle-source}                                                                                                     & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
-    vscode-yaml~\cite{vscode-yaml-source}                                                                                             & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
+    vscode-kubernetes-tools~\cite{vscode-kubernetes-tools-source}                                                                     & \fullcirc                         & \halfcirc                         & \emptycirc                        & \emptycirc                        \\
     ValidCube~\cite{valid-cube-source}                                                                                                & \emptycirc                        & \emptycirc                        & \halfcirc                         & \emptycirc                        \\
     kpad$^*$~\cite{kpad-source}                                                                                                       & \emptycirc                        & \emptycirc                        & \emptycirc                        & \emptycirc                        \\
     \bottomrule
