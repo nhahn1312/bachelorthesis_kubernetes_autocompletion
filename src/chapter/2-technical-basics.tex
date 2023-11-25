@@ -48,8 +48,8 @@ Im Gegensatz zur Vollvirtualisierung können Anwendungen über sogenannte \texti
 Ein \textit{Container} ist ein einziger, isolierter Prozess, der im Betriebssystem des Hosts läuft und nur die Ressourcen nutzt, die von der Anwendung benötigt werden.
 \textit{Container} richten ihre Aufrufe dabei an denselben Kernel. Die Isolierung der \textit{Container} wird durch \textit{Linux-Namespaces} und
 \textit{LinuxCgroups} ermöglicht.~\textit{Linux-Namespaces} stellen sicher, dass jeder Prozess eine separate Sichtweise auf das Betriebssystem erhält.
-Sie können \ac{zB} steuern, welche Netzwerkschnittstellen einem Prozess zur Verfügung stehen. Mit Hilfe der \textit{LinuxCgroups} lässt sich die Menge
-der Systemressourcen, \ac{zB} die Menge des Arbeitsspeichers, einschränken die ein Prozess nutzen kann.
+Sie können z.B. steuern, welche Netzwerkschnittstellen einem Prozess zur Verfügung stehen. Mit Hilfe der \textit{LinuxCgroups} lässt sich die Menge
+der Systemressourcen, z.B. die Menge des Arbeitsspeichers, einschränken die ein Prozess nutzen kann.
 Es entsteht so kein Mehraufwand für Systemprozesse, wie bei der Vollvirtualisierung~\cite{kubernetes-in-action-introduction}.
 \\
 Um die Bereitstellung von \textit{Containern} zu ermöglichen wird eine \textit{Container Runtime} benötigt~\cite{kubernetes-overview}.
@@ -82,7 +82,7 @@ Beschreibung der Aufgaben des \textit{Master} und des \textit{Worker Nodes}, sow
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
       \centering
       \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
-      \caption{Komponenten einer Kubernetes-Clusters}
+      \caption{Komponenten eines Kubernetes-Clusters}
       \label{fig:kubernetes-architecture}
 \end{figure}
 
@@ -98,7 +98,7 @@ Das \textit{Master Node} besteht aus den vier folgenden Komponenten:
             Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
             Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
       \item[Controller-Manager]
-            Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt \ac{zB} den Ausfall von \textit{Nodes}
+            Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt z.B. den Ausfall von \textit{Nodes}
             im Cluster~\cite{kubernetes-in-action-introduction}.
       \item[etcd]
             Die \textit{etcd} ist eine konsistente Key-Value-Datenbank, die in verteilten Systemen eingesetzt werden kann~\cite{etcd-ibm}.
@@ -112,7 +112,7 @@ Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
       \item[Kubelet]
             Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
             Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
-            Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht \ac{zB} die laufenden Container
+            Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht z.B. die laufenden Container
             und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
       \item[kube-proxy]
             Der \textit{kube-proxy} ist für die Netzwerkkonnektivität des \textit{Worker Nodes} verantwortlich.
@@ -124,7 +124,7 @@ Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
 Kubernetes Objekte sind persistente Entitäten eines Kubernetes Systems. Sie repräsentieren den aktuellen Zustand des Clusters.
 Die Kubernetes Objekte können beschreiben, welche Anwendungen auf dem Cluster in \textit{Containern} laufen,
 welche Ressourcen den Anwendungen zur Verfügung stehen und
-wie sich die Anwendungen verhalten, \ac{zB} unter welchen Umständen eine Anwendung neu gestartet werden soll~\cite{kubernetes-objects}.
+wie sich die Anwendungen verhalten, z.B. unter welchen Umständen eine Anwendung neu gestartet werden soll~\cite{kubernetes-objects}.
 \\
 Eines der Kernkonzepte von Kubernetes ist der sogenannte \textit{Desired State}~\cite{kubernetes-objects-kodekloud}.
 Der Nutzer definiert mit Hilfe Kubernetes Objekte den angestrebten Zustand (\textit{Desired State}) des Clusters und Kubernetes
@@ -140,7 +140,7 @@ In jeder \textit{Manifest}-Datei müssen folgende Attribute definiert sein~\cite
       \item
             \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
       \item
-            \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, \ac{zB} ein Name und eine ID\@.
+            \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, z.B. ein Name und eine ID\@.
       \item
             \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
 \end{itemize}
@@ -164,13 +164,13 @@ zum besseren Verständnis beschrieben werden:
             Tritt bei der Aktualisierung eines \textit{Pods} ein Fehler auf, so kann dieser neu erstellt oder wenn nötig auf den alten Stand zurückgesetzt werden.
             Kubernetes sorgt dafür, dass die Ausfallzeit der Anwendung so gering wie möglich ist~\cite{kubernetes-in-action-chapter-9,kubernetes-deployment-vmware}.
       \item[Secret]
-            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie \ac{zB} Passwörter oder SSH-Schlüssel, speichert.
+            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie z.B. Passwörter oder SSH-Schlüssel, speichert.
             Sensible Daten müssen so nicht in der \textit{Manifest}-Datei des \textit{Pods} und im Programmcode der Anwendung gespeichert werden~\cite{kubernetes-secrets,kubernetes-secrets-medium}.
       \item[Namespace]
             Ein \textit{Namespace} ermöglicht dem Nutzer ein physisches Kubernetes-Cluster in verschiedene virtuelle Cluster aufzuteilen.
             Sie können zum Einsatz kommen, wenn sich verschiedene Teams ein Kubernetes-Cluster teilen~\cite{kubernetes-namespaces-vmware}.
       \item[Label]
-            Ein \textit{Label} ist ein Schlüssel-Wert-Paar, das einem Kubernetes Objekt, wie \ac{zB} einem \textit{Pod}, zugeordnet werden kann.
+            Ein \textit{Label} ist ein Schlüssel-Wert-Paar, das einem Kubernetes Objekt, wie z.B. einem \textit{Pod}, zugeordnet werden kann.
             \textit{Labels} können im \textit{metadata} Attribut der \textit{Manifest}-Datei eines Objektes angegeben werden.
             Der Schlüssel eines \textit{Labels} muss für ein Objekt eindeutig sein. Ein \textit{Label} kann mehreren Objekten zugeordnet werden.
             Der Nutzer hat die Möglichkeit eine Menge von Objekten über ein \textit{Label} zu selektieren~\cite{kubernetes-labels}.
@@ -194,7 +194,7 @@ Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 \end{figure}
 
 Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
-Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet \ac{zB} Änderungen an Dateien zum Server.
+Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet z.B. Änderungen an Dateien zum Server.
 Der \ac{lsp}-Server enthält auf der anderen Seite die Logiken zur Sprachunterstützung~\cite{lsp-witekio}.
 Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt wird.
 Für die verschiedenen Editoren muss folglich nur eine Client-Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
@@ -209,13 +209,13 @@ Für die verschiedenen Editoren muss folglich nur eine Client-Erweiterung implem
 Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
 Der \textit{Header}-Teil enthält zum einen die Länge des \textit{Content}-Teils in Byte. Zum Anderen enthält dieser eine Typenbezeichnung,
 die den \ac{mime}-Typ des \textit{Content}-Teils angibt. Der \textit{Content}-Teil enthält den Inhalt der Nachricht. Die Struktur des Inhalts wird durch
-das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium}.
+das \acs{json}-\acs{rpc} Protokoll vorgegeben~\cite{lsp-microsoft,lsp-medium,lsp-book}.
 \\
 Bei \ac{rpc} handelt es sich um ein Programmierparadigma, dass die Entwicklung von verteilten Anwendungen vereinfachen soll.
 Das Konzept ist dabei, dass ein Programm auf einem Client eine Methode auf einem entfernten System, einem Server, aufrufen kann,
 ohne die zugrundeliegenden Netzwerkdetails zu kennen~\cite{rpc-computer-weekly}.
 
-Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft}:
+Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft,lsp-book}:
 \begin{description}
       \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
             Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
@@ -251,7 +251,7 @@ Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfind
 Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
 Dabei erfolgt die Initialisierung der Verbindung mit Mitteilung der \textit{Capabilities}.
 Danach teilt der Client dem Server in Form einer \textit{Notification Message} mit, dass ein Dokument geöffnet wurde.
-Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das \acs{zB} die Syntax Fehler in einer Datei enthalten könnte.
+Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem Ergebnis einer Validierung, das z.B. die Syntax Fehler in einer Datei enthalten könnte.
 
 
 \section{\acs{json}-Format}\label{sec:json-format}
@@ -336,7 +336,7 @@ xmas-fifth-day:
       \item[Einrückung und Leerzeichen]
             Leerzeichen sind ein Teil der \acs{yaml}-Formatierung. Neue Zeilen zeigen das Ende eines Elementes an.
             Die Anzahl der Leerzeichen, welche auch als Einrückung bezeichnet wird, definiert die Hierarchie von Elementen.
-            So gehört das Element in Zeile 10 \ac{zB} zu dem Element in Zeile 9.
+            So gehört das Element in Zeile 10 z.B. zu dem Element in Zeile 9.
       \item[Document]
             Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logisch voneinander.
             Sie können also als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
@@ -387,7 +387,7 @@ Die Regeln und Einschränkungen werden mit einem Satz von Schlüsselwörtern und
 Auf Listing~\ref{lst:json-object} ist ein Beispiel eines \acs{json}-\textit{Objects} abgebildet, dass mit Hilfe des auf Listing~\ref{lst:json-schema}
 dargestellten \acs{json}-Schemas validiert werden kann.
 \\
-Es folgt eine Erklärung der auf Listing ~\ref{lst:json-schema} verwendeten Schlüsselwörter~\cite{json-schema-creation}:
+Es folgt eine Erklärung der auf Listing~\ref{lst:json-schema} verwendeten Schlüsselwörter~\cite{json-schema-creation}:
 
 \begin{itemize}
       \setlength\itemsep{-0.5cm}
@@ -444,7 +444,7 @@ diese weiterverarbeitet werden können. Der Parser geht dabei in zwei Schritten 
 \begin{description}
       \item[1. Lexikalische Analyse]
             Die Eingabe wird in kleinere Teile zerlegt. Dabei wird diese in Zeichenfolgen, sogenannte \text{Token}
-            gruppiert, die der Parser als nicht weiter teilbar kennt. Bei dem \ac{json}-Format würde dies \ac{zB} einer geschweiften Klammer oder
+            gruppiert, die der Parser als nicht weiter teilbar kennt. Bei dem \ac{json}-Format würde dies z.B. einer geschweiften Klammer oder
             dem Namen eines Attributes entsprechen.
       \item[2. Syntaktische Analyse]
             Die bei der lexikalischen Analyse erstellten \text{Token} werden in diesem Schritt in einer Baumstruktur gespeichert, sodass die

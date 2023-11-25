@@ -7,7 +7,7 @@ diese Ressourcen bei sinkender Nachfrage wieder freizugeben. Das System kann sei
 Um die Skalierbarkeit von IT-Systemen zu realisieren, bietet sich die Software Kubernetes an.
 Bei Kubernetes handelt es sich um eine Software zur Bereitstellung, Verwaltung und Skalierung von Anwendungen in Containern~\cite{kubernetes-overview}.
 Ein Kubernetes Cluster besteht aus sogenannten Kubernetes Objekten, die den aktuellen Zustand des Clusters beschreiben. Dabei geben die Kubernetes Objekte an,
-welche Anwendungen auf dem Cluster laufen, welche Ressourcen diesen zur Verfügung stehen und wie sich die Anwendungen, \acs{zB} im Fehlerfall, verhalten~\cite{kubernetes-objects}.
+welche Anwendungen auf dem Cluster laufen, welche Ressourcen diesen zur Verfügung stehen und wie sich die Anwendungen, z.B. im Fehlerfall, verhalten~\cite{kubernetes-objects}.
 
 \section{Problemstellung}\label{sec:problem}
 
@@ -24,50 +24,57 @@ Zuletzt spielt die Abhängigkeit der Kubernetes Objekte im Cluster untereinander
 da sie die Komplexität für den Nutzer zusätzlich erhöht~\cite{spacelift-io-kubernetes-challenges,newstack-io-kubernetes-manifest-lifecycle}.
 Der Nutzer muss zum Schreiben und Pflegen der Konfigurationsdateien über andere Objekte auf dem Cluster informiert sein, um
 keine Fehler zu verursachen.
+\\
+Die Probleme beim Schreiben der \ac{yaml}-Dateien führen dazu, dass ein hoher Konfigurationsaufwand entsteht, bevor das Cluster funktionsfähig ist.
+Dieses Problem kommt auch bei Änderungen am Cluster zum Tragen, da mit steigender Anzahl an Objekten im Cluster mehr \ac{yaml}-Dateien
+benötigt werden und eine Änderung ggf.\ viele Dateien berührt.
 
 \section{Zielsetzung}
 Um die zuvor beschriebenen Probleme und Herausforderungen genauer zu untersuchen werden im Rahmen dieser Arbeit folgende Fragen beantwortet:
 \begin{enumerate}
-    \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
-    \item Welche Möglichkeiten zur besseren Verwendung der Konfigurationsdateien gibt es?
-    \item Wie kann eine Lösung zur besseren Verwendung implementiert werden?
-    \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
+      \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
+      \item Welche Möglichkeiten zur Unterstützung bei der Erstellung von Konfigurationsdateien gibt es?
+      \item Wie kann eine Lösung implementiert werden, die den Nutzer bei der Erstellung unterstützt?
+      \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
 \end{enumerate}
 
-\section{Verwandte Arbeiten}\label{sec:introduction-related-work}
-
-Zunächst wird betrachtet, ob wissenschaftliche Arbeiten existieren, die sich mit Kubernetes Konfigurationen beschäftigen:
-\begin{itemize}
-    \item In der wissenschaftlichen Arbeit ``Isopod: An Expressive DSL for Kubernetes Configuration'' von Charles Xu und Dmitry Ilyevskiy stellt die
-          Software ``Isopod'' vor, die eine alternative Konfiguration von Kubernetes Objekten ermöglicht. Die Konfiguration erfolgt nicht mittels \ac{yaml}-Dateien,
-          sondern mit der Skriptsprache Starlark verfasst. Die Kubernetes Objekte werden als Protocol Buffers Definition zur Verfügung gestellt und sind daher streng typisiert.
-          Das Anwenden der Konfigurationen wird von ``Isopod'' mittels Kommunikation mit der \textit{KubernetesAPI} ermöglicht.
-          Bei Cruise LLC, einem Unternehmen für selbstfahrende Autos, hat der Einsatz von ``Isopod'' zu einer Reduzierung der Codezeilen um $60\%$ geführt~\cite{10.1145/3357223.3365759}.
-    \item Die wissenschaftliche Arbeit ``Creating Helm Charts to ease deployment of Enterprise Application and its related Services in Kubernetes'' von
-          S. Gokhale et al.\ beschäftigt damit, die Konfiguration von Kubernetes schneller und einfacher zu machen. Dabei kommen sog. Helm Charts zum Einsatz,
-          mit denen Anwendungen vorkonfiguriert sowie deren Entwicklung und das Testen automatisiert werden kann. Ein Experiment mit der vorgestellten Methodik
-          hat gezeigt, dass das Ausrollen einer Anwendung mit Helm Charts 6.185 Mal schneller war, wie ohne die Nutzung~\cite{9776450}.
-    \item ``'Under-reported' Security Defects in Kubernetes Manifests'' untersucht Sicherheitsmängel in Kubernetes Konfigurationsdateien.
-          Dazu wurden zunächst \textit{Repositories} von Open-Source-Software mit Kubernetes Nutzung durchsucht und anhand bestimmter Kriterien ausgewählt, welche für
-          die Untersuchung geeignet sind. Anschließend wurde eine qualitative Analyse der \textit{Commits} durchgeführt, um herauszufinden, wie oft Sicherheitsmängel in Kubernetes
-          Konfigurationsdateien auftreten. $0,79\%$ der \textit{Commits} waren auf Sicherheitsmängel bezogen. Die Autoren schlussfolgern daraus,
-          Sicherheitsmängel in Kubernetes Konfigurationsdateien oft nicht gefunden werden. Sie empfehlen die Entwicklung von statischen und dynamischen Analysetools
-          zur Erkennung von Sicherheitsverstößen in Kubernetes~\cite{9476056}.
-\end{itemize}
-
-Es ist zu erkennen, dass die Konfiguration von Kubernetes in verschiedenen wissenschaftlichen Arbeiten angesprochen wird und vor allem die Vereinfachung
-der Konfiguration eine Rolle spielt.
 
 \section{Methodik}
-Zunächst werden die Probleme und Herausforderungen beim Schreiben der Konfigurationsdateien anhand einer Recherche identifiziert und
-bereits bestehende Lösungen untersucht. Mit dem Wissen werden fehlende Funktionen der bestehenden Anwendungen in Hinblick auf Autovervollständigung und Validierung identifiziert.
+Zunächst werden die Probleme und Herausforderungen beim Schreiben der Konfigurationsdateien anhand einer Recherche identifiziert.
+Dabei wird eine Stichwortsuche nach wissenschaftlichen Arbeiten zum Thema durchgeführt. Anschließend wird die Stichwortsuche
+erweitert und auch auf Internetquellen ausgeweitet.
+Im nächsten Schritt werden für die gefundenen Probleme und Herausforderungen bereits bestehende Lösungen ermittelt.
+Mit dem Wissen werden fehlende Funktionen der bestehenden Anwendungen in Hinblick auf Autovervollständigung und Validierung identifiziert.
 Zur Umsetzung dieser Funktionen wird eine Anwendung entwickelt.
 Anschließend wird die entwickelte Lösung mit bereits bestehenden Lösungen verglichen.
 Hierbei werden ausgewählte Kriterien zur Beurteilung aus~\cite[A Large-Scale Study of Usability Criteria Addressed by Static Analysis Tools]{usability-criteria-static-analysis-tools} herangezogen.
 Die Ergebnisse der Untersuchungen werden abschließend bewertet.
 
+\section{Verwandte Arbeiten}\label{sec:introduction-related-work}
+
+Zunächst wird betrachtet, ob wissenschaftliche Arbeiten existieren, die sich mit Kubernetes Konfigurationen beschäftigen:
+\begin{itemize}
+      \item Der Artikel ``Isopod: An Expressive DSL for Kubernetes Configuration'' von Charles Xu und Dmitry Ilyevskiy stellt die
+            Software ``Isopod'' vor, die eine alternative Konfiguration von Kubernetes Objekten ermöglicht. Die Konfiguration erfolgt nicht mittels \ac{yaml}-Dateien,
+            sondern mit der Skriptsprache Starlark verfasst. Die Kubernetes Objekte werden als Protocol Buffers Definition zur Verfügung gestellt und sind daher streng typisiert.
+            Das Anwenden der Konfigurationen wird von ``Isopod'' mittels Kommunikation mit der \textit{KubernetesAPI} ermöglicht.
+            Bei Cruise LLC, einem Unternehmen für selbstfahrende Autos, hat der Einsatz von ``Isopod'' zu einer Reduzierung der Codezeilen um $60\%$ geführt~\cite{10.1145/3357223.3365759}.
+      \item In ``Creating Helm Charts to ease deployment of Enterprise Application and its related Services in Kubernetes'' untersuchen
+            S. Gokhale et al.\ eine Möglichkeit die Konfiguration von Kubernetes schneller und einfacher zu machen. Dabei kommen sog. Helm Charts zum Einsatz,
+            mit denen Anwendungen vorkonfiguriert sowie deren Entwicklung und das Testen automatisiert werden kann. Ein Experiment mit der vorgestellten Methodik
+            hat gezeigt, dass das Ausrollen einer Anwendung mit Helm Charts 6.185 Mal schneller war, als ohne die Nutzung~\cite{9776450}.
+      \item ``'Under-reported' Security Defects in Kubernetes Manifests'' untersucht Sicherheitsmängel in Kubernetes Konfigurationsdateien.
+            Dazu wurden zunächst \textit{Repositories} von Open-Source-Software mit Kubernetes Nutzung durchsucht und anhand bestimmter Kriterien ausgewählt, welche für
+            die Untersuchung geeignet sind. Anschließend wurde eine qualitative Analyse der \textit{Commits} durchgeführt, um herauszufinden, wie oft Sicherheitsmängel in Kubernetes
+            Konfigurationsdateien auftreten. $0,79\%$ der \textit{Commits} waren auf Sicherheitsmängel bezogen. Die Autoren schlussfolgern daraus,
+            Sicherheitsmängel in Kubernetes Konfigurationsdateien oft nicht gefunden werden. Sie empfehlen die Entwicklung von statischen und dynamischen Analysetools
+            zur Erkennung von Sicherheitsverstößen in Kubernetes~\cite{9476056}.
+\end{itemize}
+
+Es ist zu erkennen, dass die Konfiguration von Kubernetes in verschiedenen wissenschaftlichen Arbeiten angesprochen wird und vor allem die Vereinfachung
+der Konfiguration eine Rolle spielt.
+
 \section{Aufbau der Arbeit}
-Die Arbeit umfasst sieben Kapitel.
 Im folgenden Kapitel werden die technischen Grundlagen beschrieben.
 Kapitel \ref{ch:preparation-analysis} untersucht, die Herausforderungen und Probleme beim Schreiben von Kubernetes Konfigurationsdateien, sowie bereits bestehende Lösungen.
 In Kapitel~\ref{ch:implementation} werden die Schritte zur Implementierung erläutert.

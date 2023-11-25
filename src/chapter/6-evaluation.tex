@@ -1,1 +1,113 @@
 \chapter{Evaluation}\label{ch:evaluation}
+
+Im vorliegenden Kapitel werden die Ergebnisse der Arbeit anhand der Zielsetzungen aus Kapitel~\ref{ch:introduction} zusammengefasst
+und die daraus resultierenden Erkenntnisse beschrieben. Zuletzt wird mögliche weiterführende Forschung vorgestellt.
+
+\section{Ergebnisse und Erkenntnisse}
+
+Zunächst wird auf die in Kapitel~\ref{ch:introduction} definierten Zielsetzungen eingegangen und deren Ergebnisse zusammengefasst.
+Die Erstellung von Kubernetes Konfigurationsdateien stellt ein Problem dar.
+Die Arbeit sollte näher untersuchen, wie die Erstellung von Konfigurationsdateien vereinfacht werden kann.
+
+\begin{enumerate}
+    \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
+\end{enumerate}
+Die erste Frage zielte darauf ab die Probleme zu identifizieren. Bei einer Stichwortsuche nach wissenschaftlichen Arbeiten, konnten nur
+fünf gefunden werden, die sich explizit mit Kubernetes Konfigurationsdateien
+auseinandergesetzt haben.
+Deshalb wurde eine Websuche mit zusätzlichen Suchbegriffen durchgeführt.
+Diese ergab folgende Probleme und Herausforderungen:
+
+\begin{itemize}
+    \setlength\itemsep{-0.5cm}
+    \item \textbf{Herausforderung 1}-\ac{yaml}-Syntax
+    \item \textbf{Herausforderung 2}-Syntax der \textit{Manifest}-Dateien
+    \item \textbf{Herausforderung 3}-Erkennen von Sicherheitslücken
+    \item \textbf{Herausforderung 4}-Abhängigkeit von Cluster-Ressourcen
+\end{itemize}
+Nur Herausforderung 3 wird explizit in bereits bestehenden wissenschaftlichen Arbeiten untersucht~\cite{9476056,10.1145/3579639,10.1145/3468264.3473495}.
+Alle anderen Herausforderungen konnten nicht anhand wissenschaftlicher Quellen verifiziert werden.
+Es wurde gezeigt, dass die Zielsetzung nicht ausreichend in wissenschaftlichen Arbeiten untersucht wurde, die Herausforderungen jedoch vorhanden sind.
+Das zeigen zum einen die Ergebnisse der Websuche, aber auch die Existenz von bestehenden Lösungen für die Herausforderungen.
+
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item Welche Möglichkeiten zur Unterstützung bei der Erstellung von Konfigurationsdateien gibt es?
+\end{enumerate}
+
+Bei der zweiten Frage wurde untersucht, welche Programme bereits existieren, um die Herausforderungen zu lösen.
+Die Lösungen wurden mit Hilfe einer Websuche identifiziert.
+Keine der Implementierungen konnte alle aus der ersten Zielsetzung resultierenden\ Herausforderungen lösen
+Dies wurde durch einen Laborversuch gezeigt
+Es stellte sich heraus, dass keine der vorhanden Implementierungen eine Lösung für Herausforderung 4 aufweist.
+\\\\
+Die Suche nach bestehenden Lösungen bezog sich nur auf die Unterstützung beim Schreiben von Konfigurationsdateien.
+Es wurden keine weiteren Möglichkeiten betrachtet, die den Nutzer, absehen beim Schreibvorgang selbst, unterstützen.
+Beispiel hierfür wäre eine Übersicht des Clusters, die dem Nutzer keine aktive Unterstützung beim Schreiben bietet,
+die Informationen jedoch den Schreibvorgang der Konfigurationsdateien vereinfachen können.
+%- Alternative Lösung könnten Tools wie Helm genutzt werden (Kubernetes Manifest Templates)????
+Die Ergebnisse des Laborversuchs sind nur unter den definierten Bedingungen gültig.
+Sie waren dabei nicht für alle Programme optimal. Kommandozeilentools wurden durch die Aufnahme von Autovervollständigung als Testfall benachteiligt,
+da sie diesen nicht erfüllen konnten.
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item Wie kann eine Lösung implementiert werden, die den Nutzer bei der Erstellung unterstützt?
+\end{enumerate}
+
+Die Implementierung einer eigenen Lösung konnte auf die Erkenntnisse aus der zweiten Zielsetzung aufbauen.
+Herausforderung 4, die im Laborversuch keine der Anwendungen erfüllen konnte und Herausforderung 2, die zwei der Anwendungen teilweise erfüllt haben
+wurden als Grundlage für die Anforderungen der Implementierung genutzt.
+Die Anforderungen wurden Mit Hilfe der Testfälle aus dem Laborversuch für die beiden Herausforderungen definiert.
+Es folgt eine Evaluation der einzelnen Anforderungen:
+\begin{description}
+    \item[Evaluation 1]{- Funktionalität für jedes Kubernetes Objekt\\}
+          Die Autovervollständigung und Validierung wurde, wie in Anforderung 1 beschrieben umgesetzt.
+          Die \ac{json}-Schema bilden alle Objekte ab, da diese aus der \textit{OpenAPI}-Spezifikation generiert wurden.
+    \item[Evaluation 2 bis 5]{- Autovervollständigung und Validierung \ac{json}-Schemas\\}
+          Die Funktionalitäten konnten wie geplant umgesetzt werden. Das \ac{json}-Schema
+          definiert Schlüsselwörter mit denen z.B. ein Pflichtschlüssel abgebildet werden kann.
+    \item[Evaluation 6 und 7]{- Autovervollständigung und Validierung Cluster-Werte\\}
+          Die Anforderungen werden von der implementierten Anwendung erfüllt.
+          Durch die Klassenstruktur der Zuordnungsregeln, die in Kapitel~\ref{subsec:validation} eingeführt wurde, ist
+          es möglich Autovervollständigung und Validierung für neue \textit{Mapping}-Schlüssel ohne hohen Aufwand zu implementieren.
+
+\end{description}
+Um die Erfüllung Anforderungen zu verifizieren könnte der Laborversuch für die eigene Implementierung durchgeführt werden.
+Der Einsatz des \ac{lsp} ermöglicht die Integration der Anwendung in andere \ac{ide}s wie z.B. IntelliJ.
+Das Validieren und die Autovervollständigung mit Hilfe der \ac{json}-Schema-Dateien hat den Nachteil, dass diese für neue Kubernetes Versionen
+erneut erstellt werden müssen.
+Die Autovervollständigung und Validierung auf Basis der \textit{KubernetesAPI} funktioniert außerdem nur für ausgewählte Ressourcen.
+
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
+\end{enumerate}
+
+Die Vor- und Nachteile ergeben sich aus den Ergebnissen von Kapitel~\ref{ch:preparation-analysis} und Kapitel~\ref{ch:comparison}.
+Kapitel~\ref{ch:preparation-analysis} hat die fehlenden Funktionen von vorhandenen Anwendungen aufgezeigt. Ein Vorteil der eigenen Implementierung ist
+somit der größere Funktionsumfang bei der Unterstützung vom Schreiben der Konfigurationsdateien. Ein weiterer Vorteil gegenüber den bestehenden
+Kommandozeilentools, ist die \ac{ide}-Integration der eigenen Implementierung, die dem Nutzer eine Integration in den Arbeitsablauf ermöglicht~\cite{usability-criteria-static-analysis-tools}.
+Der Vergleich in Kapitel~\ref{ch:comparison} zeigt die Nachteile der eigenen Implementierung. Das Programm kann nur $19\%$ der Kriterien, die die
+Benutzerfreundlichkeit von statischen Analysetools beurteilen, erfüllen. Im Vergleich erfüllen nur drei der neun Programme weniger Kriterien.
+Keines der Programme konnte beim Vergleich mehr als $50\%$ der Kriterien erfüllen.
+Monokle konnte mit $42\%$ die meisten Kriterien von allen untersuchten Anwendungen erfüllen.
+\\\\
+Daraus lässt sich schlussfolgern, dass die Kriterien entweder sehr umfangreich sind oder dass die vorhanden Anwendungen
+die Benutzerfreundlichkeit nicht als wichtiges Kriterium ansehen.
+Weiterhin könnte argumentiert werden, dass die für den Vergleich herangezogene Arbeit ausschließlich Programme zur statischen Analyse
+von Quellcode untersucht hat. Quellcode von Programmiersprachen hat eine höhere Komplexität, als die \ac{yaml}-Syntax von Kubernetes.
+Um benutzerfreundlich zu sein, muss statisches Analysetool für Quellcode daher mehr Anforderungen erfüllen.
+
+\section{Weiterführende Forschung}
+
+Mit der vorliegenden Arbeit konnten erste Erkenntnisse zu Problemen und Herausforderungen beim Schreiben Kubernetes
+Konfigurationsdateien gewonnen werden. Zukünftige Forschungen könnten die Probleme und Herausforderung
+anhand einer empirischen Studie untersuchen. Dabei könnten zusätzlich Kriterien zur Verifikation von Lösungen zu
+den Herausforderungen entworfen werden, die über einen Laborversuch hinaus gehen.
+\\
+Ein wichtiger Aspekt könnte auch die Implementierung von statischen Analysetools für die Konfiguration von
+verteilten Systemen sein. Die Implementierung aus Kapitel~\ref{ch:implementation} bietet Autovervollständigung und Validierung
+der Cluster-Ressourcen nur für eine begrenzte Auswahl von Ressourcen an. Es könnte demnach untersucht werden,
+wie eine Anwendung entworfen werden kann, die flexibel für die Konfiguration von verteilten Systemen eingesetzt werden kann.
+Dies könnte z.B. mit Einführung eines Standards möglich sein.

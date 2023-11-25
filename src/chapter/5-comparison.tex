@@ -23,15 +23,16 @@ entsprechen. Es folgt eine Beschreibung der einzelnen Kategorien~\cite{usability
           und den Nutzer dabei zu unterstützen falsch-positive Fehler zu erkennen.
     \item[Kategorie 4]{Rückmeldungen vom Nutzer\\}
           Die Kriterien der Kategorie beurteilen, ob und wie sich die Lösung an die Bedürfnisse des Nutzers anpassen lässt.
-          Darunter fällt \ac{zB} die Möglichkeit, spezifische Regeln zu Analyse zu deaktivieren.
+          Darunter fällt z.B. die Möglichkeit, spezifische Regeln zu Analyse zu deaktivieren.
     \item[Kategorie 5]{Integration in den Arbeitsablauf\\}
           Die Kriterien dieser Kategorie prüfen, wie sich die Lösung in den Arbeitsablauf des Nutzers Integrieren lässt.
     \item[Kategorie 6]{Benutzeroberfläche\\}
           Die Kriterien zur Benutzeroberfläche untersuchen, wie Fehlermeldungen dem Nutzer auf der Oberfläche präsentiert werden.
 \end{description}
 
-Die Tabellen   und zeigen eine Übersicht aller Kriterien mit deren einer Kurzbeschreibung und ob diese für den Vergleich im Rahmen der Arbeit ausgewählt wurden.
-Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. Für jede Kategorie wurde dazu eine eigene Tabelle erstellt.
+Die Tabellen \ref{tbl:criteria-category-1}, \ref{tbl:criteria-category-2}, \ref{tbl:criteria-category-3}, \ref{tbl:criteria-category-4}, \ref{tbl:criteria-category-5}  und \ref{tbl:criteria-category-6}
+zeigen eine Übersicht aller Kriterien mit deren einer Kurzbeschreibung und ob diese für den Vergleich im Rahmen der Arbeit ausgewählt wurden.
+Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. Für jede Kategorie wurde eine eigene Tabelle erstellt.
 
 \begin{table}[htp]
     \centering
@@ -47,7 +48,7 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
         \midrule
         Beispiele zum Fehler       & Die Warnmeldung wird anhand eines Beispiels näher erläutert.                                                                         & ja               \\
         \midrule
-        Weitere Informationen      & Dem Nutzer werden weitere Informationen zu einem Fehler angeboten, \ac{zB} der Link zu einer Website.                                & ja               \\
+        Weitere Informationen      & Dem Nutzer werden weitere Informationen zu einem Fehler angeboten, z.B. der Link zu einer Website.                                   & ja               \\
         \midrule
         Kontext zum Fehler         & Beurteilt, ob die Lösung kontextbezogene Warnmeldungen anbietet oder nur generische Warnmeldungen mit Austausch von Variablen nutzt. & ja               \\
         \midrule
@@ -109,15 +110,15 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
     \centering
     \begin{tabularx}{\columnwidth}{lXl}
         \toprule
-        \textbf{Name}           & \textbf{Beschreibung}                                                                                                                           & \textbf{ja/nein} \\
+        \textbf{Name}            & \textbf{Beschreibung}                                                                                                                  & \textbf{ja/nein} \\
         \midrule
-        Anpassung der Regeln    & Der Nutzer kann die Regeln zur Validierung anpassen und bei Bedarf bestimmte Regeln deaktivieren.                                               & ja               \\
+        Anpassung der Regeln     & Der Nutzer kann die Regeln zur Validierung anpassen und bei Bedarf bestimmte Regeln deaktivieren.                                      & ja               \\
         \midrule
-        Validierung von Fehlern & Die Anwendung nutzt Fehler, die der Nutzer bereits behoben hat, um ähnliche Fehler besser von falsch-positiven Fehlern unterscheiden zu können. & ja               \\
+        Verarbeitung von Fehlern & Die Anwendung nutzt Fehler, die der Nutzer bereits behoben hat, um Fehler besser von falsch-positiven Fehlern unterscheiden zu können. & ja               \\
         \midrule
-        temporäres Ausblenden   & Der Nutzer hat die Möglichkeit einen Fehler temporär auszublenden, \ac{zB} durch eine Annotation.                                               & ja               \\
+        temporäres Ausblenden    & Der Nutzer hat die Möglichkeit einen Fehler temporär auszublenden, z.B. durch eine Annotation.                                         & ja               \\
         \midrule
-        Filter zum Ausblenden   & Die Anwendung ermöglicht dem Nutzer Ausblenden von Warnmeldungen mit Hilfe von Filtern                                                          & ja               \\
+        Filter zum Ausblenden    & Die Anwendung ermöglicht dem Nutzer Ausblenden von Warnmeldungen mit Hilfe von Filtern                                                 & ja               \\
         \bottomrule
     \end{tabularx}
     \caption{Kriterien der Kategorie 4}
@@ -164,17 +165,17 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
     \centering
     \begin{tabularx}{\columnwidth}{XXl}
         \toprule
-        \textbf{Name}                         & \textbf{Beschreibung}                                                                                                                                                          & \textbf{ja/nein} \\
+        \textbf{Name}                         & \textbf{Beschreibung}                                                                                                                                                       & \textbf{ja/nein} \\
         \midrule
-        Markieren von Fehlern und Warnsymbole & Die Anwendung kann mit einer Erweiterung in eine \ac{ide} integriert werden                                                                                                    & ja               \\
+        Markieren von Fehlern und Warnsymbole & Die Anwendung markiert den Fehler in der Datei und zeigt Warnsymbole an.                                                                                                    & ja               \\
         \midrule
-        Erfüllen von Erwartungen              & Die Anwendung verhält sich den Erwartungen des Nutzers entsprechend. Es wird \ac{zB} überprüft, ob sich ein Kommandozeilentool ähnlich wie andere Kommandozeilentools verhält. & nein$^{(1)}$     \\
+        Erfüllen von Erwartungen              & Die Anwendung verhält sich den Erwartungen des Nutzers entsprechend. Es wird z.B. überprüft, ob sich ein Kommandozeilentool ähnlich wie andere Kommandozeilentools verhält. & nein$^{(1)}$     \\
         \midrule
-        Übersicht von Fehlermeldungen         & Die Anwendung stellt eine Übersicht aller Fehler bereit.                                                                                                                       & ja               \\
+        Übersicht von Fehlermeldungen         & Die Anwendung stellt eine Übersicht aller Fehler bereit.                                                                                                                    & ja               \\
         \midrule
-        Fortschrittsanzeige                   & Der Nutzer kann in der Anwendung eine Historie der bereits behobenen Fehler sehen und so seinen Fortschritt überwachen.                                                        & ja               \\
+        Historie der bereits behobenen Fehler & Der Nutzer kann in der Anwendung eine Historie der bereits behobenen Fehler sehen und so seinen Fortschritt überwachen.                                                     & ja               \\
         \midrule
-        Suche von Fehlern                     & Die Anwendung ermöglicht die Suche in allen vorhandenen Warnmeldungen                                                                                                          & ja               \\
+        Suche von Fehlern                     & Die Anwendung ermöglicht die Suche in allen vorhandenen Warnmeldungen                                                                                                       & ja               \\
         \bottomrule
     \end{tabularx}
     \caption{Kriterien der Kategorie 6}
@@ -187,24 +188,32 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
     \item Es fehlen Kriterien zur Beurteilung, wann sich ein Programm wie ein ähnliches verhält.
 \end{enumerate}
 
+\vspace{-1cm}
+
 \section{Ergebnisse}
+
+\vspace{-0.5cm}
+
+Die Beurteilung der ausgewählten Kriterien wurde mit Hilfe der Dateien aus dem Laborversuch aus Kapitel~\ref{ch:preparation-analysis} und der offiziellen Dokumentation der Programme vorgenommen.
+Die folgende Tabelle zeigt die Ergebnisse des Vergleichs. Dabei ist zu sehen, wie viele Kriterien einer Kategorie eine Anwendung prozentual erfüllt hat. Außerdem ist der Gesamtanteil für jede Anwendung dargestellt.
+Eine detaillierte Auskunft über die erfüllten Kriterien befindet sich im Anhang.
 
 \begin{table}[htp]
     \centering
-    \begin{tabular}{lllllll||l}
+    \begin{tabular}{llllllll}
         \toprule
         \textbf{Anwendung}      & \rotatebox{90}{Kategorie 1} & \rotatebox{90}{Kategorie 2} & \rotatebox{90}{Kategorie 3} & \rotatebox{90}{Kategorie 4} & \rotatebox{90}{Kategorie 5} & \rotatebox{90}{Kategorie 6} & \rotatebox{90}{Gesamt} \\
         \midrule
-        kubeconform             & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                      & $33\%$                 \\
-        KubeLinter              &                             &                             &                             &                             &                             &                             &                        \\
-        kube-score              &                             &                             &                             &                             &                             &                             &                        \\
-        kubectl-validate        &                             &                             &                             &                             &                             &                             &                        \\
+        kubeconform             & $29\%$                      & $0\%$                       & $0\%$                       & $50\%$                      & $0\%$                       & $0\%$                       & $15\%$                 \\
+        KubeLinter              & $43\%$                      & $20\%$                      & $0\%$                       & $50\%$                      & $0\%$                       & $0\%$                       & $23\%$                 \\
+        kube-score              & $57\%$                      & $0\%$                       & $0\%$                       & $50\%$                      & $0\%$                       & $0\%$                       & $23\%$                 \\
+        kubectl-validate        & $29\%$                      & $0\%$                       & $0\%$                       & $0\%$                       & $0\%$                       & $0\%$                       & $8\%$                  \\
         \midrule
-        Lens                    &                             &                             &                             &                             &                             &                             &                        \\
-        Monokle                 &                             &                             &                             &                             &                             &                             &                        \\
-        vscode-kubernetes-tools &                             &                             &                             &                             &                             &                             &                        \\
-        ValidCube               &                             &                             &                             &                             &                             &                             &                        \\
-        Eigene Implementierung  &                             &                             &                             &                             &                             &                             &                        \\
+        Lens                    & $0\%$                       & $0\%$                       & $0\%$                       & $25\%$                      & $0\%$                       & $0\%$                       & $4\%$                  \\
+        Monokle                 & $71\%$                      & $0\%$                       & $0\%$                       & $25\%$                      & $66\%$                      & $75\%$                      & $42\%$                 \\
+        vscode-kubernetes-tools & $43\%$                      & $0\%$                       & $0\%$                       & $25\%$                      & $33\%$                      & $75\%$                      & $26\%$                 \\
+        ValidCube               & $57\%$                      & $20\%$                      & $0\%$                       & $0\%$                       & $0\%$                       & $0\%$                       & $19\%$                 \\
+        Eigene Implementierung  & $14\%$                      & $0\%$                       & $0\%$                       & $0\%$                       & $33\%$                      & $75\%$                      & $19\%$                 \\
         \bottomrule
     \end{tabular}
     \caption{Ergebnisse des Vergleichs}
