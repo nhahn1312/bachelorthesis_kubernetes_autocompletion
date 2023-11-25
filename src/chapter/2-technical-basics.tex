@@ -435,19 +435,17 @@ Die \acs{json}-Schema-Spezifikation enthält noch weitere Schlüsselwörter, die
       \label{lst:json-schema}
 \end{listing}
 
-\section{Parser}\label{sec:parser}
+\section{Scanner und Parser}\label{sec:parser}
 
-Bei einem Parser handelt es sich um ein Computerprogramm, das Eingaben, bei denen es sich in der Regel um Code handelt,
-zerlegen und in ein anderes Format umwandeln kann, damit
-diese weiterverarbeitet werden können. Der Parser geht dabei in zwei Schritten vor~\cite{parser-tech-target}:
-
-\begin{description}
-      \item[1. Lexikalische Analyse]
-            Die Eingabe wird in kleinere Teile zerlegt. Dabei wird diese in Zeichenfolgen, sogenannte \text{Token}
-            gruppiert, die der Parser als nicht weiter teilbar kennt. Bei dem \ac{json}-Format würde dies z.B. einer geschweiften Klammer oder
-            dem Namen eines Attributes entsprechen.
-      \item[2. Syntaktische Analyse]
-            Die bei der lexikalischen Analyse erstellten \text{Token} werden in diesem Schritt in einer Baumstruktur gespeichert, sodass die
-            Baumstruktur auch die Eingabereihenfolge der \text{Token} berücksichtigt. Diese Baumstruktur wird \ac{ast} genannt.
-            Anhand des \ac{ast} überprüft der Parser, ob die Eingabe Syntaxfehler enthält.
-\end{description}
+Der Scanner und der Parser sind Teil der Analysephase eines Compilers. Sie prüfen, ob der Inhalt einer Datei syntaktisch korrekt ist~\cite{SommerGumm+2019+113+148}.
+\\
+Der Scanner führt zuerst die sogenannte lexikalische Analyse durch. Dabei wird der Inhalt der Datei in Form einer
+Zeichenfolge eingelesen und in eine Folge von lexikalischen Einheiten zerlegt.
+Diese Einheiten werden Symbole (englisch: \textit{Tokens}) genannt.
+Anschließend wird die Folge von Symbolen weiterverarbeitet, indem z.B. Leerzeichen und Zeilenumbrüche entfernt werden.
+Im Bezug auf das \ac{json}-Format handelt es sich z.B. bei einer geschweiften Klammer um ein \textit{Token}~\cite{syntax-analysis}.
+\\
+Als Nächstes führt die Parser die syntaktische Analyse durch, bei der die hierarchische Struktur des Inhalts erkannt wird.
+Die Struktur beschreibt, wie verschiedene Bestandteile des Inhalts zueinander und verschachtelt sind.
+Der Parser ist außerdem dazu in der Lage Fehler in der Syntax zu erkennen und zu lokalisieren.
+Der Parser kann das Ergebnis der Analyse als Syntaxbaum ausgeben. Dieses Ergebnis wird im folgenden als \ac{ast} bezeichnet~\cite{syntax-analysis}.
