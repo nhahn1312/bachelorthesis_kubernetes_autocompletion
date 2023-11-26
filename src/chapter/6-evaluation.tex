@@ -28,14 +28,14 @@ Diese ergab folgende Probleme und Herausforderungen:
 Nur Herausforderung 3 wird explizit in bereits bestehenden wissenschaftlichen Arbeiten untersucht~\cite{9476056,10.1145/3579639,10.1145/3468264.3473495}.
 Alle anderen Herausforderungen konnten nicht anhand wissenschaftlicher Quellen verifiziert werden.
 Es wurde gezeigt, dass die Zielsetzung nicht ausreichend in wissenschaftlichen Arbeiten untersucht wurde, die Herausforderungen jedoch vorhanden sind.
-Das zeigen zum einen die Ergebnisse der Websuche, aber auch die Existenz von bestehenden Lösungen für die Herausforderungen.
+Dies zeigen zum einen die Ergebnisse der Websuche, aber auch die Existenz von bestehenden Lösungen für die Herausforderungen.
 
 \begin{enumerate}
     \setcounter{enumi}{1}
     \item Welche Möglichkeiten zur Unterstützung bei der Erstellung von Konfigurationsdateien gibt es?
 \end{enumerate}
 
-Bei der zweiten Frage wurde untersucht, welche Programme bereits existieren, um die Herausforderungen zu lösen.
+Die der zweiten Zielsetzung wurde untersucht, welche Programme bereits existieren, um die Herausforderungen zu lösen.
 Die Lösungen wurden mit Hilfe einer Websuche identifiziert.
 Keine der Implementierungen konnte alle aus der ersten Zielsetzung resultierenden\ Herausforderungen lösen
 Dies wurde durch einen Laborversuch gezeigt
@@ -86,10 +86,13 @@ Die Autovervollständigung und Validierung auf Basis der \textit{KubernetesAPI} 
 
 Die Vor- und Nachteile ergeben sich aus den Ergebnissen von Kapitel~\ref{ch:preparation-analysis} und Kapitel~\ref{ch:comparison}.
 Kapitel~\ref{ch:preparation-analysis} hat die fehlenden Funktionen von vorhandenen Anwendungen aufgezeigt. Ein Vorteil der eigenen Implementierung ist
-somit der größere Funktionsumfang bei der Unterstützung vom Schreiben der Konfigurationsdateien. Ein weiterer Vorteil gegenüber den bestehenden
+somit der größere Funktionsumfang bei der Unterstützung vom Schreiben der Konfigurationsdateien.
+Die Anwendung bietet Autovervollständigung und Validierung für ausgewählte Cluster-Ressourcen in den \textit{Manifest}-Dateien an, was im Laborversuch
+mit keiner anderen Lösung möglich war. Allerdings unterstützt die Anwendung den Nutzer nicht beim Erkennen von Sicherheitsmängeln in
+den Konfigurationsdateien. Ein Vorteil gegenüber den bestehenden
 Kommandozeilentools, ist die \ac{ide}-Integration der eigenen Implementierung, die dem Nutzer eine Integration in den Arbeitsablauf ermöglicht~\cite{usability-criteria-static-analysis-tools}.
-Der Vergleich in Kapitel~\ref{ch:comparison} zeigt die Nachteile der eigenen Implementierung. Das Programm kann nur $19\%$ der Kriterien, die die
-Benutzerfreundlichkeit von statischen Analysetools beurteilen, erfüllen. Im Vergleich erfüllen nur drei der neun Programme weniger Kriterien.
+Der Vergleich in Kapitel~\ref{ch:comparison} zeigt Nachteile der eigenen Implementierung. Das Programm kann nur $19\%$ der Kriterien, die die
+Benutzerfreundlichkeit von statischen Code-Analysetools beurteilen, erfüllen. Im Vergleich erfüllen nur drei der neun Programme weniger Kriterien.
 Keines der Programme konnte beim Vergleich mehr als $50\%$ der Kriterien erfüllen.
 Monokle konnte mit $42\%$ die meisten Kriterien von allen untersuchten Anwendungen erfüllen.
 \\\\

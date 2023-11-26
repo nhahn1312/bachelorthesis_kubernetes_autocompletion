@@ -40,7 +40,7 @@ spec:
       image: nginx:stable-alpine
     \end{minted}
   \caption{pod.yaml für Testfälle der Herausforderung 1}
-  \label{lst:pod-yaml-file}
+  \label{lst:pod-yaml-file-1}
 \end{listing}
 
 \begin{listing}[htp]
@@ -60,7 +60,7 @@ spec:
   priority: high
     \end{minted}
   \caption{pod.yaml für Testfälle der Herausforderung 2}
-  \label{lst:pod-yaml-file}
+  \label{lst:pod-yaml-file-2}
 \end{listing}
 
 \begin{listing}[htp]
@@ -93,7 +93,7 @@ spec:
           value: "http://localhost:9200"
   \end{minted}
   \caption{pod.yaml für Testfälle der Herausforderung 3 - Version 1}
-  \label{lst:pod-yaml-file}
+  \label{lst:pod-yaml-file-3-1}
 \end{listing}
 
 \begin{listing}[htp]
@@ -121,7 +121,7 @@ spec:
         privileged: true
   \end{minted}
   \caption{pod.yaml für Testfälle der Herausforderung 3 - Version 2}
-  \label{lst:pod-yaml-file}
+  \label{lst:pod-yaml-file-3-2}
 \end{listing}
 
 \begin{listing}[htp]
@@ -149,7 +149,7 @@ spec:
         secretName: unknown-secret
   \end{minted}
   \caption{pod.yaml für Testfälle der Herausforderung 4}
-  \label{lst:pod-yaml-file}
+  \label{lst:pod-yaml-file-4}
 \end{listing}
 
 \begin{table}[htp]
@@ -266,9 +266,30 @@ spec:
     \bottomrule
   \end{tabular}
   \caption{Detaillierte Ergebnisse des Vergleichs}
-  \label{tbl:kubernetes-manifest-tools-capabilities}
+  \label{tbl:comparison-of-tools}
 \end{table}
 
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/screenshot-settings.png} % width immer angeben!
+  \caption{Bildschirmaufnahme der Einstellungen der Anwendung}
+  \label{fig:screenshot-settings}
+\end{figure}
+
+\begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/screenshot-validation.png} % width immer angeben!
+  \caption{Bildschirmaufnahme einer Datei mit Fehlern einer Validierung}
+  \label{fig:screenshot-validation}
+\end{figure}
+
+\begin{figure}[H] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/screenshot-completion.png} % width immer angeben!
+  \caption{Bildschirmaufnahme einer Datei mit Vorschlägen zur Autovervollständigung}
+  \label{fig:screenshot-completion}
+\end{figure}
 
 
 

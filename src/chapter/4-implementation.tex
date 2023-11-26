@@ -757,5 +757,19 @@ Dazu wurde folgender Befehl im Wurzelverzeichnis des Projekts ausgeführt:
 \begin{minted}[linenos=false, breaklines]{console}
       vsce package
 \end{minted}
-Die erstellte Datei kann anschließend auf einem System mit installiertem \ac{vscode} ausgeführt
-werden. Dadurch wird die Erweiterung installiert.
+Die erstellte Datei kann anschließend auf einem System mit installiertem \ac{vscode} als
+Erweiterung mit folgendem Befehl installiert werden:
+\begin{minted}[linenos=false, breaklines]{console}
+  code --install-extension yaml-kubernetes-completion-1.0.0.vsix
+\end{minted}
+
+Der Nutzer kann folgende Einstellungen vornehmen, um die Anwendung
+zu konfigurieren:
+\begin{itemize}
+  \setlength\itemsep{-0.5cm}
+  \item Konfiguration der Länge der Einrückung für \ac{yaml}-Dateien, angegeben in Anzahl der Leerzeichen. Standardeinstellung sind zwei Leerzeichen.
+  \item Einstellen der Ablaufzeit des Caches für die Werte vom Kubernetes Cluster. Standardeinstellung sind 600 Sekunden.
+  \item Pfad zur Kubernetes Konfigurationsdatei, die die Login-Informationen zum Cluster enthält. Standardeinstellung ist das ``Home''-Verzeichnis des Nutzers.
+  \item Namen der Dateien für die die Autovervollständigung und Validierung im Rahmen der Anwendung ausgeführt werden sollen.
+        Hier können reguläre Ausdrücke angegeben werden. Die Standardeinstellung enthätlt nur den Dateinamen ``kubernetes.yaml''.
+\end{itemize}
