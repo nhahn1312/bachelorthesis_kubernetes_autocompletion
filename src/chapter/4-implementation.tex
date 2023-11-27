@@ -91,7 +91,7 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
         Die Werte folgender \textit{Mapping}-Schlüssel werden validiert: \textbf{namespace}, \textbf{secretName}.
         Sie sind abhängig von den Kubernetes Objekten \textit{Secret} und \textit{Namespace}.
   \item[Anforderung 7]{- Autovervollständigung von Mapping-Schlüssel Werten\\}
-        Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines \textit{Mapping}-Schlüssels, so sollen diesem, abhängig von diesem, Werte zur Autovervollständigung
+        Befindet sich der Nutzer mit seinem Cursor im Wertbereich eines \textit{Mapping}-Schlüssels, so sollen diesem, abhängig vom \textit{Mapping}-Schlüssel, Werte zur Autovervollständigung
         angeboten werden. Die Autovervollständigung von Werten ist nur möglich, falls diese vorhanden sind.
         Befindet sich der Nutzer z.B. mit seinem Cursor im Wertbereich des \textit{Mapping}-Schlüssels \textit{namespace} in Zeile 10,
         werden diesem die verfügbaren \textit{Namespaces} auf dem Kubernetes-Cluster vorschlagen.
@@ -204,7 +204,7 @@ könnte bei neuen Kubernetes-Versionen mit Änderungen, die die Struktur und Syn
 \\
 Stattdessen bietet die \textit{KubernetesAPI} die Möglichkeit den Aufbau der \textit{Manifest}-Dateien mit Hilfe der \textit{OpenAPI}-Spezifikation abzuleiten.
 \\
-Bei \textit{OpenAPI} handelt es sich um einen Standard zur Beschreibung von Anwendungsschnittstellen, welche auch ~\ac{api} genannt werden. Die Beschreibung der \acs{api} ist
+Bei \textit{OpenAPI} handelt es sich um einen Standard zur Beschreibung von Anwendungsschnittstellen, welche auch \ac{api} genannt werden. Die Beschreibung der \acs{api} ist
 unabhängig von einer Programmiersprache und wird im \ac{json}- oder \ac{yaml}-Format zur Verfügung gestellt~\cite{openapi-org}.
 Die \textit{KubernetesAPI} stellt die \textit{OpenAPI}-Spezifikation im \ac{json}-Format bereit und diese kann anschließend durch einen Konverter in
 mehrere Dateien umgewandelt werden, sodass diese jeweils ein \acs{json}-Schema eines Kubernetes Objektes enthalten.
@@ -313,7 +313,7 @@ gespeichert wird, ab und muss daher konvertiert werden.
 Aus dem erlangten Wissen aus diesem Abschnitt und den Anforderungen aus Abschnitt~\ref{sec:requirements} wurde ein Klassendiagramm erstellt.
 Das vollständige Klassendiagramm befindet sich auf GitHub(\url{https://github.com/nhahn1312/bachelorthesis_kubernetes_autocompletion/blob/main/src/images/class-diagram-lsp-server.svg}).
 Es enthält ausschließlich Methoden und Attribute, die zum Verständnis relevant sind.
-In den kommenden Abschnitten wird das gesamte Klassendiagramm mit Auszügen erläutert.
+In den kommenden Abschnitten wird das gesamte Klassendiagramm in Auszügen erläutert.
 
 \subsection{Kommunikation mit dem \acs{lsp}-Client}\label{sec:lsp-client-communication}
 
@@ -414,7 +414,7 @@ Listing~\ref{lst:parse-yaml-parser} zeigt einen Auszug des Quellcodes der ``pars
 Die Methode nimmt eine Textdatei entgegen und liefert einen Array von Objekten der Klasse ``YamlDocument'' zurück.
 \\
 Mit dem Objekt der Klasse ``Parser'' werden mit einer lexikalischen Analyse \textit{Token} erzeugt, siehe Zeile 5 bis 7.
-Anschließend wird jeweils die Menge von \textit{Token}, die zu einem \ac{yaml}-\textit{Document} zugehörig sind, zusammengefasst.
+Anschließend wird jeweils die Menge von \textit{Token}, die einem \ac{yaml}-\textit{Document} zugehörig sind, zusammengefasst.
 Dies geschieht in Zeile 10 und 11 mit einem Objekt der Klasse ``Composer''.
 Dabei wird eine syntaktische Analyse durchgeführt. Die Variable ``documents'' enthält damit einen Array
 von Objekten die Syntaxfehler und einen \ac{ast} als Attribute besitzen.
@@ -620,7 +620,7 @@ Es veranschaulicht, wie die Zuordnungsregeln genutzt werden, um Knoten im \ac{as
 werden muss. Dazu wird in Zeile 4 der gesamte \ac{ast} des \ac{yaml}-\textit{Documents} traversiert. Für
 jeden Knoten wird überprüft, ob eine der Zuordnungsregeln für diesen anwendbar ist, siehe Zeile 8 und 9.
 Ist eine Regel auf einen Knoten anwendbar, wird dieser Zusammenhang gespeichert, siehe Zeile 11. Die Abfrage der Werte von der \textit{KubernetesAPI} und
-das Validieren wird in der ``getDiagnostics''-Methode, siehe Zeile 17 durchgeführt.
+das Validieren wird in der ``getDiagnostics''-Methode, siehe Zeile 17, durchgeführt.
 
 \subsection{Autovervollständigung}
 
@@ -697,7 +697,7 @@ Abbildung~\ref{fig:class-diagram-yaml-language-service-schemaless-completion} ze
   \label{fig:class-diagram-yaml-language-service-schemaless-completion}
 \end{figure}
 
-Das Objekt der Klasse ``SchemaCompletionService'' nutzt zur Autovervollständigung von Werten vom Cluster die
+Das Objekt der Klasse ``SchemalessCompletionService'' nutzt zur Autovervollständigung von Werten vom Cluster die
 in Abschnitt~\ref{subsec:validation} eingeführten Zuordnungsregeln.
 \\
 Die ``buildCompletionCache''-Methode der Klasse ``CacheValueService'' sammelt anhand der \textit{Mapping}-Schlüssel
@@ -708,10 +708,10 @@ Die Werte aus den beiden Quellen werden zusamengeführt und dem Nutzer zur Verf�
 \\
 Der Ausschnitt des Quellcodes der ``getCompletions''-Methode der Klasse ``SchemalessCompletionService'' veranschaulicht,
 wie Zuordnungsregeln verwendet werden, um die Werte zur Autovervollständigung für den Nutzer bereitzustellen.
-Der Ausschnitt des Quellcodes ist auf Listing~\ref{lst:get-completions-schemaless-completion-service} zu sehen. Die Methode wird aus der Methode ``doComplete'' heraus aufgerufen.
+Der Ausschnitt des Quellcodes ist auf Listing~\ref{lst:get-completions-schemaless-completion-service} zu sehen. Die Methode wird aus der Methode ``doComplete'' der Klasse ``SchemalessCompletionService'' heraus aufgerufen.
 Sie erhält als Übergabeparameter den Knoten und den \textit{Mapping}-Schlüssel, der den Wert enthält, sowie den Parameter vom Typ
 ``DocumentInfo''. Dieser enthält die Position des Cursors, die Textdatei und das \ac{yaml}-\textit{Document}, in dem sich die
-Position des Cursors befindet. Das ``rules''-Attribut in Zeile 8 enthält die Zuordnungsregeln.
+Position des Cursors befindet. Die Variable ``rules'' in Zeile 8 enthält die Zuordnungsregeln.
 Mit Hilfe der Bedingung in Zeile 10 wird überprüft, ob eine der Zuordnungsregeln im aktuellen Kontext angewendet werden kann.
 Die Anweisung in Zeile 15 sorgt dafür, dass die Werte vom Kubernetes Cluster mit den gesammelten Werten
 aus den geöffneten Dateien zusamengeführt werden.

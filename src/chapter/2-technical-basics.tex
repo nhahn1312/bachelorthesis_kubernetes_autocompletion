@@ -151,8 +151,8 @@ zum besseren Verständnis beschrieben werden:
 \begin{description}
       \item[Pod]
             Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf demselben \textit{Worker Node} befinden.
-            Es wird sichergestellt, dass sich alle \textit{Container}, die in einem Pod zusammengefasst sind,
-            immer auf dem selben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
+            Es wird sichergestellt, dass alle \textit{Container}, die in einem Pod zusammengefasst sind,
+            immer auf demselben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
       \item[Replica Set]
             Ein \textit{Replica Set} führt eine spezifizierte Anzahl von \textit{Pods} aus und sorgt dafür, dass diese Anzahl konstant bleibt.
             Sollte ein \textit{Pod} ausfallen, sorgt das \textit{Replica Set} dafür, dass ein neuer gestartet wird. Bei hoher Ressourceauslastung
@@ -196,7 +196,7 @@ Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
 Der \ac{lsp}-Client ist eine Erweiterung des Editors und sendet z.B. Änderungen an Dateien zum Server.
 Der \ac{lsp}-Server enthält auf der anderen Seite die Logiken zur Sprachunterstützung~\cite{lsp-witekio}.
-Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt wird.
+Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunterstützung nur einmal auf Server Seite entwickelt werden muss.
 Für die verschiedenen Editoren muss folglich nur eine Client-Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
