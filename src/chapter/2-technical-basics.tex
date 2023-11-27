@@ -183,7 +183,7 @@ Bei einem Editor handelt es sich in diesem Kontext um ein Computerprogramm zur E
 Das Ziel war es, eine Schnittstelle bereitzustellen, die unter anderem die Autovervollständigung, die Code Navigation und das Syntaxhighlighting
 für jeden Editor vereinheitlicht~\cite{lsp-witekio}.
 Die Fähigkeit eines Editors Autovervollständigung, Code Navigation und Syntaxhighlighting zu ermöglichen wird im Folgenden als Sprachunterstützung bezeichnet.
-Das \ac{lsp}-Protokoll soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor separat durchgeführt werden muss.
+Das \ac{lsp} soll vermeiden, dass eine Implementierung der Sprachunterstützung für jeden Editor separat durchgeführt werden muss.
 Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
@@ -339,7 +339,7 @@ xmas-fifth-day:
             So gehört das Element in Zeile 10 z.B. zu dem Element in Zeile 9.
       \item[Document]
             Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logisch voneinander.
-            Sie können also als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
+            Sie können als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
             Eingeleitet wird ein \textit{Document}
             durch ``$---$'', siehe Zeile 1.
       \item[Kommentare]
@@ -358,15 +358,15 @@ xmas-fifth-day:
             Beispiele dafür sind in Zeile 3, 4, 5 und in Zeile 13 zu sehen.
       \item[Sequence]
             Bei einer \textit{Sequence} handelt es sich um eine ungeordnete Folge von einem oder mehreren \ac{yaml}-Elementen.
-            Das Element einer \textit{Sequence} durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
-            Bei dem Element kann es sich um \textit{Scalar} oder ein \textit{Mapping} handeln, siehe Zeile 8 und 9.
+            Das erste Element einer \textit{Sequence} wird durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
+            Bei dem Element kann es sich um ein \textit{Scalar} oder ein \textit{Mapping} handeln, siehe Zeile 8 und 9.
 
 \end{description}
 
 
 \section{\acs{json}-Schema}\label{sec:json-schema}
 
-\acs{json}-Schema ist eine deklarative Sprache, die die Validierung des Formates und der Struktur eines \ac{json}-\textit{Object} ermöglicht.
+\acs{json}-Schema ist eine deklarative Sprache, die die Validierung des Formates und der Struktur eines \ac{json}-\textit{Objects} ermöglicht.
 Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-\textit{Objects} zu beschreiben~\cite{json-schema-description}.
 
 \begin{listing}[htp]
@@ -395,13 +395,13 @@ Es folgt eine Erklärung der auf Listing~\ref{lst:json-schema} verwendeten Schl�
             \textbf{\$schema} Gibt die Version der \acs{json}-Schema-Spezifikation. Unterschiedliche Versionen der Spezifikation
             unterstützen andere Schlüsselwörter.
       \item
-            \textbf{type} Legt den Typ des Attributes im \acs{json}-Format fest.
+            \textbf{type} Legt den Typ des Elementes im \acs{json}-Format fest.
       \item
-            \textbf{properties} Gibt an, welche Attribute ein \acs{json}-Objekt enthalten kann.
+            \textbf{properties} Gibt an, welche \textit{Keys} ein \acs{json}-\textit{Object} enthalten kann.
       \item
-            \textbf{required} Legt fest, welche Attribute ein \acs{json}-Objekt enthalten muss.
+            \textbf{required} Legt fest, welche \textit{Keys} ein \acs{json}-\textit{Object}  enthalten muss.
       \item
-            \textbf{minimum} Gibt den kleinsten Wert an, den ein numerischer Wert enthalten darf.
+            \textbf{minimum} Gibt den kleinsten Wert an, den ein numerisches Element enthalten darf.
 \end{itemize}
 
 Anhand der im \acs{json}-Schema enthaltenen Informationen kann ein Algorithmus die Validierung des Objektes durchführen.
@@ -442,10 +442,11 @@ Der Scanner und der Parser sind Teil der Analysephase eines Compilers. Sie prüf
 Der Scanner führt zuerst die sogenannte lexikalische Analyse durch. Dabei wird der Inhalt der Datei in Form einer
 Zeichenfolge eingelesen und in eine Folge von lexikalischen Einheiten zerlegt.
 Diese Einheiten werden Symbole (englisch: \textit{Tokens}) genannt.
-Anschließend wird die Folge von Symbolen weiterverarbeitet, indem z.B. Leerzeichen und Zeilenumbrüche entfernt werden.
-Im Bezug auf das \ac{json}-Format handelt es sich z.B. bei einer geschweiften Klammer um ein \textit{Token}~\cite{syntax-analysis}.
+Im Bezug auf das \ac{json}-Format handelt es sich z.B. bei einer geschweiften Klammer um ein \textit{Token}.
+Anschließend wird die Folge von Symbolen weiterverarbeitet, indem z.B. Leerzeichen und Zeilenumbrüche entfernt werden~\cite{syntax-analysis}.
 \\
 Als Nächstes führt die Parser die syntaktische Analyse durch, bei der die hierarchische Struktur des Inhalts erkannt wird.
-Die Struktur beschreibt, wie verschiedene Bestandteile des Inhalts zueinander und verschachtelt sind.
+Die Struktur beschreibt, wie verschiedene Bestandteile des Inhalts zueinander angeordnet und ineinander verschachtelt sind.
 Der Parser ist außerdem dazu in der Lage Fehler in der Syntax zu erkennen und zu lokalisieren.
-Der Parser kann das Ergebnis der Analyse als Syntaxbaum ausgeben. Dieses Ergebnis wird im folgenden als \ac{ast} bezeichnet~\cite{syntax-analysis}.
+Das Ergebnis der Analyse kann als Syntaxbaum ausgegeben werden~\cite{syntax-analysis}.
+Dieses Ergebnis wird im folgenden als \ac{ast} bezeichnet.

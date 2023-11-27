@@ -3,7 +3,7 @@
 In dem vorliegenden Kapitel werden die vorhandenen Lösungen aus Kapitel~\ref{ch:preparation-analysis} mit
 der Implementierung aus Kapitel~\ref{ch:implementation} unter Berücksichtigung der Kriterien aus der wissenschaftlichen Arbeit
 ~\cite[A Large-Scale Study of Usability Criteria Addressed by Static Analysis Tools]{usability-criteria-static-analysis-tools} verglichen.
-Die Arbeit beschäftigt sich mit Kriterien zur Benutzerfreundlichkeit von statischen Analysetools und führt anhand dieser einen
+Die Arbeit beschäftigt sich mit Kriterien zur Benutzerfreundlichkeit von statischen Code-Analysetools und führt anhand dieser einen
 Vergleich durch. Die Kriterien werden in diesem Kapitel herausgearbeitet. Anschließend wird entschieden, welche der Kriterien
 im Kontext dieser Arbeit für den Vergleich genutzt werden. Zuletzt folgen die Ergebnisse des Vergleichs mit den ausgewählten Kriterien.
 
@@ -17,16 +17,16 @@ entsprechen. Es folgt eine Beschreibung der einzelnen Kategorien~\cite{usability
     \item[Kategorie 1]{- Warnmeldungen\\}
           Die Kriterien dieser Kategorie prüfen die Warnmeldungen der Lösungen und wie diese dem Nutzer beschrieben werden.
     \item[Kategorie 2]{- Unterstützung bei der Fehlerbehebung\\}
-          In dieser Kategorie befinden sich Kriterien, die beurteilen, ob und wie der Nutzer beim Behebung unterstützt wird.
+          In dieser Kategorie befinden sich Kriterien, die beurteilen, ob und wie der Nutzer bei der Fehlerbehebung unterstützt wird.
     \item[Kategorie 3]{- falsch-positive Fehler\\}
-          Diese Kategorie bewertet, welche Mechanismen statische Analysetools bieten, um falsch-positive Fehler zu unterdrücken
+          Diese Kategorie bewertet, welche Mechanismen statische Code-Analysetools bieten, um falsch-positive Fehler zu unterdrücken
           und den Nutzer dabei zu unterstützen falsch-positive Fehler zu erkennen.
-    \item[Kategorie 4]{Rückmeldungen vom Nutzer\\}
+    \item[Kategorie 4]{- Rückmeldungen vom Nutzer\\}
           Die Kriterien der Kategorie beurteilen, ob und wie sich die Lösung an die Bedürfnisse des Nutzers anpassen lässt.
-          Darunter fällt z.B. die Möglichkeit, spezifische Regeln zu Analyse zu deaktivieren.
-    \item[Kategorie 5]{Integration in den Arbeitsablauf\\}
+          Darunter fällt z.B. die Möglichkeit, spezifische Regeln der Analyse zu deaktivieren.
+    \item[Kategorie 5]{- Integration in den Arbeitsablauf\\}
           Die Kriterien dieser Kategorie prüfen, wie sich die Lösung in den Arbeitsablauf des Nutzers Integrieren lässt.
-    \item[Kategorie 6]{Benutzeroberfläche\\}
+    \item[Kategorie 6]{- Benutzeroberfläche\\}
           Die Kriterien zur Benutzeroberfläche untersuchen, wie Fehlermeldungen dem Nutzer auf der Oberfläche präsentiert werden.
 \end{description}
 
@@ -54,7 +54,7 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
         \midrule
         Fehlercode                 & Untersucht, ob eine Anwendung einen einzigartigen Fehlercode für einen Fehler bereitstellt.                                          & ja               \\
         \midrule
-        Grundlegende Informationen & Prüft, ob die Lösung eine Kategorisierung und Lokalisierung des Fehlers ermöglicht und ob es eine Einteilung nach Schweregrad gibt   & ja               \\
+        Grundlegende Informationen & Prüft, ob die Lösung eine Kategorisierung und Lokalisierung des Fehlers ermöglicht und ob es eine Einteilung nach Schweregrad gibt.  & ja               \\
         \bottomrule
     \end{tabularx}
     \caption{Kriterien der Kategorie 1}
@@ -62,7 +62,9 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
 \end{table}
 
 \begin{enumerate}[label= (\arabic*)]
-    \item Dieses Kriterium ist nur für statische Analysetools für Programmiersprachen relevant. Fehler in \textit{Manifest}-Dateien sind direkt lokalisierbar.
+    \item Dieses Kriterium ist nur für statische Analysetools für Programmiersprachen relevant. Dabei geht es darum den Auslöser eines Fehlers zu finden.
+          Bei dem Quelltext einer Programmiersprache wäre dies z.B. die Methode, die den Fehler verursacht hat.
+          Die Fehler in \textit{Manifest}-Dateien sind direkt lokalisierbar.
 \end{enumerate}
 
 \FloatBarrier
@@ -110,15 +112,15 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
     \centering
     \begin{tabularx}{\columnwidth}{lXl}
         \toprule
-        \textbf{Name}            & \textbf{Beschreibung}                                                                                                                  & \textbf{ja/nein} \\
+        \textbf{Name}            & \textbf{Beschreibung}                                                                                                                 & \textbf{ja/nein} \\
         \midrule
-        Anpassung der Regeln     & Der Nutzer kann die Regeln zur Validierung anpassen und bei Bedarf bestimmte Regeln deaktivieren.                                      & ja               \\
+        Anpassung der Regeln     & Der Nutzer kann die Regeln zur Validierung anpassen und bei Bedarf bestimmte Regeln deaktivieren.                                     & ja               \\
         \midrule
-        Verarbeitung von Fehlern & Die Anwendung nutzt Fehler, die der Nutzer bereits behoben hat, um Fehler besser von falsch-positiven Fehlern unterscheiden zu können. & ja               \\
+        Verarbeitung von Fehlern & Die Anwendung nutzt Fehler, die der Nutzer bereits behoben hat, um diese besser von falsch-positiven Fehlern unterscheiden zu können. & ja               \\
         \midrule
-        temporäres Ausblenden    & Der Nutzer hat die Möglichkeit einen Fehler temporär auszublenden, z.B. durch eine Annotation.                                         & ja               \\
+        temporäres Ausblenden    & Der Nutzer hat die Möglichkeit einen Fehler temporär auszublenden, z.B. durch eine Annotation.                                        & ja               \\
         \midrule
-        Filter zum Ausblenden    & Die Anwendung ermöglicht dem Nutzer Ausblenden von Warnmeldungen mit Hilfe von Filtern                                                 & ja               \\
+        Filter zum Ausblenden    & Die Anwendung ermöglicht dem Nutzer das Ausblenden von Warnmeldungen mit Hilfe von Filtern                                            & ja               \\
         \bottomrule
     \end{tabularx}
     \caption{Kriterien der Kategorie 4}
@@ -157,8 +159,8 @@ Sollte ein Kriterium nicht ausgewählt sein, wird eine Begründung angegeben. F�
           Damit handelt es sich um ein qualitatives Kriterium.
     \item Die Kriterien sollen zur qualitativen Beurteilung herangezogen werden. Dieses Kriterium gibt an, um welche Art von Programm es sich handelt.
     \item Siehe (2)
-    \item die wissenschaftliche Arbeit gibt hier an, dass sich dieses Kriterium vollständig mit ``IDE-Integration'' überdeckt. Es wurde letztlich nur überprüft, ob die Anwendung in eine \ac{ide} integriert werden kann.
-    \item es gibt keine zuverlässige Methode, um einen Unterschied in der Laufzeit bei den zu vergleichenden Lösungen festzustellen.
+    \item Die wissenschaftliche Arbeit gibt hier an, dass sich dieses Kriterium vollständig mit ``IDE-Integration'' überdeckt. Es wurde letztlich nur überprüft, ob die Anwendung in eine \ac{ide} integriert werden kann.
+    \item Es gibt keine zuverlässige Methode, um einen Unterschied in der Laufzeit bei den zu vergleichenden Lösungen festzustellen.
 \end{enumerate}
 
 \begin{table}[t]

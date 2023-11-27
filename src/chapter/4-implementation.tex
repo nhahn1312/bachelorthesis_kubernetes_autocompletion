@@ -2,7 +2,7 @@
 
 Das vorherige Kapitel hat gezeigt, dass bestehende Implementierungen nicht alle Herausforderungen beim Schreiben von Kubernetes \textit{Manifest}-Dateien erfüllen
 können. Um die fehlende Funktionalität bereitzustellen wurde eine Anwendung entwickelt,
-welche die Autovervollständigung und Validierung von Kubernetes \textit{Manifest}-Dateien ermöglicht und dabei auch ausgewählte
+welche die Autovervollständigung und Validierung von Kubernetes \textit{Manifest}-Dateien ermöglicht und dabei ausgewählte
 Cluster-Ressourcen berücksichtigt. Dazu wurde ein \ac{lsp}-Server und ein \ac{lsp}-Client entwickelt.
 Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-Editor \ac{vscode} bereitgestellt.
 
@@ -44,7 +44,8 @@ Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-
 \section{Anforderungen}\label{sec:requirements}
 
 Bevor mit der Implementierung begonnen wurde, wurden Anforderungen zur Autovervollständigung und Validierung festgelegt.
-Diese Anforderungen, abgesehen von Anforderung 1, basieren auf den Testfällen für Herausforderung 4 und Herausforderung 2, da diese von keinem der vorhandenen Lösungen vollständig erfüllt werden.
+Diese Anforderungen, abgesehen von Anforderung 1, basieren auf den Testfällen für Herausforderung 4. Außerdem wurden Anforderungen zur Lösung von Herausforderung 2 definiert,
+da diese von keinem der vorhandenen Lösungen vollständig erfüllt wurde.
 Zur Veranschaulichung dieser Anforderungen stellt Listing~\ref{lst:kubernetes-object-definition} eine nicht vollständige \textit{Manifest}-Datei im \ac{yaml}-Format dar.
 Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-definition}.
 
@@ -100,7 +101,7 @@ Die kommenden Beispiele beziehen sich auf Listing~\ref{lst:kubernetes-object-def
 \end{description}
 
 Tabelle~\ref{tbl:test-cases-and-requirements} zeigt die Zuordnung der Testfälle aus Abschnitt~\ref{subsec:preparation} zu den gestellten Anforderungen an die Implementierung.
-Sie verdeutlicht, dass die Anforderungen eine Erfüllung der Testfälle und damit auf eine Erfüllung der Herausforderungen ermöglichen soll.
+Sie verdeutlicht, dass die Anforderungen eine Erfüllung der Testfälle und damit eine Erfüllung der Herausforderungen ermöglichen soll.
 
 \begin{table}[h]
   \centering
@@ -125,16 +126,16 @@ Sie verdeutlicht, dass die Anforderungen eine Erfüllung der Testfälle und dami
 
 Wie bereits zu Beginn des Kapitels erwähnt, wird das Projekt als Erweiterung für den Quellcode-Editor \ac{vscode} entwickelt.
 Der Code auf Listing~\ref{lst:client-code} stellt den Einstiegspunkt für die Erweiterung dar.
-Dazu wird eine activate- und eine deactivate-Funktion benötigt. Die activate-Funktion enthält Code, der zum Start der Erweiterung ausgeführt wird.
-Die deactivate-Funktion enthält Code, welcher beim Beenden der Erweiterung ausgeführt wird.
-Die dargestellte activate-Funktion, siehe Zeile 5, enthält außerdem Code zum Start des \ac{lsp}-Clients.
+Dazu wird eine ``activate''- und eine ``deactivate''-Funktion benötigt. Die ``activate''-Funktion enthält Code, der zum Start der Erweiterung ausgeführt wird.
+Die ``deactivate''-Funktion enthält Code, welcher beim Beenden der Erweiterung ausgeführt wird.
+Die dargestellte ``activate''-Funktion, siehe Zeile 5, enthält außerdem Code zum Start des \ac{lsp}-Clients.
 \\
 Der \ac{lsp}-Client wird mit Hilfe der Klasse ``LanguageClient'' aus dem Modul ``vscode-languageclient/node'' initialisiert, siehe Zeile 20.
 Ein Objekt der Klasse enthält alle notwendigen Funktionalitäten zur Kommunikation mit einem \ac{lsp}-Server.
 Zur Initialisierung wird eine Client und eine Server-Konfiguration benötigt.
 \\
 Die Server-Konfiguration, siehe Zeile 9, gibt an, an welcher Stelle die Implementierung des \ac{lsp}-Servers zu finden ist(Attribut ``module'').
-und wie die Kommunikation zwischen \ac{lsp}-Client und Server stattfindet (Attribut ``transport'').
+Sie definiert außerdem wie die Kommunikation zwischen \ac{lsp}-Client und Server stattfindet (Attribut ``transport'').
 Die Implementierung des \ac{lsp}-Servers kann über die Verzeichnisstruktur des \ac{lsp}-Clients eingebunden werden, siehe Zeile 6, da
 ein \textit{Monorepo} zur Entwicklung der Erweiterung genutzt wurde.
 Bei einem \textit{Monorepo} handelt es sich um ein \textit{Repository}, das mehrere unterschiedliche Projekte enthält~\cite{monorepo-narwhal}.
@@ -203,7 +204,7 @@ könnte bei neuen Kubernetes-Versionen mit Änderungen, die die Struktur und Syn
 \\
 Stattdessen bietet die \textit{KubernetesAPI} die Möglichkeit den Aufbau der \textit{Manifest}-Dateien mit Hilfe der \textit{OpenAPI}-Spezifikation abzuleiten.
 \\
-Bei \textit{OpenAPI} handelt es sich um einen Standard zur Beschreibung von Anwendungsschnittstellen, auch~\ac{api}s genannt. Die Beschreibung der \acs{api} ist
+Bei \textit{OpenAPI} handelt es sich um einen Standard zur Beschreibung von Anwendungsschnittstellen, welche auch ~\ac{api} genannt werden. Die Beschreibung der \acs{api} ist
 unabhängig von einer Programmiersprache und wird im \ac{json}- oder \ac{yaml}-Format zur Verfügung gestellt~\cite{openapi-org}.
 Die \textit{KubernetesAPI} stellt die \textit{OpenAPI}-Spezifikation im \ac{json}-Format bereit und diese kann anschließend durch einen Konverter in
 mehrere Dateien umgewandelt werden, sodass diese jeweils ein \acs{json}-Schema eines Kubernetes Objektes enthalten.
@@ -214,7 +215,7 @@ Zum Erstellen der \acs{json}-Schema-Dateien wurde wie folgt vorgegangen:
   \item[1. KubernetesAPI mittels Proxy zugänglich machen]
         Bevor der Konverter auf die \textit{OpenAPI}-Spezifikation des Kubernetes Clusters zugreifen kann, muss die \textit{KubernetesAPI}
         für HTTP-Aufrufe ohne Nutzung von \textit{kubectl} verfügbar gemacht werden. Dies wird mit einem \textit{Proxy} erreicht, der über die \textit{kubectl}
-        bereitgestellt werden kann. \\
+        aktiviert werden kann. \\
         Ein \textit{Proxy} ist ein Vermittler zwischen zwei Netzwerken~\cite{proxy-ryte-wiki,proxy-it-service-network}.
         Für das Projekt macht der \textit{Proxy} die \textit{KubernetesAPI} über die lokale \acs{ip}-Adresse des Rechners erreichbar.
         Dazu wird folgende Anweisung verwendet:
@@ -233,9 +234,9 @@ Zum Erstellen der \acs{json}-Schema-Dateien wurde wie folgt vorgegangen:
         \begin{minted}[linenos=false, breaklines]{console}
                   openapi2jsonschema -o path/to/output/directory --kubernetes --strict http://localhost:8001/openapi/v2
             \end{minted}
-        Der Parameter ``-o'' gibt an, in welchem Verzeichnis die \ac{json}-Schema-Dateien abgelegt werden sollen.
-        Mit dem Parameter ``--kubernetes'' werden zusätzliche Informationen über das betreffende Kubernetes Objekt als Attribut im \ac{json}-Schema gespeichert.
-        ``--strict'' ist ein Parameter, welcher angibt, dass keine nicht vorhanden \textit{Mapping}-Schlüssel erlaubt sind bei der Definition einer Datei erlaubt sind.
+        Der Parameter ``$-$o'' gibt an, in welchem Verzeichnis die \ac{json}-Schema-Dateien abgelegt werden sollen.
+        Mit dem Parameter ``$--$kubernetes'' werden zusätzliche Informationen über das betreffende Kubernetes Objekt als Attribut im \ac{json}-Schema gespeichert.
+        ``$--$strict'' ist ein Parameter, welcher angibt, dass keine nicht vorhanden \textit{Mapping}-Schlüssel bei der Definition einer Datei erlaubt sind.
         Dies wird mit einer \textit{Property} in den generierten \ac{json}-Schema-Dateien erreicht.
         Die angegebene \ac{url} führt zur \textit{OpenAPI}-Spezifikation.
 \end{description}
@@ -252,9 +253,10 @@ Der Code des Moduls wurde als Grundlage für die Implementierung der Sprachunter
 Das Modul stellt ein \textit{Interface} bereit, welches einen Überblick über die Funktionalitäten gibt und aufzeigt, welche Änderungen
 nötig sind, um diese für \ac{yaml}-Dateien zu nutzen.
 \\
-Abbildung~\ref{fig:language-service-interface-defition-excerpt} zeigt einen Auszug, der für die Implementierung
-der Funktionalität bei \ac{yaml}-Dateien relevanten, Methoden des \textit{Interface} ``LanguageService''.
-Die vollständige Definition \textit{Interface} befindet sich im Anhang auf Abbildung \ref{fig:language-service-interface-defition}.
+Abbildung~\ref{fig:language-service-interface-defition-excerpt} zeigt einen Auszug
+der Methoden des \textit{Interface} ``LanguageService'',
+die für die Umsetzung der Funktionalität für \ac{yaml}-Dateien relevant sind.
+Die vollständige Definition des \textit{Interface} befindet sich im Anhang auf Abbildung \ref{fig:language-service-interface-defition}.
 Es folgt eine Beschreibung der einzelnen Methoden~\cite{vscode-json-language-service}:
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
@@ -316,15 +318,15 @@ In den kommenden Abschnitten wird das gesamte Klassendiagramm mit Auszügen erl�
 \subsection{Kommunikation mit dem \acs{lsp}-Client}\label{sec:lsp-client-communication}
 
 In Abschnitt~\ref{sec:lsp-client} wurde bereits gezeigt, dass der Client angibt, wie der \ac{lsp}-Server zu erreichen ist.
-Die Implementierung des Einstiegspunkts des \ac{lsp}-Servers wird auf Listing~\ref{lst:server-entrypoint} dargestellt.
+Die Implementierung des Einstiegspunkts des \ac{lsp}-Servers ist auf Listing~\ref{lst:server-entrypoint} dargestellt.
 Dabei wurden die Module ``vscode-languageserver/node'' und ``vscode-languageserver-textdocument'' genutzt, um die
 Implementierung der \ac{lsp}-Funktionalitäten zur vereinfachen.
 \\
-Zunächst wird ein Objekt der Klasse ``\_Connection'' erstellt mit der Funktion ``createConnection'' erstellt, siehe Zeile 10.
+Zunächst wird ein Objekt der Klasse ``\_Connection'' mit der Funktion ``createConnection'' erstellt, siehe Zeile 10.
 Die Klasse liefert Funktionalitäten zur Kommunikation mit dem \ac{lsp}-Client.
 Eine Funktionalität ist z.B. die Möglichkeit auf eine Anfrage zur Autovervollständigung des \ac{lsp}-Clients zu reagieren.
 \\
-In Zeile 11 wird der ein Objekt erstellt, dass für Verwaltung von Textdateien auf dem Server zuständig ist.
+In Zeile 11 wird ein Objekt erstellt, dass für Verwaltung von Textdateien auf dem Server zuständig ist.
 Die Textdateien sind ein Abbild der vorhandenen Textdateien, die dem Client zur Verfügung stehen.
 Dieses Objekt wird im folgenden als \textit{DocumentManager} bezeichnet.
 Der \textit{DocumentManager} sorgt dafür, dass bei Änderungen einer Textdatei auf der Clientseite diese auch auf dem \ac{lsp}-Server aktualisiert wird.
@@ -356,7 +358,7 @@ new YamlLanguageServer(connection, documentManager, baseUri);
 
 
 Die Klasse ``YamlLanguageServer'' ist eine Kommunikationsschnittstelle zum \ac{lsp}-Client.
-Einen Überblick über die Implementierung der Klasse liefert Listing~\ref{lst:server-entrypoint}.
+Einen Überblick über die Implementierung der Klasse liefert Listing~\ref{lst:yaml-language-server-constructor}.
 In Zeile 6 wird ein Objekt der Klasse ``ConfigurationService'' erzeugt. Das Objekt kümmert sich
 mit Hilfe von Methoden der ``\_Connection''-Klasse um die Initialisierung der Verbindung mit dem \ac{lsp}-Client.
 \\
@@ -386,13 +388,13 @@ public constructor(
   }
       \end{minted}
   \caption{Auszug Implementierung des Konstruktors der Klasse ``YamlLanguageServer''}
-  \label{lst:server-entrypoint}
+  \label{lst:yaml-language-server-constructor}
 \end{listing}
 
 \subsection{Parsen von \acs{yaml}-Dateien}
 
 Bevor eine Autovervollständigung oder eine Validierung einer Datei stattfinden kann, muss die \ac{yaml}-Datei geparst und
-der \ac{ast} in die von der Klasse ``ASTNode'' vorgegebene Struktur umgewandelt werden.
+der \ac{ast}, in die von der Klasse ``ASTNode'' vorgegebene Struktur, umgewandelt werden.
 Abbildung~\ref{fig:class-diagram-yaml-language-service-parser} stellt die beteiligten Klassen, mit wichtigen Methoden und Attributen,
 beim Parsen einer \ac{yaml}-Datei dar.
 
@@ -410,11 +412,12 @@ der Methode ``parse'' der Klasse ``YamlParser''.
 Listing~\ref{lst:parse-yaml-parser} zeigt einen Auszug des Quellcodes der ``parse''-Methode der Klasse ``YamlParser''.
 \\
 Die Methode nimmt eine Textdatei entgegen und liefert einen Array von Objekten der Klasse ``YamlDocument'' zurück.
+\\
 Mit dem Objekt der Klasse ``Parser'' werden mit einer lexikalischen Analyse \textit{Token} erzeugt, siehe Zeile 5 bis 7.
-Anschließend wird jeweils eine Menge von \textit{Token} zu einem \ac{yaml}-Document zusammengefasst.
+Anschließend wird jeweils die Menge von \textit{Token}, die zu einem \ac{yaml}-\textit{Document} zugehörig sind, zusammengefasst.
 Dies geschieht in Zeile 10 und 11 mit einem Objekt der Klasse ``Composer''.
 Dabei wird eine syntaktische Analyse durchgeführt. Die Variable ``documents'' enthält damit einen Array
-von Objekten die Syntaxfehler und einen \ac{ast} bereitstellen.
+von Objekten die Syntaxfehler und einen \ac{ast} als Attribute besitzen.
 Die Syntaxfehler werden in Zeile 15 ausgelesen und gespeichert.
 Der \ac{ast} wird in Zeile 23 mittels ``convert''-Methode der Klasse ``AstConverter'' umgewandelt.
 Dieser befindet sich somit im richtigen Format für die weitere Verarbeitung.
@@ -463,8 +466,7 @@ public parse(textDocument: TextDocument): YamlDocument[] {
 Für die Implementierung der ``convert''-Methode der Klasse ``AstConverter'' wurde der Aufbau des \ac{ast} des genutzten Parsers für
 die Dateien im \ac{yaml}-Format und der Aufbau des \ac{ast} des Parsers für die \ac{json}-Dateien verglichen.
 Es wurde eine Zuordnungstabelle angelegt, um die Konvertierung zu implementieren.
-Diese Zuordnungstabelle ist auf Tabelle~\ref{tbl:yaml-ast-to-json-ast-convert} zu sehen.
-Sie zeigt eine Zuordnung der Objekttypen der beiden Formate zu deren Klassen der \ac{ast}-Implementierung.
+Tabelle~\ref{tbl:yaml-ast-to-json-ast-convert} zeigt die Zuordnung der Objekttypen der beiden Formate zu deren Klassen der \ac{ast}-Implementierung.
 Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \ac{ast} der \ac{yaml}-Datei rekursiv traversiert und konvertiert.
 %Der Quellcode der Implementierung der  ``convert''-Methode befindet sich im Anhang.
 
@@ -497,8 +499,7 @@ Mit den Informationen aus der Tabelle wurde ein Algorithmus erstellt, der den \a
 Als Nächstes erfolgte die Implementierung der Validierung. Wie bereits in Abschnitt~\ref{sec:lsp-client-communication} erwähnt wird die
 Validierung bei jeder Änderung an einer \ac{yaml}-Datei, die durch den Nutzer erfolgt, durchgeführt.
 Vor jeder Validierung findet das Parsen der \ac{yaml}-Datei mit der im vorherigen Abschnitt erwähnten Methode ``parseYamlDocument'' statt.
-Die Validierung beginnt mit dem Aufruf der Methode ``doValidation'' der Klasse ``YamlLanguageService'', welcher
-durch eine Änderung an einer \ac{yaml}-Datei auf Clientseite ausgelöst wird.
+Die Validierung beginnt mit dem Aufruf der Methode ``doValidation'' der Klasse ``YamlLanguageService''.
 Die Methode ruft anschließend die Validierung anhand der \ac{json}-Schema-Dateien und die Validierung anhand von Objekten auf dem Kubernetes Cluster
 auf. Die beiden Implementierungen werden im kommenden Abschnitt erläutert.
 
@@ -529,7 +530,7 @@ konnten damit die \textbf{Anforderungen 2}, \textbf{3} und \textbf{4} aus Abschn
 Bei der Validierung von Kubernetes Objekten auf dem Cluster können die \ac{json}-Schema-Dateien nicht verwendet werden.
 Anhand des \ac{json}-Schemas kann nicht bestimmt werden, welches Kubernetes Objekt, welchem \textit{Mapping}-Schlüssel in der
 \textit{Manifest}-Datei zugeordnet ist. Das \ac{json}-Schema bietet nicht die Möglichkeit zur Definition eigener Typen.
-Der \textit{Mapping}-Schlüssel für einen \textit{Namespace} ist z.B. vom Typ ``string'' und kann ohne weitere Informationen nicht in der Datei vervollständigt werden.
+Der \textit{Mapping}-Schlüssel für einen \textit{Namespace} ist z.B. vom Typ ``string'' und kann ohne weitere Informationen nicht in der Datei validiert werden.
 Die Lösung dafür ist eine eigene Zuordnung von \textit{Mapping}-Schlüsseln zu Kubernetes Objekten oder anderen aus dem Cluster gespeicherten Informationen anzulegen.
 Die Implementierung dieser Lösung ist unabhängig von den \ac{json}-Schema-Dateien möglich.
 Abbildung~\ref{fig:class-diagram-yaml-language-service-validation-kubernetes} zeigt einen Auszug der dazu benötigten Klassen.
@@ -545,14 +546,14 @@ Als Erstes wird die Methode ``doValidation'' der Klasse ``SchemalessValidationSe
 Die Übergabeparameter sind der Inhalt der aktuellen Datei und das geparste \ac{yaml}-\textit{Document}.
 Die Validierung wird mit Objekten durchgeführt, die die ``getRules''-Methode der Klasse ``RuleProvider'' zur Verfügung stellt.
 Die Klassen der Objekte ordnen \textit{Mapping}-Schlüsseln aus einer \textit{Manifest}-Datei jeweils
-einem Kubernetes Objekt oder anderen aus dem Cluster gespeicherten Informationen zu.
-Sie werden für die Validierung und die Autovervollständigung verwendet und im folgenden als Zuordnungsregeln bezeichnet.
+einem Kubernetes Objekt zu.
+Sie werden für die Validierung und die Autovervollständigung verwendet und werden im folgenden als Zuordnungsregeln bezeichnet.
 \\
 Bei der Implementierung der Zuordnungsregeln wurde ein Entwurfsmuster aus der Softwareentwicklung verwendet, welches als ``Template Method'' bezeichnet wird.
 ``Template Method'' ist ein sogenanntes Verhaltensmuster, welches den Aufbau eines Algorithmus in einer Basisklasse beschreibt und
 die abgeleiteten Klassen spezifische Schritte des Algorithmus überschreiben lässt.
 Die Basisklasse definiert dazu eine abstrakte Methode, welche als Platzhalter agiert und optional eine Standardimplementierung besitzt.
-Die abgeleiteten Klassen überschreiben diese Methode und andere Methoden, die an dem Prozess beteiligt sind, um
+Die abgeleiteten Klassen überschreiben diese und andere Methoden, die an dem Prozess beteiligt sind, um
 das Verhalten für einen spezifischen Anwendungsfall zu ändern oder zu vervollständigen~\cite{typescript-design-pattern-chapter-6,design-patterns-refactoring-guru}.
 \\
 Die Basisklasse ``Rule'' liefert Werte zur Validierung und Autovervollständigung mittels der Methode ``getValues''.
@@ -569,7 +570,7 @@ Es folgt eine Beschreibung der Methoden und Attribute der Klasse ``SecretRule'':
         Gibt an, ob für die angegebene Menge von ``keys'' Werte aus dem aktuellen und anderen geöffneten Dateien gesammelt werden sollen.
         Das Attribut muss von abgeleiteten Klassen überschrieben werden. Dieses Attribut wird für die Autovervollständigung verwendet.
   \item[getApiCompletionValues]
-        Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Sie für die Abfrage der benötigten Werte vom Cluster zuständig.
+        Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Sie ist für die Abfrage der benötigten Werte vom Cluster zuständig.
   \item[test]
         Die abstrakte Methode muss von den abgeleiteten Klassen überschrieben werden. Mit ihr können zusätzliche Einschränkungen
         für die \textit{Mapping}-Schlüssel definiert werden. Damit kann z.B. festgelegt werden, welchen Elternknoten im \ac{ast}
@@ -617,9 +618,9 @@ async doValidation(document: TextDocument, yamlDocument: YamlDocument)
 Listing~\ref{lst:do-validation-schemaless-validation-service} zeigt einen Auszug der ``doValidation''-Methode der Klasse ``SchemalessValidationService''.
 Es veranschaulicht, wie die Zuordnungsregeln genutzt werden, um Knoten im \ac{ast} zu finden, für die eine Validierung durchgeführt
 werden muss. Dazu wird in Zeile 4 der gesamte \ac{ast} des \ac{yaml}-\textit{Documents} traversiert. Für
-jeden Knoten wird überprüft, ob eine der Zuordnungsregeln für diesen anwendbar ist, siehe 8 und 9.
-Ist eine Regel anwendbar auf einen Knoten anwendbar, wird dieser Zusammenhang gespeichert, siehe Zeile 11. Die Abfrage der Werte und
-das Validieren mit der \textit{KubernetesAPI} wird in der ``getDiagnostics''-Methode, sieh Zeile 17 durchgeführt.
+jeden Knoten wird überprüft, ob eine der Zuordnungsregeln für diesen anwendbar ist, siehe Zeile 8 und 9.
+Ist eine Regel auf einen Knoten anwendbar, wird dieser Zusammenhang gespeichert, siehe Zeile 11. Die Abfrage der Werte von der \textit{KubernetesAPI} und
+das Validieren wird in der ``getDiagnostics''-Methode, siehe Zeile 17 durchgeführt.
 
 \subsection{Autovervollständigung}
 
@@ -627,8 +628,8 @@ Der Auslöser für die Autovervollständigung ist das Betätigen einer Tastenkom
 dass eine Autovervollständigung vom Nutzer gewünscht ist und übergibt die Position des Cursors in der Datei.
 Anschließend wird vom \ac{lsp}-Server die ``doComplete''-Methode des Objekts der Klasse ``YamlLanguageServer'' aufgerufen.
 In der Methode wird die \ac{yaml}-Datei geparst und das \ac{yaml}-\textit{Document} gefunden, in welchem sich der Cursor befindet.
-Dieses wird dem Inhalt der Textdatei und der Position des Cursors an die Methode ``doComplete'' der Instanz der Klasse ``YamlLanguageService'' übergeben.
-Ein Ausschnitt des Quellcodes der Methode ist auf Listing zu sehen.
+Das \ac{yaml}-\textit{Document} wird dem Inhalt der Textdatei und der Position des Cursors an die Methode ``doComplete'' des Objektes der Klasse ``YamlLanguageService'' übergeben.
+Ein Ausschnitt des Quellcodes der Methode ist auf Listing~\ref{lst:do-complete-yaml-language-service} zu sehen.
 
 \begin{listing}[htp]
   \begin{minted}[fontsize=\footnotesize]{js}
@@ -659,7 +660,7 @@ Das Objekt der Klasse ``CompletionsCollectorImpl'' dient zum Speichern der mögl
 \\
 Bevor diese gefunden werden können, muss der Kontext der Position des Cursors bestimmt werden.
 Dieser wird mit der Methode ``getNodeFromPosition'' der Klasse ``YamlDocument'' bestimmt, siehe Zeile 7.
-Dafür wird der Knoten im \ac{ast} gesucht, welcher den Wert enthalten würde, den der Nutzer vervollständigen möchte.
+Dafür wird der Knoten im \ac{ast} gesucht, welcher den Wert enthält, den der Nutzer vervollständigen möchte.
 Der gefundene Knoten könnte z.B. ein \textit{Mapping}-Schlüssel sein.
 Zur Autovervollständigung würde der Nutzer mögliche Werte für den \textit{Mapping}-Schlüssel vorgeschlagen bekommen.
 Ein Ablaufdiagramm der ``getNodeFromPosition''-Methode befindet sich im Anhang.
@@ -684,8 +685,8 @@ Die Klasse ``SchemaCompletionService'' erfüllt \textbf{Anforderung 5} aus Absch
 Das Objekt der Klasse ``SchemalessCompletionService'' liefert Autovervollständigungen mit Hilfe der \textit{KubernetesAPI}.
 Außerdem wird eine Autovervollständigung
 mit Werten von \textit{Mapping}-Schlüssel aus dem aktuellen und anderen auf dem Client geöffneten Dokumenten,
-die noch nicht auf das Cluster ausgerollt wurden.
-Damit kann z.B. ein \textit{Namespace} dem Nutzer als Autovervollständigung angeboten werden, der noch nicht auf dem Cluster vorhanden ist,
+die noch nicht auf das Cluster ausgerollt wurden, angeboten.
+Damit kann z.B. ein \textit{Namespace} als Vorschlag zur Autovervollständigung angeboten werden, der noch nicht auf dem Cluster vorhanden ist,
 die \textit{Manifest}-Datei zur Erstellung aber bereits angelegt wurde.
 Abbildung~\ref{fig:class-diagram-yaml-language-service-schemaless-completion} zeigt einen Auszug des Klassendiagramms der dazu benötigten Klassen.
 
@@ -707,8 +708,8 @@ Die Werte aus den beiden Quellen werden zusamengeführt und dem Nutzer zur Verf�
 \\
 Der Ausschnitt des Quellcodes der ``getCompletions''-Methode der Klasse ``SchemalessCompletionService'' veranschaulicht,
 wie Zuordnungsregeln verwendet werden, um die Werte zur Autovervollständigung für den Nutzer bereitzustellen.
-Der Ausschnitt des Quellcodes ist auf Listing~\ref{lst:get-completions-schemaless-completion-service} zu sehen. Die Methode aus der Methode ``doComplete'' aufgerufen.
-Sie erhält als Übergabeparameter den Knoten und den \textit{Mapping}-Schlüssel die den Wert enthalten, sowie den Parameter vom Typ
+Der Ausschnitt des Quellcodes ist auf Listing~\ref{lst:get-completions-schemaless-completion-service} zu sehen. Die Methode wird aus der Methode ``doComplete'' heraus aufgerufen.
+Sie erhält als Übergabeparameter den Knoten und den \textit{Mapping}-Schlüssel, der den Wert enthält, sowie den Parameter vom Typ
 ``DocumentInfo''. Dieser enthält die Position des Cursors, die Textdatei und das \ac{yaml}-\textit{Document}, in dem sich die
 Position des Cursors befindet. Das ``rules''-Attribut in Zeile 8 enthält die Zuordnungsregeln.
 Mit Hilfe der Bedingung in Zeile 10 wird überprüft, ob eine der Zuordnungsregeln im aktuellen Kontext angewendet werden kann.
@@ -750,7 +751,7 @@ private async getCompletions(
 \section{Bereitstellen der \acs{vscode}-Erweiterung}
 
 Nach Abschluss der Implementierung wurde die \acs{vscode}-Erweiterung aus dem Quellcode erstellt.
-Dazu wurde das Kommandozeilentool \ac{vsce} verwendet, welches das Erstellen und veröffentlichen von
+Dazu wurde das Kommandozeilentool \ac{vsce} verwendet, welches das Erstellen und Veröffentlichen von
 \acs{vscode}-Erweiterungen ermöglicht. In dem Fall wurde nur die Erweiterung erstellt und als
 Datei zur Verfügung gestellt.
 Dazu wurde folgender Befehl im Wurzelverzeichnis des Projekts ausgeführt:
@@ -763,13 +764,13 @@ Erweiterung mit folgendem Befehl installiert werden:
   code --install-extension yaml-kubernetes-completion-1.0.0.vsix
 \end{minted}
 
-Der Nutzer kann folgende Einstellungen vornehmen, um die Anwendung
-zu konfigurieren:
-\begin{itemize}
-  \setlength\itemsep{-0.5cm}
-  \item Konfiguration der Länge der Einrückung für \ac{yaml}-Dateien, angegeben in Anzahl der Leerzeichen. Standardeinstellung sind zwei Leerzeichen.
-  \item Einstellen der Ablaufzeit des Caches für die Werte vom Kubernetes Cluster. Standardeinstellung sind 600 Sekunden.
-  \item Pfad zur Kubernetes Konfigurationsdatei, die die Login-Informationen zum Cluster enthält. Standardeinstellung ist das ``Home''-Verzeichnis des Nutzers.
-  \item Namen der Dateien für die die Autovervollständigung und Validierung im Rahmen der Anwendung ausgeführt werden sollen.
-        Hier können reguläre Ausdrücke angegeben werden. Die Standardeinstellung enthätlt nur den Dateinamen ``kubernetes.yaml''.
-\end{itemize}
+%Der Nutzer kann folgende Einstellungen vornehmen, um die Anwendung
+%zu konfigurieren:
+%\begin{itemize}
+%  \setlength\itemsep{-0.5cm}
+%  \item Konfiguration der Länge der Einrückung für \ac{yaml}-Dateien, angegeben in Anzahl der Leerzeichen. Standardeinstellung sind zwei Leerzeichen.
+%  \item Einstellen der Ablaufzeit des Caches für die Werte vom Kubernetes Cluster. Standardeinstellung sind 600 Sekunden.
+%  \item Pfad zur Kubernetes Konfigurationsdatei, die die Login-Informationen zum Cluster enthält. Standardeinstellung ist das ``Home''-Verzeichnis des Nutzers.
+%  \item Namen der Dateien für die die Autovervollständigung und Validierung im Rahmen der Anwendung ausgeführt werden sollen.
+%        Hier können reguläre Ausdrücke angegeben werden. Die Standardeinstellung enthätlt nur den Dateinamen ``kubernetes.yaml''.
+%\end{itemize}

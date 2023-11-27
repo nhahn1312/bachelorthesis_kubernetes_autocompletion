@@ -53,7 +53,7 @@ Mit Hilfe der Ergebnisse der Websuche konnte eine Liste der Probleme und Herausf
           Jedes Kubernetes Objekt hat z.B. eine andere Menge von Pflichtschlüsseln, wenn der Nutzer diese nicht kennt, gibt es Probleme beim Ausrollen der Konfiguration~\cite{10.1145/3357223.3365759, techtarget-kubernetes-challenges}.
           Außerdem verursachen vom Nutzer falsch eingegebene oder nicht existierende \textit{Mapping}-Schlüssel Probleme~\cite{monokle-kubernetes-challenges}.
     \item[Herausforderung 3]{- Erkennen von Sicherheitslücken\\}
-          Eine weitere Herausforderung ist das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien sein~\cite{9476056,dynatrace-kubernetes-security-challenges,10.1145/3468264.3473495,10.1145/3579639}.
+          Eine weitere Herausforderung ist das Erkennen von Sicherheitslücken beim Schreiben der Kubernetes Konfigurationsdateien~\cite{9476056,dynatrace-kubernetes-security-challenges,10.1145/3468264.3473495,10.1145/3579639}.
           Eine Sicherheitslücke kann z.B. ein Passwort im Klartext in einer \textit{Manifest}-Datei sein~\cite{10.1145/3579639}.
     \item[Herausforderung 4]{- Abhängigkeiten zwischen Objekten\\}
           Die Abhängigkeit der Kubernetes Objekte untereinander stellt den Nutzer vor eine Herausforderung~\cite{dev-to-kubernetes-challenges,kubetools-io-kubernetes-manifest-management,spacelift-io-kubernetes-challenges,qovery-kubernetes-challenges}.
@@ -93,6 +93,7 @@ Um zu verifizieren, dass die gefundenen Lösungen die mit den Quellen angenommen
 Der Laborversuch wurde auf einem Rechner mit dem Betriebssystem Windows 11 durchgeführt.
 Die Anwendung \textit{Docker for Desktop} wurde installiert~\cite{docker-for-desktop-overview}. Sie enthält ein Kubernetes Cluster enthält,
 welches lokal auf einen einzigen \textit{Node} ausgeführt wird~\cite{docker-for-desktop-kubernetes}.
+Bei der Installation wird das Kommandozeilentool \textit{kubectl}, welches zu Verwaltung eines Kubernetes Clusters dient, ebenfalls installiert.
 \\
 Zuerst wurde ein \textit{Namespace} und ein \textit{Secret} auf dem Cluster mit folgenden Befehlen angelegt:
 \begin{enumerate}
@@ -173,11 +174,11 @@ In allen anderen Fällen erfüllt ein Programm eine Herausforderung nicht.
     \item[Testfälle für Herausforderung 2]{~\\}
           Es wird geprüft, ob das Programm eine Validierung und Autovervollständigung für die Syntax der \textit{Manifest}-Dateien
           bietet. Die Herausforderung gilt als teilweise erfüllt, wenn die unter 2.1 definierten Testfälle erfüllt sind oder Testfall 2.2 erfüllt ist.
-          Um die Autovervollständigung aus Testfall 2.2 zu prüfen wurde der \textit{Mapping}-Schlüssel ``name'' aus der Datei entfernt, siehe Zeile 5.
+          Um die Autovervollständigung aus Testfall 2.2 zu prüfen wurde ein \textit{Mapping}-Schlüssel aus der Datei entfernt.
           Programme, bei denen es sich um ein Kommandozeilentool handelt, können nur die unter 2.1 definierten Testfälle erfüllen.
     \item[Testfälle für Herausforderung 3]{~\\}
           Sie prüfen Sicherheitsmängel in der Konfiguration. Die in der Tabelle vorhandenen Testfälle wurden
-          aus der wissenschaftlichen Arbeit~\cite{10.1145/3579639}[Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study]
+          der wissenschaftlichen Arbeit~\cite{10.1145/3579639}[Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study]
           entnommen. Sie sind als Beispiele für Sicherheitsmängel in \textit{Manifest}-Dateien aufgelistet und eignen sich daher als Testfälle im Laborversuch.
           Für diese Herausforderung wurden zwei unterschiedliche modifizierte Versionen der \textit{Manifest}-Datei des \textit{Pods} benötigt,
           da sich Testfall 3.1.2 und 3.1.11 gegenseitig ausschließen.
@@ -189,7 +190,7 @@ In allen anderen Fällen erfüllt ein Programm eine Herausforderung nicht.
     \item[Testfälle für Herausforderung 4]{~\\}
           Die Testfälle überprüfen, ob der Nutzer vom Programm bei der Angabe von abhängigen Objekten im Cluster unterstützt wird.
           Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung angezeigt.
-          Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde ein der Name des \textit{Namespace} aus der Datei entfernt, siehe Zeile 6.
+          Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde der Name des \textit{Namespace} aus der Datei entfernt.
           Die teilweise Erfüllung der Herausforderung ist mit dem Erfüllen der Testfälle unter 4.1 oder 4.2 möglich.
 \end{description}
 

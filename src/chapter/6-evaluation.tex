@@ -37,9 +37,9 @@ Dies zeigen zum einen die Ergebnisse der Websuche, aber auch die Existenz von be
 
 Die der zweiten Zielsetzung wurde untersucht, welche Programme bereits existieren, um die Herausforderungen zu lösen.
 Die Lösungen wurden mit Hilfe einer Websuche identifiziert.
-Keine der Implementierungen konnte alle aus der ersten Zielsetzung resultierenden\ Herausforderungen lösen
-Dies wurde durch einen Laborversuch gezeigt
-Es stellte sich heraus, dass keine der vorhanden Implementierungen eine Lösung für Herausforderung 4 aufweist.
+Keine der Implementierungen konnte alle aus der ersten Zielsetzung resultierenden\ Herausforderungen lösen.
+Dies wurde durch einen Laborversuch gezeigt.
+Es stellte sich heraus, dass keine der vorhandenen Implementierungen eine Lösung für Herausforderung 4 aufweist.
 \\\\
 Die Suche nach bestehenden Lösungen bezog sich nur auf die Unterstützung beim Schreiben von Konfigurationsdateien.
 Es wurden keine weiteren Möglichkeiten betrachtet, die den Nutzer, absehen beim Schreibvorgang selbst, unterstützen.
@@ -63,12 +63,15 @@ Es folgt eine Evaluation der einzelnen Anforderungen:
 \begin{description}
     \item[Evaluation 1]{- Funktionalität für jedes Kubernetes Objekt\\}
           Die Autovervollständigung und Validierung wurde, wie in Anforderung 1 beschrieben umgesetzt.
-          Die \ac{json}-Schema bilden alle Objekte ab, da diese aus der \textit{OpenAPI}-Spezifikation generiert wurden.
+          Die \ac{json}-Schema-Dateien bilden alle Objekte ab, da diese aus der \textit{OpenAPI}-Spezifikation generiert wurden.
     \item[Evaluation 2 bis 5]{- Autovervollständigung und Validierung \ac{json}-Schemas\\}
           Die Funktionalitäten konnten wie geplant umgesetzt werden. Das \ac{json}-Schema
           definiert Schlüsselwörter mit denen z.B. ein Pflichtschlüssel abgebildet werden kann.
     \item[Evaluation 6 und 7]{- Autovervollständigung und Validierung Cluster-Werte\\}
           Die Anforderungen werden von der implementierten Anwendung erfüllt.
+          Eine nicht durch die Anforderungen vorgegebene Funktion ist die Autovervollständigung
+          mittels Werten, die sich in den geöffneten Dokumenten befinden. Dies ermöglicht dem Nutzer eine Ressource, als Vorschlag zur Autovervollständigung
+          zu erhalten, die sich noch nicht auf dem Cluster befindet.
           Durch die Klassenstruktur der Zuordnungsregeln, die in Kapitel~\ref{subsec:validation} eingeführt wurde, ist
           es möglich Autovervollständigung und Validierung für neue \textit{Mapping}-Schlüssel ohne hohen Aufwand zu implementieren.
 
@@ -100,12 +103,12 @@ Daraus lässt sich schlussfolgern, dass die Kriterien entweder sehr umfangreich 
 die Benutzerfreundlichkeit nicht als wichtiges Kriterium ansehen.
 Weiterhin könnte argumentiert werden, dass die für den Vergleich herangezogene Arbeit ausschließlich Programme zur statischen Analyse
 von Quellcode untersucht hat. Quellcode von Programmiersprachen hat eine höhere Komplexität, als die \ac{yaml}-Syntax von Kubernetes.
-Um benutzerfreundlich zu sein, muss statisches Analysetool für Quellcode daher mehr Anforderungen erfüllen.
+Um benutzerfreundlich zu sein, muss ein statisches Analysetool für Quellcode daher mehr Anforderungen erfüllen.
 
 \section{Weiterführende Forschung}
 
 Mit der vorliegenden Arbeit konnten erste Erkenntnisse zu Problemen und Herausforderungen beim Schreiben Kubernetes
-Konfigurationsdateien gewonnen werden. Zukünftige Forschungen könnten die Probleme und Herausforderung
+Konfigurationsdateien gewonnen werden. Zukünftige Forschungen könnten die Probleme und Herausforderungen
 anhand einer empirischen Studie untersuchen. Dabei könnten zusätzlich Kriterien zur Verifikation von Lösungen zu
 den Herausforderungen entworfen werden, die über einen Laborversuch hinaus gehen.
 \\
