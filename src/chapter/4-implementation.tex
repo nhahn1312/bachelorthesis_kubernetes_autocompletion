@@ -34,10 +34,10 @@ Die beiden Komponenten wurden als installierbare Erweiterung für den Quellcode-
         die bestehenden Objekte auf dem Cluster abzufragen und diese für die Autovervollständigung zu verwenden.
   \item[kubectl]
         \textit{kubectl} ist ein Kommandozeilentool, welches zum Erstellen, untersuchen, aktualisieren und löschen von Kubernetes Objekten, sowie zum Ausrollen
-        von Anwendungen und verwalten der Cluster-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der Kubernetes-API.\@
+        von Anwendungen und verwalten der Cluster-Ressourcen verwendet werden kann. Es kommuniziert dazu mit der \textit{KubernetesAPI}.\@
         Bei der Entwicklung wurde \textit{kubectl} verwendet, um den momentanen Zustand des Clusters abzufragen,
         um zu verifizieren, welche Objekte der \ac{lsp}-Server zurückgeben muss.
-        Außerdem konnte der ``verbose''-Parameter der \textit{kubectl} verwendet, um die benötigten Anfragen an die Kubernetes-API anzeigen zu lassen.
+        Außerdem konnte der ``verbose''-Parameter der \textit{kubectl} verwendet werden, um die benötigten Anfragen an die \textit{KubernetesAPI} anzeigen zu lassen.
         Diese wurden für die Implementierung des \ac{lsp}-Servers genutzt.
 \end{description}
 
@@ -165,7 +165,7 @@ export function activate(context: ExtensionContext) {
     //...
   };
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [{ language: 'yaml' }, { pattern: '*.y(a)ml' }],
+    documentSelector: [{ language: 'yaml' }, { pattern: '*.y?(a)ml' }],
     synchronize: {
         fileEvents: [workspace.createFileSystemWatcher('**/*.y?(a)ml')]
     }

@@ -450,3 +450,18 @@ Die Struktur beschreibt, wie verschiedene Bestandteile des Inhalts zueinander an
 Der Parser ist außerdem dazu in der Lage Fehler in der Syntax zu erkennen und zu lokalisieren.
 Das Ergebnis der Analyse kann als Syntaxbaum ausgegeben werden~\cite{syntax-analysis}.
 Dieses Ergebnis wird im folgenden als \ac{ast} bezeichnet.
+
+\section{Modultests}\label{sec:unit-tests}
+
+Die Modultests können automatisiert werden und haben folgende Vorteile gegenüber dem manuellen Testen der Anwendung:
+
+\begin{description}
+      \item[Aufwand und Zeit]
+            Je größer eine Anwendung wird, desto mehr Testaufwand für den Entwickler. Das nimmt mehr Zeit in Anspruch.
+            Durch das Schreiben von Modultests können die Tests automatisiert werden und der manuelle Testaufwand entfällt.
+      \item[Genauigkeit]
+            Manuelle Tests durch den Entwickler sind fehleranfällig. Automatisierte Tests liefern dagegen immer korrekte Ergebnisse.
+      \item[Frühe Fehlererkennung]
+            Fehler, die beim Anpassen der Anwendung entstehen, werden früher gefunden. Schlägt einer der
+            Modultests bei einer Änderung am Quellcode fehl, wird dies direkt durch den Entwickler erkannt.
+\end{description}

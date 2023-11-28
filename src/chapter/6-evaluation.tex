@@ -1,7 +1,7 @@
 \chapter{Evaluation}\label{ch:evaluation}
 
 Im vorliegenden Kapitel werden die Ergebnisse der Arbeit anhand der Zielsetzungen aus Kapitel~\ref{ch:introduction} zusammengefasst
-und die daraus resultierenden Erkenntnisse beschrieben. Zuletzt wird mögliche weiterführende Forschung vorgestellt.
+und die daraus resultierenden Erkenntnisse beschrieben. %Hier unterkapitel für user test?
 
 \section{Ergebnisse und Erkenntnisse}
 
@@ -10,7 +10,7 @@ Die Erstellung von Kubernetes Konfigurationsdateien stellt ein Problem dar.
 Die Arbeit sollte näher untersuchen, wie die Erstellung von Konfigurationsdateien vereinfacht werden kann.
 
 \begin{enumerate}
-    \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
+  \item Welche Herausforderungen und Probleme treten beim Erstellen von Kubernetes Konfigurationsdateien auf?
 \end{enumerate}
 Die erste Frage zielte darauf ab die Probleme zu identifizieren. Bei einer Stichwortsuche nach wissenschaftlichen Arbeiten, konnten nur
 fünf gefunden werden, die sich explizit mit Kubernetes Konfigurationsdateien
@@ -19,11 +19,11 @@ Deshalb wurde eine Websuche mit zusätzlichen Suchbegriffen durchgeführt.
 Diese ergab folgende Probleme und Herausforderungen:
 
 \begin{itemize}
-    \setlength\itemsep{-0.5cm}
-    \item \textbf{Herausforderung 1}-\ac{yaml}-Syntax
-    \item \textbf{Herausforderung 2}-Syntax der \textit{Manifest}-Dateien
-    \item \textbf{Herausforderung 3}-Erkennen von Sicherheitslücken
-    \item \textbf{Herausforderung 4}-Abhängigkeit von Cluster-Ressourcen
+  \setlength\itemsep{-0.5cm}
+  \item \textbf{Herausforderung 1}-\ac{yaml}-Syntax
+  \item \textbf{Herausforderung 2}-Syntax der \textit{Manifest}-Dateien
+  \item \textbf{Herausforderung 3}-Erkennen von Sicherheitslücken
+  \item \textbf{Herausforderung 4}-Abhängigkeit von Cluster-Ressourcen
 \end{itemize}
 Nur Herausforderung 3 wird explizit in bereits bestehenden wissenschaftlichen Arbeiten untersucht~\cite{9476056,10.1145/3579639,10.1145/3468264.3473495}.
 Alle anderen Herausforderungen konnten nicht anhand wissenschaftlicher Quellen verifiziert werden.
@@ -31,8 +31,8 @@ Es wurde gezeigt, dass die Zielsetzung nicht ausreichend in wissenschaftlichen A
 Dies zeigen zum einen die Ergebnisse der Websuche, aber auch die Existenz von bestehenden Lösungen für die Herausforderungen.
 
 \begin{enumerate}
-    \setcounter{enumi}{1}
-    \item Welche Möglichkeiten zur Unterstützung bei der Erstellung von Konfigurationsdateien gibt es?
+  \setcounter{enumi}{1}
+  \item Welche Möglichkeiten zur Unterstützung bei der Erstellung von Konfigurationsdateien gibt es?
 \end{enumerate}
 
 Die der zweiten Zielsetzung wurde untersucht, welche Programme bereits existieren, um die Herausforderungen zu lösen.
@@ -51,8 +51,8 @@ Sie waren dabei nicht für alle Programme optimal. Kommandozeilentools wurden du
 da sie diesen nicht erfüllen konnten.
 
 \begin{enumerate}
-    \setcounter{enumi}{2}
-    \item Wie kann eine Lösung implementiert werden, die den Nutzer bei der Erstellung unterstützt?
+  \setcounter{enumi}{2}
+  \item Wie kann eine Lösung implementiert werden, die den Nutzer bei der Erstellung unterstützt?
 \end{enumerate}
 
 Die Implementierung einer eigenen Lösung konnte auf die Erkenntnisse aus der zweiten Zielsetzung aufbauen.
@@ -61,19 +61,19 @@ wurden als Grundlage für die Anforderungen der Implementierung genutzt.
 Die Anforderungen wurden Mit Hilfe der Testfälle aus dem Laborversuch für die beiden Herausforderungen definiert.
 Es folgt eine Evaluation der einzelnen Anforderungen:
 \begin{description}
-    \item[Evaluation 1]{- Funktionalität für jedes Kubernetes Objekt\\}
-          Die Autovervollständigung und Validierung wurde, wie in Anforderung 1 beschrieben umgesetzt.
-          Die \ac{json}-Schema-Dateien bilden alle Objekte ab, da diese aus der \textit{OpenAPI}-Spezifikation generiert wurden.
-    \item[Evaluation 2 bis 5]{- Autovervollständigung und Validierung \ac{json}-Schemas\\}
-          Die Funktionalitäten konnten wie geplant umgesetzt werden. Das \ac{json}-Schema
-          definiert Schlüsselwörter mit denen z.B. ein Pflichtschlüssel abgebildet werden kann.
-    \item[Evaluation 6 und 7]{- Autovervollständigung und Validierung Cluster-Werte\\}
-          Die Anforderungen werden von der implementierten Anwendung erfüllt.
-          Eine nicht durch die Anforderungen vorgegebene Funktion ist die Autovervollständigung
-          mittels Werten, die sich in den geöffneten Dokumenten befinden. Dies ermöglicht dem Nutzer eine Ressource, als Vorschlag zur Autovervollständigung
-          zu erhalten, die sich noch nicht auf dem Cluster befindet.
-          Durch die Klassenstruktur der Zuordnungsregeln, die in Kapitel~\ref{subsec:validation} eingeführt wurde, ist
-          es möglich Autovervollständigung und Validierung für neue \textit{Mapping}-Schlüssel ohne hohen Aufwand zu implementieren.
+  \item[Evaluation 1]{- Funktionalität für jedes Kubernetes Objekt\\}
+        Die Autovervollständigung und Validierung wurde, wie in Anforderung 1 beschrieben umgesetzt.
+        Die \ac{json}-Schema-Dateien bilden alle Objekte ab, da diese aus der \textit{OpenAPI}-Spezifikation generiert wurden.
+  \item[Evaluation 2 bis 5]{- Autovervollständigung und Validierung \ac{json}-Schemas\\}
+        Die Funktionalitäten konnten wie geplant umgesetzt werden. Das \ac{json}-Schema
+        definiert Schlüsselwörter mit denen z.B. ein Pflichtschlüssel abgebildet werden kann.
+  \item[Evaluation 6 und 7]{- Autovervollständigung und Validierung Cluster-Werte\\}
+        Die Anforderungen werden von der implementierten Anwendung erfüllt.
+        Eine nicht durch die Anforderungen vorgegebene Funktion ist die Autovervollständigung
+        mittels Werten, die sich in den geöffneten Dokumenten befinden. Dies ermöglicht dem Nutzer eine Ressource, als Vorschlag zur Autovervollständigung
+        zu erhalten, die sich noch nicht auf dem Cluster befindet.
+        Durch die Klassenstruktur der Zuordnungsregeln, die in Kapitel~\ref{subsec:validation} eingeführt wurde, ist
+        es möglich Autovervollständigung und Validierung für neue \textit{Mapping}-Schlüssel ohne hohen Aufwand zu implementieren.
 
 \end{description}
 Um die Erfüllung der Anforderungen zu verifizieren könnte der Laborversuch für die eigene Implementierung durchgeführt werden.
@@ -83,8 +83,8 @@ erneut erstellt werden müssen.
 Die Autovervollständigung und Validierung auf Basis der \textit{KubernetesAPI} funktioniert außerdem nur für ausgewählte Ressourcen.
 
 \begin{enumerate}
-    \setcounter{enumi}{3}
-    \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
+  \setcounter{enumi}{3}
+  \item Welche Vor- und Nachteile hat die Implementierung im Vergleich zu bereits bestehenden Lösungen?
 \end{enumerate}
 
 Die Vor- und Nachteile ergeben sich aus den Ergebnissen von Kapitel~\ref{ch:preparation-analysis} und Kapitel~\ref{ch:comparison}.
@@ -105,15 +105,157 @@ Weiterhin könnte argumentiert werden, dass die für den Vergleich herangezogene
 von Quellcode untersucht hat. Quellcode von Programmiersprachen hat eine höhere Komplexität, als die \ac{yaml}-Syntax von Kubernetes.
 Um benutzerfreundlich zu sein, muss ein statisches Analysetool für Quellcode daher mehr Anforderungen erfüllen.
 
-\section{Weiterführende Forschung}
+\section{Bewertung der Anforderungen an die Anwendung}
 
-Mit der vorliegenden Arbeit konnten erste Erkenntnisse zu Problemen und Herausforderungen beim Schreiben Kubernetes
-Konfigurationsdateien gewonnen werden. Zukünftige Forschungen könnten die Probleme und Herausforderungen
-anhand einer empirischen Studie untersuchen. Dabei könnten zusätzlich Kriterien zur Verifikation von Lösungen zu
-den Herausforderungen entworfen werden, die über einen Laborversuch hinaus gehen.
-\\
-Ein wichtiger Aspekt könnte auch die Implementierung von statischen Analysetools für die Konfiguration von
-verteilten Systemen sein. Die Implementierung aus Kapitel~\ref{ch:implementation} bietet Autovervollständigung und Validierung
-der Cluster-Ressourcen nur für eine begrenzte Auswahl von Ressourcen an. Es könnte demnach untersucht werden,
-wie eine Anwendung entworfen werden kann, die flexibel für die Konfiguration von verteilten Systemen eingesetzt werden kann.
-Dies könnte z.B. mit Einführung eines Standards möglich sein.
+Um zu bewerten, ob die eigene Implementierung die gestellten Anforderungen aus Kapitel~\ref{sec:requirements} erfüllt, wurden
+Modultests implementiert. \\
+Wie bereits in Kapitel~\ref{sec:unit-tests} beschrieben, liefern Modultests zuverlässigere Ergebnisse zur Bewertung der Anforderungen und können bei Änderungen
+an der Anwendung Fehler einfacher erkennen.
+Es wurden Testfälle definiert, mit dessen Hilfe sich der Erfüllung der Anforderungen
+verifizieren lässt. Die Testfälle lassen sich in drei Kategorien einteilen, die im Folgenden beschrieben werden:
+
+\begin{description}
+  \item[Kategorie 1]{- Autovervollständigung anhand des \ac{json}-Schemas\\}
+        Die Tests dieser Kategorie stellen sicher,
+        dass die \textit{Mapping}-Schlüssel zur Autovervollständigung anhand des \ac{json}-Schemas korrekt von der Anwendung zurückgeliefert werden.
+        Dazu werden Auszüge aus den erstellten \ac{json}-Schema-Dateien verwendet. Die Tests sind umfangreich,
+        da die Bestimmung des Kontexts für die Autovervollständigung relevant ist. Es werden dabei verschiedene Positionen des Cursors simuliert.
+        Die Testfälle dieser Kategorie prüfen die Erfüllung der Anforderungen 5 und 7.
+  \item[Kategorie 2]{- Autovervollständigung anhand von Werten aus dem Cluster\\}
+        Die Autovervollständigung anhand von Werten aus dem Cluster wird mit Tests dieser Kategorie geprüft.
+        Dazu werden die vollständigen \ac{json}-Schema-Dateien der Anwendung verwendet.
+        Die Testfälle dieser Kategorie prüfen die Erfüllung der Anforderung 7.
+  \item[Kategorie 3]{- Validierung\\}
+        In dieser Kategorie befinden sich Tests, mit denen verifiziert wird, ob die Validierung mit Hilfe des \ac{json}-Schemas
+        und der Werte aus dem Cluster korrekt implementiert ist. Dazu werden die vollständigen \ac{json}-Schema-Dateien der Anwendung verwendet.
+        Die Tests prüfen die Fehlermeldungen der Validierung, um die Funktionalität sicherzustellen.
+        Die Testfälle dieser Kategorie prüfen die Erfüllung der Anforderungen 2, 3, 4 und 6.
+
+\end{description}
+
+TODO: Beschreibung wie Tests funktionieren Definition übergabe eines Schemas und einer Testdatei im yaml Format für Prüfung.
+Die Tabellen TODO zeigen die erarbeiteten Testfälle .
+Für jede Kategorie wurde eine eigene Tabelle erstellt.
+
+Bei den Beispielen für die Testfälle der Autovervollständigung stellt das Zeichen $|$ die Position des Cursors dar.
+
+\begin{table}[htp]
+  \centering
+  \begin{tabularx}{\columnwidth}{lXl}
+    \toprule
+    \begin{tabular}{@{}l@{}}\textbf{Test-} \\ \textbf{fall} \end{tabular} & \textbf{Beschreibung}                                                                                                                                                                                                                 & \textbf{Auszug der Testdatei}             \\
+    \midrule
+    1.1                                                                   & Der Nutzer erhält Vorschläge mit Cursor hinter dem Elternschlüssel                                                                                                                                                                    & \lstinputlisting[language=yaml]{1_1.yaml} \\
+    \midrule
+    1.2                                                                   & Der Nutzer erhält Vorschläge mit dem Cursor in der nächsten Zeile mit korrekter Einrückung                                                                                                                                            & \lstinputlisting[language=yaml]{1_2.yaml} \\
+    \midrule
+    1.3                                                                   & Der Nutzer erhält Vorschläge zwischen zwei \textit{Mapping}-Schlüsseln mit gleicher Einrückung                                                                                                                                        & \lstinputlisting[language=yaml]{1_3.yaml} \\
+    \midrule
+    1.4                                                                   & Der Nutzer erhält Vorschläge nach einem Mapping mit \textit{Pair} ohne Wert.                                                                                                                                                          & \lstinputlisting[language=yaml]{1_4.yaml} \\
+    \midrule
+    1.5                                                                   & Der Nutzer erhält Vorschläge in einem Mapping mit \textit{Pair}.                                                                                                                                                                      &                                           \\
+    \midrule
+    1.6                                                                   & Der Nutzer erhält Vorschläge in einem Mapping mit \textit{Pair} ohne Wert.                                                                                                                                                            &                                           \\
+    \midrule
+    1.7                                                                   & Der Nutzer erhält keine Vorschläge, wenn ein \textit{Mapping}-Schlüssel mit größerer Einrückung, als die des Cursors folgt.                                                                                                           &                                           \\
+    \midrule
+    1.8                                                                   & Der Nutzer erhält keine Vorschläge, wenn sich \textit{Mapping}-Schlüssel mit größerer Einrückung vor und nach dem Cursor befinden.                                                                                                    &                                           \\
+    \midrule
+    1.9                                                                   & Der Nutzer erhält Vorschläge für das \textit{Mapping}, in dem sich der Cursor befindet.                                                                                                                                               &                                           \\
+    \midrule
+    1.10                                                                  & Der Nutzer erhält Vorschläge für das \textit{Mapping} in einem Element einer \textit{Sequence} nach einem \textit{Pair}                                                                                                               &                                           \\
+    \midrule
+    1.11                                                                  & Der Nutzer erhält Vorschläge für das \textit{Mapping} in einem Element einer \textit{Sequence} nach einem \textit{Pair} ohne Wert.                                                                                                    &                                           \\
+    \midrule
+    1.12                                                                  & Der Nutzer erhält Vorschläge für das \textit{Mapping}, in dem sich der Cursor befindet, nach einer \textit{Sequence}                                                                                                                  &                                           \\
+    \midrule
+    1.13                                                                  & Der Nutzer erhält das Element einer \textit{Sequence} als Vorschlag. Wenn es sich um ein \textit{Mapping} handelt, dann werden die Pflichtschlüssel mit vorgeschlagen                                                                 &                                           \\
+    \midrule
+    1.14                                                                  & Der Nutzer erhält das Element einer \textit{Sequence} als Vorschlag. Wenn es sich um mehrere verschachtelte \textit{Mappings} handelt, dann werden die Pflichtschlüssel mit vorgeschlagen                                             &                                           \\
+    \midrule
+    1.15                                                                  & Der Nutzer erhält das Element einer \textit{Sequence} als Vorschlag. Wenn es sich um ein \textit{Mapping} handelt, dann werden die Pflichtschlüssel mit vorgeschlagen. Der Cursor befindet sich in der nächsten Zeile mit Einrückung. &                                           \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Testfälle der Kategorie 1}
+  \label{tbl:evaluation-test-cases-category-1}
+\end{table}
+
+
+
+\begin{table}[htp]
+  \centering
+  \begin{tabularx}{\columnwidth}{lXl}
+    \toprule
+    \begin{tabular}{@{}l@{}}\textbf{Test-} \\ \textbf{fall} \end{tabular} & \textbf{Beschreibung} & \textbf{Auszug der Testdatei} \\
+    \midrule
+    2.1                                                                   &                       &                               \\
+    \midrule
+    2.2                                                                   &                       &                               \\
+    \midrule
+    2.3                                                                   &                       &                               \\
+    \midrule
+    2.4                                                                   &                       &                               \\
+    \midrule
+    2.5                                                                   &                       &                               \\
+    \midrule
+    2.6                                                                   &                       &                               \\
+    \midrule
+    2.7                                                                   &                       &                               \\
+    \midrule
+    2.8                                                                   &                       &                               \\
+    \midrule
+    2.9                                                                   &                       &                               \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Testfälle der Kategorie 2}
+  \label{tbl:evaluation-test-cases-category-2}
+\end{table}
+
+
+\begin{table}[htp]
+  \centering
+  \begin{tabularx}{\columnwidth}{lXl}
+    \toprule
+    \begin{tabular}{@{}l@{}}\textbf{Test-} \\ \textbf{fall} \end{tabular} & \textbf{Beschreibung} & \textbf{Auszug der Testdatei} \\
+    \midrule
+    3.1                                                                   &                       &                               \\
+    \midrule
+    3.2                                                                   &                       &                               \\
+    \midrule
+    3.3                                                                   &                       &                               \\
+    \midrule
+    3.4                                                                   &                       &                               \\
+    \midrule
+    3.5                                                                   &                       &                               \\
+    \midrule
+    3.6                                                                   &                       &                               \\
+    \midrule
+    3.7                                                                   &                       &                               \\
+    \midrule
+    3.8                                                                   &                       &                               \\
+    \midrule
+    3.9                                                                   &                       &                               \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Testfälle der Kategorie 3}
+  \label{tbl:evaluation-test-cases-category-3}
+\end{table}
+
+
+
+
+
+
+
+\section{Anschließende Sachen}
+
+- Kriterien zur Benutzerfreundlichkeit basieren auf einer wissenschaftlichen Arbeit und sind daher verifizierbar.
+- Die Funktionalität der Anwendung konnte jedoch nicht im Vergleich mit der Funktionalität der anderen Lösungen belegbar verglichen werden
+=> Durchführung einer Studie mit Personen, die vorhandene Tools zum Erstellen von Kubernetes Konfigurationsdateien verwenden.
+Diese können die implementierte Lösung testen und beurteilen, ob diese Vorteile gegenüber der von ihnen verwendeten Lösung hat.
+- Für diese Studie wird ein Fragenkatalog benötigt. Folgende Fragen könnten zur Durchführung der Studie genutzt werden,
+um die Vorteile der Anwendung verifizieren zu können:
+
+\begin{enumerate}
+  \item
+\end{enumerate}

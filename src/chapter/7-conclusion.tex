@@ -1,4 +1,9 @@
 \chapter{Fazit}\label{ch:conclusion}
+Im folgenden Kapitel werden die Ergebnisse der Arbeit zusammengefasst. Im letzten Abschnitt
+der Arbeit folgt ein Ausblick auf weiterführende Forschung.
+
+\section{Zusammenfassung}
+
 In der vorliegenden Arbeit wurden Probleme und Herausforderungen beim Schreiben
 von Kubernetes Konfigurationsdateien herausgearbeitet.
 Die vier Herausforderungen sind: Die \ac{yaml}-Syntax, die Syntax von Kubernetes \textit{Manifest}-Dateien,
@@ -24,18 +29,27 @@ Nur drei von neun anderen Lösungen konnten weniger Kriterien erfüllen.
 Die beste Lösung erfüllt $42\%$ der Kriterien.
 Das Ergebnis zeigt, dass die Kriterien entweder sehr umfangreich sind oder die Benutzerfreundlichkeit
 keine wichtige Rolle spielt.
-\\
+
+\section{Ausblick}
+
 In dieser Arbeit wurde gezeigt, dass es wenige wissenschaftliche Arbeiten zur Erstellung von
 Kubernetes Konfigurationsdateien und den damit verbunden Problemen und Herausforderungen gibt.
 Die Probleme und Herausforderung jedoch existieren, was zum einen die Websuche und zum anderen die
-Existenz von Anwendungen zur Lösung der Probleme zeigt. Es könnte hier in Zukunft eine
-empirische Studie zu den Problemen und Herausforderungen durchgeführt werden.
+Existenz von Anwendungen zur Lösung der Probleme zeigt. Zukünftige Forschungen könnten die Probleme und Herausforderungen
+anhand einer empirischen Studie untersuchen.
+\\
 Es hat sich außerdem herausgestellt, dass bestehende Lösungen einige Funktionslücken aufweisen.
 Dies konnte in einem Laborversuch gezeigt werden, welcher aber nicht zur Verifikation herangezogen werden kann.
 Die Testfälle des Laborversuchs wurden, bis auf die Testfälle für die Sicherheitsmängel,
 mit persönlichem Wissen über die \textit{Manifest}-Dateien und Herausforderungen erstellt.
 Das heißt, es müssten belegbare Kriterien für das Erfüllen einer Herausforderung entwickelt werden.
-Die Anwendung, die im Rahmen dieser Arbeit entwickelt wurde, hat gezeigt, dass es möglich ist
-Validierung und Autovervollständigung für Kubernetes Konfigurationsdateien, auf Basis von Cluster-Ressourcen, zu ermöglichen.
-Der aktuelle Stand der Implementierung ist allerdings nicht benutzerfreundlich.
-In Zukunft könnte dies geändert werden, indem man Lösungen für die nicht erfüllten Kriterien implementiert.
+\\
+Ein wichtiger Aspekt könnte auch die Implementierung von statischen Analysetools für die Konfiguration von
+verteilten Systemen sein. Die Implementierung aus Kapitel~\ref{ch:implementation} bietet Autovervollständigung und Validierung
+der Cluster-Ressourcen nur für eine begrenzte Auswahl von Ressourcen an. Es könnte demnach untersucht werden,
+wie eine Anwendung entworfen werden kann, die flexibel für die Konfiguration von verteilten Systemen eingesetzt werden kann.
+Dies könnte z.B. mit Einführung eines Standards möglich sein.
+\\
+Der Vergleich auf Basis der Kriterien zur Benutzerfreundlichkeit von statischen Code-Analysetools hat gezeigt,
+dass die implementierte Anwendung nicht benutzerfreundlich ist.
+In Zukunft könnte dies geändert werden, indem Lösungen für die nicht erfüllten Kriterien implementiert werden.

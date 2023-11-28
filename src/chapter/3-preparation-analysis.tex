@@ -2,7 +2,7 @@
 
 In dem vorliegenden Kapitel werden die Probleme und Herausforderungen beim Erstellen von Kubernetes \textit{Manifest}-Dateien anhand von wissenschaftlichen Arbeiten
 und Internetquellen, sogenannter grauer Literatur, aufgezeigt. Anschließend werden bereits vorhandene Lösungen für die zuvor herausgearbeiteten Punkte mit einer Websuche identifiziert.
-Zuletzt wird ein Laborversuch durchgeführt. Mit den Ergebnissen wird evaluiert, welche Funktionen den vorhandenen Lösungen fehlen.
+Zuletzt wird ein Laborversuch durchgeführt. Mit den Ergebnissen wird festgestellt, welche Funktionen den vorhandenen Lösungen fehlen.
 
 \section{Probleme und Herausforderungen}
 
@@ -107,7 +107,7 @@ Zuerst wurde ein \textit{Namespace} und ein \textit{Secret} auf dem Cluster mit 
     \end{minted}
 \end{enumerate}
 Es wurde eine \textit{Manifest}-Datei erstellt, die eine vollständige valide Definition eines \textit{Pods} enthält.
-Im Anhang befindet sich der Inhalt der Datei.
+Im Anhang befindet sich der Inhalt der Datei, der auf Listing~\ref{lst:pod-yaml-file} dargestellt ist.
 \\
 Um sicherzustellen, dass die Definition vollständig und valide ist, wurde das Objekt mit dem Kommandozeilentool \textit{kubectl} auf das Cluster ausgerollt.
 Folgender Befehl wurde dazu genutzt:
@@ -189,7 +189,7 @@ In allen anderen Fällen erfüllt ein Programm eine Herausforderung nicht.
 
     \item[Testfälle für Herausforderung 4]{~\\}
           Die Testfälle überprüfen, ob der Nutzer vom Programm bei der Angabe von abhängigen Objekten im Cluster unterstützt wird.
-          Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung angezeigt.
+          Testfall 4.1.1 wird dabei erfüllt, wenn das Programm für das angegebene \textit{Secret} keine Fehlermeldung anzeigt.
           Um die Autovervollständigung aus Testfall 4.2 zu prüfen wurde der Name des \textit{Namespace} aus der Datei entfernt.
           Die teilweise Erfüllung der Herausforderung ist mit dem Erfüllen der Testfälle unter 4.1 oder 4.2 möglich.
 \end{description}
@@ -201,7 +201,7 @@ Es ist anzumerken, dass die Testfälle vor der Durchführung des Laborversuchs d
 ideal für einige Programme waren. Einige Programme, wie z.B. kubectl-validate, geben nur den ersten gefundenen Fehler aus.
 Die vorher gewählte Vorgehensweise die Dateien für den Versuch mit mehreren Fehlern für die Testfälle zu versehen stellt für
 diese Programme ein Problem dar. Ein ausführliches Protokoll, welches die erfüllten und nicht erfüllten Testfälle für jedes Programm
-auflistet, befindet sich im Anhang. \\
+auflistet, befindet sich in Tabelle~\ref{tbl:long-results-experiment} im Anhang. \\
 Der Laborversuch zeigt, dass alle Programme Herausforderung 4 nicht erfüllen.
 Monokle und Lens bieten zwar eine grafische Übersicht über die Cluster-Ressourcen, aber keine funktionierende
 Validierung oder Autovervollständigung in den \textit{Manifest}-Dateien. Um diese Funktionslücke zu schließen wird im
