@@ -1,0 +1,7 @@
+metadata:
+  namespace: namespace-2
+spec:
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: |

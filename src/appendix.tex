@@ -269,6 +269,53 @@ spec:
   \label{tbl:comparison-of-tools}
 \end{table}
 
+\begin{listing}[H]
+  \begin{minted}[fontsize=\small]{js}
+class TestSchemalessValidationApiService implements IKubernetesApiService {
+    getNamespaces(): Promise<string[]> {
+        return Promise.resolve(['namespace-exists']);
+    }
+    getSecrets(namespace?: string): Promise<string[]> {
+        if (!namespace) {
+            namespace = 'default';
+        }
+        const secrets: any = {
+            default: ['secret-exists'],
+            'namespace-exists': ['secret-exists']
+        };
+
+        if (Object.getOwnPropertyNames(secrets).includes(namespace)) {
+            return Promise.resolve(secrets[namespace]);
+        }
+        return Promise.resolve([]);
+    }
+    getLabels(namespace?: string): Promise<string[]> {
+        return Promise.resolve([]);
+    }
+    start(): void {}
+    stop(): void {}
+    getResourceInfo(): Promise<Map<string, KubernetesApiResourceInfo>> {
+        const resourceMap: Map<string, KubernetesApiResourceInfo> = new Map();
+        resourceMap.set('Pod', { 
+          groupVersion: 'v1', 
+          topLevelApi: '/api', 
+          categories: [], 
+          name: 'Pod' 
+        });
+        resourceMap.set('Deployment', {
+            groupVersion: 'apps/v1',
+            topLevelApi: '/api',
+            categories: [],
+            name: 'Deployment'
+        });
+        return Promise.resolve(new Map());
+    }
+}
+  \end{minted}
+  \caption{Implementierung der Klasse ``TestSchemalessValidationApiService''}
+  \label{lst:implementation-test-schemaless-validation-service}
+\end{listing}
+
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
   \centering

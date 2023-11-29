@@ -20,7 +20,6 @@ Im nächsten Schritt wurde eine Lösung zur Validierung und Autovervollständigu
 Ressourcen aus dem Cluster implementiert. Dazu wurde das \ac{lsp} genutzt, welches die
 \ac{ide}-Integration der Lösung ermöglicht.
 Die Anforderungen an die Anwendung ergaben sich aus den Testfällen des Laborversuchs.
-Die Anwendung konnte alle gestellten Anforderungen erfüllen.
 \\
 Zuletzt wurde die eigene Implementierung mit den vorhandenen Lösungen auf Basis
 von Kriterien zur Benutzerfreundlichkeit von statischen Code-Analysetools verglichen, die aus einer wissenschaftlichen Arbeit herausgearbeitet
@@ -29,12 +28,20 @@ Nur drei von neun anderen Lösungen konnten weniger Kriterien erfüllen.
 Die beste Lösung erfüllt $42\%$ der Kriterien.
 Das Ergebnis zeigt, dass die Kriterien entweder sehr umfangreich sind oder die Benutzerfreundlichkeit
 keine wichtige Rolle spielt.
+\\
+Die Bewertung der Anforderungen der Anwendung hat gezeigt, dass diese alle Anforderungen erfüllen konnte.
+Dies wurde für alle Anforderungen, außer Anforderung für 1, mit Hilfe von Modultests sichergestellt.
+Das Erfüllen von Anforderung 1, welche die Funktionalität für alle Kubernetes Objekte fordert, wurde angenommen.
+Die \ac{json}-Schema-Dateien die Anwendung nutzt, wurden aus der \textit{OpenAPI}-Spezifikation der \textit{KubernetesAPI} generiert
+und diese sollte Schnittstellenbeschreibungen für alle Objekte enthalten.
+Der Praxistest der Anwendung hat gezeigt, dass die Validierung der Anwendung für Cluster-Ressourcen
+funktioniert, aber noch Verbesserungen benötigt.
 
 \section{Ausblick}
 
 In dieser Arbeit wurde gezeigt, dass es wenige wissenschaftliche Arbeiten zur Erstellung von
 Kubernetes Konfigurationsdateien und den damit verbunden Problemen und Herausforderungen gibt.
-Die Probleme und Herausforderung jedoch existieren, was zum einen die Websuche und zum anderen die
+Die Probleme und Herausforderungen jedoch existieren, was zum einen die Websuche und zum anderen die
 Existenz von Anwendungen zur Lösung der Probleme zeigt. Zukünftige Forschungen könnten die Probleme und Herausforderungen
 anhand einer empirischen Studie untersuchen.
 \\
@@ -53,3 +60,8 @@ Dies könnte z.B. mit Einführung eines Standards möglich sein.
 Der Vergleich auf Basis der Kriterien zur Benutzerfreundlichkeit von statischen Code-Analysetools hat gezeigt,
 dass die implementierte Anwendung nicht benutzerfreundlich ist.
 In Zukunft könnte dies geändert werden, indem Lösungen für die nicht erfüllten Kriterien implementiert werden.
+\\
+Um die Vor- und Nachteile der Implementierung beim Praxiseinsatz eingehender zu untersuchen, könnte eine Studie mit
+zwei Gruppen durchgeführt werden. Dabei erhält die eine Gruppe die implementierte Anwendung und die andere Gruppe
+eine bereits bestehende Lösung. Um die Erfahrungen der Personen zu erfassen, könnte ein Fragenkatalog erarbeitet werden.
+Eine Bewertung könnte dann anhand der Antworten durchgeführt werden.

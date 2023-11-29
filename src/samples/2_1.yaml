@@ -1,0 +1,7 @@
+---
+metadata:
+  labels:
+    app: nginx
+---
+metadata:
+  labels: |

@@ -8,7 +8,7 @@ vorgestellt.
 
 \section{Virtualisierung}\label{sec:virtualization}
 
-Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im folgenden \textit{Host} genannt, erstellen.
+Mit Hilfe von Virtualisierung lassen sich mehrere simulierte Umgebungen aus einem einzigen Hardwaresystem, im Folgenden \textit{Host} genannt, erstellen.
 Dazu wird Software genutzt, die die physische Hardware emuliert~\cite{virtualization-techtarget}. Diese Software wird auch \textit{Hypervisor} genannt.
 Der \textit{Hypervisor} abstrahiert die Hardware Ressourcen des \textit{Hosts} und stellt diese als einen gemeinsamen Pool zur Verfügung.
 Die physische Hardware des \textit{Hosts} kann somit in mehrere isolierte Umgebungen, auch virtuelle Maschinen genannt, aufgeteilt werden.
@@ -21,21 +21,21 @@ Es kommt zu einer redundanten Nutzung der Hardwareressourcen durch die Systempro
 Um dieses Problem zu lösen wurde die Containervirtualisierung eingeführt.
 
 \begin{figure}
-      \centering
-      \begin{subfigure}{.5\textwidth}
-            \centering
-            \includesvg{images/full-virtualization.svg}
-            \caption{Vollvirtualisierung}
-            \label{fig:full-virtualization}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth}
-            \centering
-            \includesvg{images/container-virtualization.svg}
-            \caption{Containervirtualisierung}
-            \label{fig:container-virtualization}
-      \end{subfigure}
-      \caption{Vergleich Voll- und Containervirtualisierung}
-      \label{fig:virtualization-comparison}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includesvg{images/full-virtualization.svg}
+        \caption{Vollvirtualisierung}
+        \label{fig:full-virtualization}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includesvg{images/container-virtualization.svg}
+        \caption{Containervirtualisierung}
+        \label{fig:container-virtualization}
+    \end{subfigure}
+    \caption{Vergleich Voll- und Containervirtualisierung}
+    \label{fig:virtualization-comparison}
 \end{figure}
 
 Abbildung~\ref{fig:virtualization-comparison} zeigt einen Vergleich zwischen der soeben eingeführten Virtualisierung mittels \textit{Hypervisor} und
@@ -80,43 +80,43 @@ Auf Abbildung~\ref{fig:kubernetes-architecture} ist der minimale Aufbau eines Ku
 Beschreibung der Aufgaben des \textit{Master} und des \textit{Worker Nodes}, sowie eine Beschreibung der einzelnen Komponenten.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
-      \caption{Komponenten eines Kubernetes-Clusters}
-      \label{fig:kubernetes-architecture}
+    \centering
+    \includesvg[width=0.5\textwidth]{images/kubernetes-architecture.svg} % width immer angeben!
+    \caption{Komponenten eines Kubernetes-Clusters}
+    \label{fig:kubernetes-architecture}
 \end{figure}
 
 Das \textit{Master Node} ist für die Administration des Clusters zuständig. Es koordiniert und überwacht die \textit{Worker Nodes} des Clusters.
 Seine Aufgaben sind unter anderem die Planung und Skalierung von Anwendungen und die Aufrechterhaltung des Zustands des Clusters~\cite{kubernetes-cluster-vmware}.
 Das \textit{Master Node} besteht aus den vier folgenden Komponenten:
 \begin{description}
-      \item[API-Server]
-            Der \textit{API-Server} koordiniert alle Prozesse zwischen dem \textit{Master Node} und den Komponenten der \textit{Worker Nodes}.
-            Er stellt außerdem die \textit{Kubernetes-API}, welche als Zugang zum Cluster von außen dient, bereit und authentifiziert und autorisiert die Zugriffe.
-            Kommandozeilen-Tools wie kubectl oder Drittanbieter-Software können so auf das Cluster zugreifen~\cite{kubernetes-devopscube}.
-      \item[Scheduler]
-            Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
-            Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
-      \item[Controller-Manager]
-            Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt z.B. den Ausfall von \textit{Nodes}
-            im Cluster~\cite{kubernetes-in-action-introduction}.
-      \item[etcd]
-            Die \textit{etcd} ist eine konsistente Key-Value-Datenbank, die in verteilten Systemen eingesetzt werden kann~\cite{etcd-ibm}.
-            Bei Kubernetes speichert \textit{etcd} die gesamte Clusterkonfiguration~\cite{kubernetes-in-action-introduction}.
+    \item[API-Server]
+          Der \textit{API-Server} koordiniert alle Prozesse zwischen dem \textit{Master Node} und den Komponenten der \textit{Worker Nodes}.
+          Er stellt außerdem die \textit{Kubernetes-API}, welche als Zugang zum Cluster von außen dient, bereit und authentifiziert und autorisiert die Zugriffe.
+          Kommandozeilen-Tools wie kubectl oder Drittanbieter-Software können so auf das Cluster zugreifen~\cite{kubernetes-devopscube}.
+    \item[Scheduler]
+          Der \textit{Scheduler} ist für die Verteilung von \textit{Containern} auf die \textit{Worker Nodes} zuständig.
+          Er berücksichtigt dabei die zur Verfügung stehenden Ressourcen der einzelnen \textit{Nodes}~\cite{kubernetes-cluster-ionos}.
+    \item[Controller-Manager]
+          Der Controller-Manager handhabt clusterweite Funktionen zur Aufrechterhaltung des Zustands des Clusters. Er behandelt z.B. den Ausfall von \textit{Nodes}
+          im Cluster~\cite{kubernetes-in-action-introduction}.
+    \item[etcd]
+          Die \textit{etcd} ist eine konsistente Key-Value-Datenbank, die in verteilten Systemen eingesetzt werden kann~\cite{etcd-ibm}.
+          Bei Kubernetes speichert \textit{etcd} die gesamte Clusterkonfiguration~\cite{kubernetes-in-action-introduction}.
 \end{description}
 
 Ein \textit{Worker Node} ist für die Ausführung von den Anwendungen in \textit{Containern} zuständig.
 Es führt Aufgaben aus, die diesem von dem \textit{Master Node} zugewiesen werden~\cite{kubernetes-cluster-vmware}.
 Ein \textit{Worker Node} besteht aus den folgenden zwei Komponenten:
 \begin{description}
-      \item[Kubelet]
-            Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
-            Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
-            Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht z.B. die laufenden Container
-            und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
-      \item[kube-proxy]
-            Der \textit{kube-proxy} ist für die Netzwerkkonnektivität des \textit{Worker Nodes} verantwortlich.
-            Er ist für die Umsetzung von Netzwerkregeln und die Lastenverteilung zuständig~\cite{kubernetes-in-action-introduction,kubernetes-cluster-vmware}.
+    \item[Kubelet]
+          Das \textit{Kubelet} steuert die \textit{Container} auf dem \textit{Worker Node}~\cite{kubernetes-in-action-introduction}.
+          Zur Ausführung der \textit{Container} wird eine \textit{Container-Runtime} genutzt.
+          Das \textit{Kubelet} steht im Austausch mit dem \textit{API-Server} des \textit{Master Nodes}. Es überwacht z.B. die laufenden Container
+          und meldet deren Status, Ereignisse und Ressourcenverbrauch an den \textit{API-Server}~\cite{kubernetes-in-action-chapter-11}.
+    \item[kube-proxy]
+          Der \textit{kube-proxy} ist für die Netzwerkkonnektivität des \textit{Worker Nodes} verantwortlich.
+          Er ist für die Umsetzung von Netzwerkregeln und die Lastenverteilung zuständig~\cite{kubernetes-in-action-introduction,kubernetes-cluster-vmware}.
 \end{description}
 
 \subsection{Objekte in Kubernetes}
@@ -134,46 +134,46 @@ Die Definition eines Kubernetes Objektes erfolgt in Form einer \textit{Manifest}
 In jeder \textit{Manifest}-Datei müssen folgende Attribute definiert sein~\cite{kubernetes-objects}:
 
 \begin{itemize}
-      \setlength\itemsep{-0.5cm}
-      \item
-            \textbf{apiVersion} Gibt an welche Version der \textit{Kubernetes API} genutzt wird, um das Objekt zu erstellen.
-      \item
-            \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
-      \item
-            \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, z.B. ein Name und eine ID\@.
-      \item
-            \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
+    \setlength\itemsep{-0.5cm}
+    \item
+          \textbf{apiVersion} Gibt an welche Version der \textit{Kubernetes API} genutzt wird, um das Objekt zu erstellen.
+    \item
+          \textbf{kind}  Gibt die Art des Kubernetes Objektes an.
+    \item
+          \textbf{metadata}  Enhält Daten die das Objekt eindeutig identifizieren, z.B. ein Name und eine ID\@.
+    \item
+          \textbf{spec} Beschreibt den \textit{Desired State} des Objektes.
 \end{itemize}
 
 Kapitel~\ref{ch:implementation} und Kapitel~\ref{ch:comparison} nutzen spezifische Kubernetes Objekte und Konzepte die im Folgenden
 zum besseren Verständnis beschrieben werden:
 
 \begin{description}
-      \item[Pod]
-            Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf demselben \textit{Worker Node} befinden.
-            Es wird sichergestellt, dass alle \textit{Container}, die in einem Pod zusammengefasst sind,
-            immer auf demselben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
-      \item[Replica Set]
-            Ein \textit{Replica Set} führt eine spezifizierte Anzahl von \textit{Pods} aus und sorgt dafür, dass diese Anzahl konstant bleibt.
-            Sollte ein \textit{Pod} ausfallen, sorgt das \textit{Replica Set} dafür, dass ein neuer gestartet wird. Bei hoher Ressourceauslastung
-            nutzt das \textit{Replica Set} eine Lastenverteilung, um alle \textit{Pods} gleichmäßig auszulasten~\cite{kubernetes-replica-set-kubematic}.
-      \item[Deployment]
-            Mit Hilfe eines \textit{Deployments} ist es möglich die Anwendungen in \textit{Pods}, die einem \textit{Replica Set} zugeordnet sind, zu aktualisieren.
-            In der \textit{Manifest}-Datei kann dazu der \textit{Desired State} definiert werden.
-            Das Ausrollen der Aktualisierung erfolgt für alle \textit{Pods} schrittweise.
-            Tritt bei der Aktualisierung eines \textit{Pods} ein Fehler auf, so kann dieser neu erstellt oder wenn nötig auf den alten Stand zurückgesetzt werden.
-            Kubernetes sorgt dafür, dass die Ausfallzeit der Anwendung so gering wie möglich ist~\cite{kubernetes-in-action-chapter-9,kubernetes-deployment-vmware}.
-      \item[Secret]
-            Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie z.B. Passwörter oder SSH-Schlüssel, speichert.
-            Sensible Daten müssen so nicht in der \textit{Manifest}-Datei des \textit{Pods} und im Programmcode der Anwendung gespeichert werden~\cite{kubernetes-secrets,kubernetes-secrets-medium}.
-      \item[Namespace]
-            Ein \textit{Namespace} ermöglicht dem Nutzer ein physisches Kubernetes-Cluster in verschiedene virtuelle Cluster aufzuteilen.
-            Sie können zum Einsatz kommen, wenn sich verschiedene Teams ein Kubernetes-Cluster teilen~\cite{kubernetes-namespaces-vmware}.
-      \item[Label]
-            Ein \textit{Label} ist ein Schlüssel-Wert-Paar, das einem Kubernetes Objekt, wie z.B. einem \textit{Pod}, zugeordnet werden kann.
-            \textit{Labels} können im \textit{metadata} Attribut der \textit{Manifest}-Datei eines Objektes angegeben werden.
-            Der Schlüssel eines \textit{Labels} muss für ein Objekt eindeutig sein. Ein \textit{Label} kann mehreren Objekten zugeordnet werden.
-            Der Nutzer hat die Möglichkeit eine Menge von Objekten über ein \textit{Label} zu selektieren~\cite{kubernetes-labels}.
+    \item[Pod]
+          Ein \textit{Pod} ist eine Gruppe von \textit{Containern}, die sich auf demselben \textit{Worker Node} befinden.
+          Es wird sichergestellt, dass alle \textit{Container}, die in einem Pod zusammengefasst sind,
+          immer auf demselben \textit{Worker Node} ausgeführt werden~\cite{kubernetes-objects-kodekloud,kubernetes-in-action-chapter-3}.
+    \item[Replica Set]
+          Ein \textit{Replica Set} führt eine spezifizierte Anzahl von \textit{Pods} aus und sorgt dafür, dass diese Anzahl konstant bleibt.
+          Sollte ein \textit{Pod} ausfallen, sorgt das \textit{Replica Set} dafür, dass ein neuer gestartet wird. Bei hoher Ressourceauslastung
+          nutzt das \textit{Replica Set} eine Lastenverteilung, um alle \textit{Pods} gleichmäßig auszulasten~\cite{kubernetes-replica-set-kubematic}.
+    \item[Deployment]
+          Mit Hilfe eines \textit{Deployments} ist es möglich die Anwendungen in \textit{Pods}, die einem \textit{Replica Set} zugeordnet sind, zu aktualisieren.
+          In der \textit{Manifest}-Datei kann dazu der \textit{Desired State} definiert werden.
+          Das Ausrollen der Aktualisierung erfolgt für alle \textit{Pods} schrittweise.
+          Tritt bei der Aktualisierung eines \textit{Pods} ein Fehler auf, so kann dieser neu erstellt oder wenn nötig auf den alten Stand zurückgesetzt werden.
+          Kubernetes sorgt dafür, dass die Ausfallzeit der Anwendung so gering wie möglich ist~\cite{kubernetes-in-action-chapter-9,kubernetes-deployment-vmware}.
+    \item[Secret]
+          Bei einem \textit{Secret} handelt es sich um ein Kubernetes Objekt, das sensible Daten, wie z.B. Passwörter oder SSH-Schlüssel, speichert.
+          Sensible Daten müssen so nicht in der \textit{Manifest}-Datei des \textit{Pods} und im Programmcode der Anwendung gespeichert werden~\cite{kubernetes-secrets,kubernetes-secrets-medium}.
+    \item[Namespace]
+          Ein \textit{Namespace} ermöglicht dem Nutzer ein physisches Kubernetes-Cluster in verschiedene virtuelle Cluster aufzuteilen.
+          Sie können zum Einsatz kommen, wenn sich verschiedene Teams ein Kubernetes-Cluster teilen~\cite{kubernetes-namespaces-vmware}.
+    \item[Label]
+          Ein \textit{Label} ist ein Schlüssel-Wert-Paar, das einem Kubernetes Objekt, wie z.B. einem \textit{Pod}, zugeordnet werden kann.
+          \textit{Labels} können im \textit{metadata} Attribut der \textit{Manifest}-Datei eines Objektes angegeben werden.
+          Der Schlüssel eines \textit{Labels} muss für ein Objekt eindeutig sein. Ein \textit{Label} kann mehreren Objekten zugeordnet werden.
+          Der Nutzer hat die Möglichkeit eine Menge von Objekten über ein \textit{Label} zu selektieren~\cite{kubernetes-labels}.
 \end{description}
 
 \section{\acs{lsp}}
@@ -187,10 +187,10 @@ Das \ac{lsp} soll vermeiden, dass eine Implementierung der Sprachunterstützung 
 Abbildung~\ref{fig:without-lsp} veranschaulicht dieses Problem.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
-      \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
-      \label{fig:without-lsp}
+    \centering
+    \includesvg[width=0.5\textwidth]{images/without-LSP.svg} % width immer angeben!
+    \caption{Sprachunterstützung der Editoren ohne das \acs{lsp}}
+    \label{fig:without-lsp}
 \end{figure}
 
 Als Lösung für das oben stehende Problem definiert das \ac{lsp} einen \ac{lsp}-Client und einen \ac{lsp}-Server.
@@ -200,10 +200,10 @@ Abbildung~\ref{fig:with-lsp} zeigt, dass mit Hilfe des \ac{lsp} die Sprachunters
 Für die verschiedenen Editoren muss folglich nur eine Client-Erweiterung implementiert werden, um alle Sprachen zu unterstützen.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
-      \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
-      \label{fig:with-lsp}
+    \centering
+    \includesvg[width=0.5\textwidth]{images/with-lsp.svg} % width immer angeben!
+    \caption{Sprachunterstützung der Editoren mit \acs{lsp}}
+    \label{fig:with-lsp}
 \end{figure}
 
 Die Kommunikation zwischen \ac{lsp}-Client und \ac{lsp}-Server erfolgt über Nachrichten, die jeweils aus einem \textit{Header}- und aus einem \textit{Content}-Teil bestehen.
@@ -217,22 +217,22 @@ ohne die zugrundeliegenden Netzwerkdetails zu kennen~\cite{rpc-computer-weekly}.
 
 Das \acs{json}-\acs{rpc} Protokoll definiert für die Kommunikation drei Arten von Nachrichten~\cite{lsp-microsoft,lsp-book}:
 \begin{description}
-      \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
-            Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
-            Der Server muss eine Antwort an den Client zurücksenden.
-      \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
-            Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
-      \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
-            Der Empfänger muss auf diese Art von Nachricht nicht antworten.
-            Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
+    \item[Request Message] Die \textit{Request Message} ist eine Nachricht vom Client an den Server.
+          Sie enthält eine ID zur eindeutigen Identifikation der Nachricht und die Methode, die auf dem Server aufgerufen werden soll, sowie die Methodenparameter.
+          Der Server muss eine Antwort an den Client zurücksenden.
+    \item[Response Message] Die \textit{Response Message} ist die Antwort des Servers an den Client. Sie enthält die ID der dazugehörigen \textit{Request Message} und das Ergebnis der aufgerufenen Methode.
+          Im Fehlerfall enthält die \textit{Response Message} kein Ergebnis, sondern eine Beschreibung des Fehlers.
+    \item[Notification Message]  Die \textit{Notification Message} kann vom Client oder vom Server versendet werden.
+          Der Empfänger muss auf diese Art von Nachricht nicht antworten.
+          Sie enhält den Ereignis-Typ, sowie die Ereignis-Parameter.
 \end{description}
 
 Die Methoden und Ereignisse, die Client und Server zur Verfügung stellen werden als \textit{Capabilities} (Fähigkeiten) bezeichnet~\cite{lsp-medium}.
 Das \ac{lsp} gibt \textit{Capabilities} vor, die jeder Client implementieren muss:
 \begin{description}
-      \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
-      \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
-      \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
+    \item[textDocument/didOpen] Eine \textit{Notification Message} die dem Server signalisiert, dass ein neues Dokument geöffnet wurde.
+    \item[textDocument/didChange] Eine \textit{Notification Message} die dem Server eine Änderung in einem Dokument anzeigt.
+    \item[textDocument/didClose]  Eine \textit{Notification Message} die dem Server anzeigt, dass eine Dokument geschlossen wurde.
 \end{description}
 
 Beim Initialisieren der Verbindung zwischen Client und Server müssen diese jeweils der anderen Stelle ihre \textit{Capabilities} mitteilen.
@@ -242,10 +242,10 @@ Nach Erhalt dieser Nachricht sendet der Client erneut eine Nachricht an den Serv
 Anschließend kann der Nachrichtenaustausch zwischen Client und Server stattfinden~\cite{lsp-microsoft,lsp-medium}.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
-      \centering
-      \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
-      \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
-      \label{fig:lsp-sequence-diagram}
+    \centering
+    \includesvg[width=0.5\textwidth]{images/lsp-sequence-diagram.svg} % width immer angeben!
+    \caption{Sequenzdiagramm einer \acs{lsp}-Kommunikation}
+    \label{fig:lsp-sequence-diagram}
 \end{figure}
 
 Abbildung~\ref{fig:lsp-sequence-diagram} zeigt ein Sequenzdiagramm einer Beispielkommunikation zwischen einem \ac{lsp}-Client und einem \ac{lsp}-Server.
@@ -260,7 +260,7 @@ Zuletzt sendet der Server dem Client eine \textit{Notification Message} mit dem 
 Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing~\ref{lst:json-example} erklärt~\cite{json-org,json-developer-mozilla}.
 
 \begin{listing}[htp]
-      \begin{minted}[fontsize=\small]{yaml}
+    \begin{minted}[fontsize=\small]{yaml}
 {
   "ray": "a drop of golden sun",
   "pi": 3.14159,
@@ -281,24 +281,24 @@ Die wichtigsten Elemente mit der Verwendung von dem Beispiel auf Listing~\ref{ls
   }
 }
       \end{minted}
-      \caption{Beispiel einer \acs{json}-Datei}
-      \label{lst:json-example}
+    \caption{Beispiel einer \acs{json}-Datei}
+    \label{lst:json-example}
 \end{listing}
 
 \begin{description}
-      \setlength\itemsep{-0.5cm}
-      \item[Object]
-            Ein \textit{Object} ist eine ungeordnete Menge von Schlüssel-Werte Paaren. Ein Schlüssel muss für jedes \textit{Object} einzigartig sein.
-            Der Inhalt eines \textit{Objects} wird mit geschweiften Klammern eingeschlossen. Der Schlüssel und der Wert eines \textit{Objects} werden durch einen
-            Doppelpunkt voneinander getrennt. Die Paare werden durch ein Komma separiert. Ein Beispiel eines \textit{Objects} ist in Zeile 8 bis Zeile 12 zu sehen.
-      \item[Property] Ein Schlüssel-Werte Paar eines \textit{Objects} wird als \textit{Property} bezeichnet.
-      \item[Key] Ein \textit{Key} ist der Schlüssel einer \textit{Property}. Der Wert des Schlüssels muss durch Anführungszeichen eingeschlossen werden, siehe Zeile 1.
-      \item[Value] Ein \textit{Value} kann ein \textit{Object}, ein \textit{Array}, eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null''
-            enthalten. Eine Verschachtelung der verschiedenen Strukturen ist möglich. Zeichenketten werden mit Anführungszeichen eingeschlossen.
-            Beispiele dafür sind in Zeile 1, 2, 3, 5 und 14 zu sehen.
-      \item[Array]
-            Ein \textit{Array} ist eine geordnete Liste von Werten. Ein \textit{Array} beginnt einer geöffneten und endet mit einer geschlossen eckigen Klammer.
-            Ein Beispiel ist in Zeile 6 bis Zeile 13 dargestellt.
+    \setlength\itemsep{-0.5cm}
+    \item[Object]
+          Ein \textit{Object} ist eine ungeordnete Menge von Schlüssel-Werte Paaren. Ein Schlüssel muss für jedes \textit{Object} einzigartig sein.
+          Der Inhalt eines \textit{Objects} wird mit geschweiften Klammern eingeschlossen. Der Schlüssel und der Wert eines \textit{Objects} werden durch einen
+          Doppelpunkt voneinander getrennt. Die Paare werden durch ein Komma separiert. Ein Beispiel eines \textit{Objects} ist in Zeile 8 bis Zeile 12 zu sehen.
+    \item[Property] Ein Schlüssel-Werte Paar eines \textit{Objects} wird als \textit{Property} bezeichnet.
+    \item[Key] Ein \textit{Key} ist der Schlüssel einer \textit{Property}. Der Wert des Schlüssels muss durch Anführungszeichen eingeschlossen werden, siehe Zeile 1.
+    \item[Value] Ein \textit{Value} kann ein \textit{Object}, ein \textit{Array}, eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null''
+          enthalten. Eine Verschachtelung der verschiedenen Strukturen ist möglich. Zeichenketten werden mit Anführungszeichen eingeschlossen.
+          Beispiele dafür sind in Zeile 1, 2, 3, 5 und 14 zu sehen.
+    \item[Array]
+          Ein \textit{Array} ist eine geordnete Liste von Werten. Ein \textit{Array} beginnt einer geöffneten und endet mit einer geschlossen eckigen Klammer.
+          Ein Beispiel ist in Zeile 6 bis Zeile 13 dargestellt.
 \end{description}
 
 
@@ -312,7 +312,7 @@ in Listing~\ref{lst:json-example} dargestellte \acs{json}-Datei.
 Im Folgenden wird der Aufbau und die wichtigsten Elemente des Formats erläutert~\cite{yaml-spacelift,yaml-cloudbees,yaml-javatpoint}.
 
 \begin{listing}[htp]
-      \begin{minted}[fontsize=\small]{yaml}
+    \begin{minted}[fontsize=\small]{yaml}
 ---
 #comment
 ray: a drop of golden sun
@@ -327,39 +327,39 @@ xmas-fifth-day:
   partridges:
     count: null
       \end{minted}
-      \caption{Beispiel einer \acs{yaml}-Datei}
-      \label{lst:yaml-example}
+    \caption{Beispiel einer \acs{yaml}-Datei}
+    \label{lst:yaml-example}
 \end{listing}
 
 \begin{description}
-      \setlength\itemsep{-0.5cm}
-      \item[Einrückung und Leerzeichen]
-            Leerzeichen sind ein Teil der \acs{yaml}-Formatierung. Neue Zeilen zeigen das Ende eines Elementes an.
-            Die Anzahl der Leerzeichen, welche auch als Einrückung bezeichnet wird, definiert die Hierarchie von Elementen.
-            So gehört das Element in Zeile 10 z.B. zu dem Element in Zeile 9.
-      \item[Document]
-            Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logisch voneinander.
-            Sie können als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
-            Eingeleitet wird ein \textit{Document}
-            durch ``$---$'', siehe Zeile 1.
-      \item[Kommentare]
-            Einen einzeiliger Kommentar wird im \ac{yaml}-Format durch ``$\#$'' eingeleitet, siehe Zeile 2.
-      \item[Mapping]
-            Ein \textit{Mapping} ist eine ungeordnete Menge von Schlüssel-Werte Paaren, wobei jeder Schlüssel
-            in Kontext des \textit{Mappings} einzigartig sein muss.
-            Der Schlüssel und der Wert sind durch einen Doppelpunkt getrennt.
-            \ \textit{Mappings} können verschachtelt werden.
-            Die Verschachtelung wird mit der Einrückung angezeigt, siehe Zeile 11 bis 13.
-      \item[Pair]
-            Ein Schlüssel-Werte Paar eines \textit{Mappings} wird auch \textit{Pair} genannt.
-      \item[Scalar]
-            Ein \textit{Scalar} kann eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null'' enthalten.
-            Er ist der Wert eines Elementes.
-            Beispiele dafür sind in Zeile 3, 4, 5 und in Zeile 13 zu sehen.
-      \item[Sequence]
-            Bei einer \textit{Sequence} handelt es sich um eine ungeordnete Folge von einem oder mehreren \ac{yaml}-Elementen.
-            Das erste Element einer \textit{Sequence} wird durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
-            Bei dem Element kann es sich um ein \textit{Scalar} oder ein \textit{Mapping} handeln, siehe Zeile 8 und 9.
+    \setlength\itemsep{-0.5cm}
+    \item[Einrückung und Leerzeichen]
+          Leerzeichen sind ein Teil der \acs{yaml}-Formatierung. Neue Zeilen zeigen das Ende eines Elementes an.
+          Die Anzahl der Leerzeichen, welche auch als Einrückung bezeichnet wird, definiert die Hierarchie von Elementen.
+          So gehört das Element in Zeile 10 z.B. zu dem Element in Zeile 9.
+    \item[Document]
+          Eine \ac{yaml}-Datei kann mehrere sogenannte \textit{Documents} enthalten. Diese trennen die \ac{yaml}-Datei logisch voneinander.
+          Sie können als mehrere voneinander unabhängige \ac{yaml}-Dateien angesehen werden.
+          Eingeleitet wird ein \textit{Document}
+          durch ``$---$'', siehe Zeile 1.
+    \item[Kommentare]
+          Einen einzeiliger Kommentar wird im \ac{yaml}-Format durch ``$\#$'' eingeleitet, siehe Zeile 2.
+    \item[Mapping]
+          Ein \textit{Mapping} ist eine ungeordnete Menge von Schlüssel-Werte Paaren, wobei jeder Schlüssel
+          in Kontext des \textit{Mappings} einzigartig sein muss.
+          Der Schlüssel und der Wert sind durch einen Doppelpunkt getrennt.
+          \ \textit{Mappings} können verschachtelt werden.
+          Die Verschachtelung wird mit der Einrückung angezeigt, siehe Zeile 11 bis 13.
+    \item[Pair]
+          Ein Schlüssel-Werte Paar eines \textit{Mappings} wird auch \textit{Pair} genannt.
+    \item[Scalar]
+          Ein \textit{Scalar} kann eine Zeichenkette, eine Zahl, einen boolschen Wert oder den Wert ``null'' enthalten.
+          Er ist der Wert eines Elementes.
+          Beispiele dafür sind in Zeile 3, 4, 5 und in Zeile 13 zu sehen.
+    \item[Sequence]
+          Bei einer \textit{Sequence} handelt es sich um eine ungeordnete Folge von einem oder mehreren \ac{yaml}-Elementen.
+          Das erste Element einer \textit{Sequence} wird durch einen Bindestrich gefolgt von einem Leerzeichen eingeleitet.
+          Bei dem Element kann es sich um ein \textit{Scalar} oder ein \textit{Mapping} handeln, siehe Zeile 8 und 9.
 
 \end{description}
 
@@ -370,7 +370,7 @@ xmas-fifth-day:
 Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert werden, um den Aufbau eines validen \ac{json}-\textit{Objects} zu beschreiben~\cite{json-schema-description}.
 
 \begin{listing}[htp]
-      \begin{minted}[fontsize=\small]{json}
+    \begin{minted}[fontsize=\small]{json}
 {
   "product": {
     "name": "Widget",
@@ -378,8 +378,8 @@ Mit Hilfe des \acs{json}-Schemas können Regeln und Einschränkungen definiert w
   }
 }
       \end{minted}
-      \caption{Ein \acs{json}-Objekt}
-      \label{lst:json-object}
+    \caption{Ein \acs{json}-Objekt}
+    \label{lst:json-object}
 \end{listing}
 
 Die Regeln und Einschränkungen werden mit einem Satz von Schlüsselwörtern und Objekten im \acs{json}-Format definiert.
@@ -390,25 +390,25 @@ dargestellten \acs{json}-Schemas validiert werden kann.
 Es folgt eine Erklärung der auf Listing~\ref{lst:json-schema} verwendeten Schlüsselwörter~\cite{json-schema-creation}:
 
 \begin{itemize}
-      \setlength\itemsep{-0.5cm}
-      \item
-            \textbf{\$schema} Gibt die Version der \acs{json}-Schema-Spezifikation. Unterschiedliche Versionen der Spezifikation
-            unterstützen andere Schlüsselwörter.
-      \item
-            \textbf{type} Legt den Typ des Elementes im \acs{json}-Format fest.
-      \item
-            \textbf{properties} Gibt an, welche \textit{Keys} ein \acs{json}-\textit{Object} enthalten kann.
-      \item
-            \textbf{required} Legt fest, welche \textit{Keys} ein \acs{json}-\textit{Object}  enthalten muss.
-      \item
-            \textbf{minimum} Gibt den kleinsten Wert an, den ein numerisches Element enthalten darf.
+    \setlength\itemsep{-0.5cm}
+    \item
+          \textbf{\$schema} Gibt die Version der \acs{json}-Schema-Spezifikation. Unterschiedliche Versionen der Spezifikation
+          unterstützen andere Schlüsselwörter.
+    \item
+          \textbf{type} Legt den Typ des Elementes im \acs{json}-Format fest.
+    \item
+          \textbf{properties} Gibt an, welche \textit{Keys} ein \acs{json}-\textit{Object} enthalten kann.
+    \item
+          \textbf{required} Legt fest, welche \textit{Keys} ein \acs{json}-\textit{Object}  enthalten muss.
+    \item
+          \textbf{minimum} Gibt den kleinsten Wert an, den ein numerisches Element enthalten darf.
 \end{itemize}
 
 Anhand der im \acs{json}-Schema enthaltenen Informationen kann ein Algorithmus die Validierung des Objektes durchführen.
 Die \acs{json}-Schema-Spezifikation enthält noch weitere Schlüsselwörter, die aufgrund des Umfangs nicht erläutert werden.
 
 \begin{listing}[htp]
-      \begin{minted}[fontsize=\small]{json}
+    \begin{minted}[fontsize=\small]{json}
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Product",
@@ -431,8 +431,8 @@ Die \acs{json}-Schema-Spezifikation enthält noch weitere Schlüsselwörter, die
   "required": ["product"]
 }
       \end{minted}
-      \caption{Ein \acs{json}-Schema}
-      \label{lst:json-schema}
+    \caption{Ein \acs{json}-Schema}
+    \label{lst:json-schema}
 \end{listing}
 
 \section{Scanner und Parser}\label{sec:parser}
@@ -449,19 +449,30 @@ Als Nächstes führt die Parser die syntaktische Analyse durch, bei der die hier
 Die Struktur beschreibt, wie verschiedene Bestandteile des Inhalts zueinander angeordnet und ineinander verschachtelt sind.
 Der Parser ist außerdem dazu in der Lage Fehler in der Syntax zu erkennen und zu lokalisieren.
 Das Ergebnis der Analyse kann als Syntaxbaum ausgegeben werden~\cite{syntax-analysis}.
-Dieses Ergebnis wird im folgenden als \ac{ast} bezeichnet.
+Dieses Ergebnis wird im Folgenden als \ac{ast} bezeichnet.
 
 \section{Modultests}\label{sec:unit-tests}
 
-Die Modultests können automatisiert werden und haben folgende Vorteile gegenüber dem manuellen Testen der Anwendung:
+Ein Modultest, welcher auch als \textit{Unittest} bezeichnet wird, wird in der Softwareentwicklung durchgeführt,
+um einzelne Teile eines Computerprogramms auf korrekte Funktionalität zu prüfen. Die einzelnen Teile
+werden dabei unabhängig voneinander mit allen benötigen Abhängigkeiten getestet~\cite{Witte2019}.
+Die Modultests werden meistens von einem Entwickler durchgeführt, da diese das Schreiben von Testcode erfordern.
+Sie können automatisiert werden und haben folgende Vorteile gegenüber dem manuellen Testen der Anwendung~\cite{unit-tests-in-python}:
 
 \begin{description}
-      \item[Aufwand und Zeit]
-            Je größer eine Anwendung wird, desto mehr Testaufwand für den Entwickler. Das nimmt mehr Zeit in Anspruch.
-            Durch das Schreiben von Modultests können die Tests automatisiert werden und der manuelle Testaufwand entfällt.
-      \item[Genauigkeit]
-            Manuelle Tests durch den Entwickler sind fehleranfällig. Automatisierte Tests liefern dagegen immer korrekte Ergebnisse.
-      \item[Frühe Fehlererkennung]
-            Fehler, die beim Anpassen der Anwendung entstehen, werden früher gefunden. Schlägt einer der
-            Modultests bei einer Änderung am Quellcode fehl, wird dies direkt durch den Entwickler erkannt.
+    \item[Aufwand und Zeit]
+          Je größer eine Anwendung wird, desto mehr Testaufwand entsteht für den Entwickler. Das nimmt mehr Zeit in Anspruch.
+          Durch das Schreiben von Modultests können die Tests automatisiert werden und der manuelle Testaufwand entfällt.
+    \item[Genauigkeit]
+          Manuelle Tests durch den Entwickler sind fehleranfällig. Automatisierte Tests liefern dagegen immer korrekte Ergebnisse.
+    \item[Frühe Fehlererkennung]
+          Fehler, die beim Anpassen der Anwendung entstehen, werden früher gefunden. Schlägt einer der
+          Modultests bei einer Änderung am Quellcode fehl, wird dies direkt durch den Entwickler erkannt.
 \end{description}
+
+\section{Mocks}
+
+Bei einem \textit{Mock} handelt es sich, im Kontext der Softwareentwicklung, um ein Objekt, das für die Durchführung von Tests erstellt wird.
+Es simuliert in einem Test das Verhalten eines realen Objektes in einer Anwendung, führt dabei jedoch keine Logiken des realen Objektes aus.
+Das \textit{Mock} gibt beim Aufruf einer seiner Methoden stattdessen vordefinierte Werte zurück.
+Das Testen mit \textit{Mocks} ist bei Modultests nützlich, dessen Code von externen Ressourcen, wie z.B. Datenbanken, abhängig ist~\cite{mocks-definition}.

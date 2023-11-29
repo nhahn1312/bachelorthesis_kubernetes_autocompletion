@@ -1,0 +1,4 @@
+volumes:
+  - name: secret-volume
+    secret:
+      secretName: unknown-secret

@@ -1,0 +1,4 @@
+volumes:
+  - name: secret-volume
+    secret:
+      secretName: secret-exists

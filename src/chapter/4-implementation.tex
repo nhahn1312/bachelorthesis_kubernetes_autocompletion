@@ -328,7 +328,7 @@ Eine Funktionalität ist z.B. die Möglichkeit auf eine Anfrage zur Autovervolls
 \\
 In Zeile 11 wird ein Objekt erstellt, dass für Verwaltung von Textdateien auf dem Server zuständig ist.
 Die Textdateien sind ein Abbild der vorhandenen Textdateien, die dem Client zur Verfügung stehen.
-Dieses Objekt wird im folgenden als \textit{DocumentManager} bezeichnet.
+Dieses Objekt wird im Folgenden als \textit{DocumentManager} bezeichnet.
 Der \textit{DocumentManager} sorgt dafür, dass bei Änderungen einer Textdatei auf der Clientseite diese auch auf dem \ac{lsp}-Server aktualisiert wird.
 Zusätzlich kann über Ereignisse des \textit{DocumentManager} auf das Öffnen, Ändern und Schließen einer Textdatei reagiert werden.
 \\
@@ -686,8 +686,7 @@ Das Objekt der Klasse ``SchemalessCompletionService'' liefert Autovervollständi
 Außerdem wird eine Autovervollständigung
 mit Werten von \textit{Mapping}-Schlüssel aus dem aktuellen und anderen auf dem Client geöffneten Dokumenten,
 die noch nicht auf das Cluster ausgerollt wurden, angeboten.
-Damit kann z.B. ein \textit{Namespace} als Vorschlag zur Autovervollständigung angeboten werden, der noch nicht auf dem Cluster vorhanden ist,
-die \textit{Manifest}-Datei zur Erstellung aber bereits angelegt wurde.
+Damit kann z.B. ein \textit{Label} als Vorschlag zur Autovervollständigung angeboten werden, das noch nicht auf dem Cluster vorhanden ist.
 Abbildung~\ref{fig:class-diagram-yaml-language-service-schemaless-completion} zeigt einen Auszug des Klassendiagramms der dazu benötigten Klassen.
 
 \begin{figure}[htp] % htp = hier (h), top (t), oder auf einer eigenen Seite (p).
